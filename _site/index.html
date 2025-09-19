@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey to Data Storyteller - My Journey to a Data Storyteller</title>
+    <meta name="description" content="Welcome to my personal blog where I share insights about data storytelling, analytics, and my journey in the world of data.">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="alternate" type="application/rss+xml" title="My Journey to a Data Storyteller" href="/feed.xml">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="/" class="logo">My Journey to a Data Storyteller</a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">My Journey to Data Storyteller</h1>
+        <p class="hero-subtitle">Exploring the intersection of data, storytelling, and human connection</p>
+        <a href="/blog" class="cta-button">Read My Blog</a>
+    </div>
+</div>
+
+<div class="about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>Welcome to my corner of the internet! I'm passionate about transforming raw data into compelling stories that drive understanding and action. Through this blog, I share my experiences, insights, and discoveries as I navigate the fascinating world of data storytelling.</p>
+                
+                <p>Whether you're a fellow data enthusiast, a business professional looking to leverage data insights, or simply curious about how numbers can tell stories, you'll find something valuable here.</p>
+                
+                <h3>What You'll Find Here</h3>
+                <ul>
+                    <li>Data visualization techniques and best practices</li>
+                    <li>Case studies from real-world projects</li>
+                    <li>Tools and technologies I use in my work</li>
+                    <li>Thoughts on the evolving landscape of data science</li>
+                    <li>Personal reflections on learning and growth</li>
+                </ul>
+            </div>
+            
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <p>I'd love to hear from you! Whether you have questions, want to collaborate, or just want to share your own data storytelling experiences.</p>
+                
+                <div class="contact-methods">
+                    <a href="#" id="email-copy-home" data-email="wantingchang.tw@gmail.com" class="contact-link">
+                        <span class="contact-icon">📧</span>
+                        Email Me
+                    </a>
+                    <a href="https://github.com/kiya69" target="_blank" class="contact-link">
+                        <span class="contact-icon">💻</span>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/wantingchang/" target="_blank" class="contact-link">
+                        <span class="contact-icon">💼</span>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="recent-posts">
+    <div class="container">
+        <h2>Recent Blog Posts</h2>
+        <div class="posts-grid">
+            
+                <article class="post-preview">
+                    <h3><a href="/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/"></a></h3>
+                    <div class="post-meta">
+                        <time datetime="2025-09-19T13:43:04-04:00">September 19, 2025</time>
+                    </div>
+                    <p></p>
+                    <a href="/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/" class="read-more">Read More</a>
+                </article>
+            
+                <article class="post-preview">
+                    <h3><a href="/2025/09/17/getting-started-data-visualization-copy/">Getting Started with Data Visualization: A Beginner Guide</a></h3>
+                    <div class="post-meta">
+                        <time datetime="2025-09-17T00:00:00-04:00">September 17, 2025</time>
+                    </div>
+                    <p>New to data visualization? This guide will help you take your first steps into the world of charts, graphs, and visual storytelling.</p>
+                    <a href="/2025/09/17/getting-started-data-visualization-copy/" class="read-more">Read More</a>
+                </article>
+            
+                <article class="post-preview">
+                    <h3><a href="/2024/02/05/data-storytelling-toolkit/">Building Your Data Storytelling Toolkit: Essential Tools and Resources</a></h3>
+                    <div class="post-meta">
+                        <time datetime="2024-02-05T00:00:00-05:00">February 05, 2024</time>
+                    </div>
+                    <p>A comprehensive guide to the tools, resources, and skills you need to become an effective data storyteller, from beginner to advanced levels.</p>
+                    <a href="/2024/02/05/data-storytelling-toolkit/" class="read-more">Read More</a>
+                </article>
+            
+        </div>
+        <div class="view-all-posts">
+            <a href="/blog" class="cta-button">View All Posts</a>
+        </div>
+    </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Wan-Ting Chang. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" id="email-copy" data-email="wantingchang.tw@gmail.com">Email</a>
+                <a href="https://github.com/kiya69" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/wantingchang/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle both email links (footer and homepage)
+            const emailLinks = document.querySelectorAll('#email-copy, #email-copy-home');
+            
+            emailLinks.forEach(function(emailLink) {
+                emailLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = this.getAttribute('data-email');
+                    
+                    // Try to copy to clipboard
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(email).then(function() {
+                            showCopyMessage(emailLink, 'Copied!');
+                        }).catch(function() {
+                            fallbackCopy(email, emailLink);
+                        });
+                    } else {
+                        fallbackCopy(email, emailLink);
+                    }
+                });
+            });
+        });
+        
+        function fallbackCopy(email, element) {
+            // Create a temporary textarea element
+            const textArea = document.createElement('textarea');
+            textArea.value = email;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyMessage(element, 'Copied!');
+            } catch (err) {
+                showCopyMessage(element, 'Copy failed');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyMessage(element, message) {
+            const originalText = element.textContent;
+            element.textContent = message;
+            element.style.color = '#666';
+            
+            setTimeout(function() {
+                element.textContent = originalText;
+                element.style.color = '';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

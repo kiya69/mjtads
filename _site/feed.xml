@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-19T13:43:04-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">My Journey to a Data Storyteller</title><subtitle>Personal blog and portfolio exploring the world of data storytelling</subtitle><author><name>Wan-Ting Chang</name></author><entry><title type="html"></title><link href="http://localhost:4000/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/" rel="alternate" type="text/html" title="" /><published>2025-09-19T13:43:04-04:00</published><updated>2025-09-19T13:43:04-04:00</updated><id>http://localhost:4000/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class</id><content type="html" xml:base="http://localhost:4000/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/"><![CDATA[<p>Today we discuss the 6 initiatives for 5 principles in Ethical AI.
+Our professor points out that all these initiatives are from the western countries but I wonder if it’s because ai and technology are usually coming from the western world thus, the ethic topic comes along with them.
+We do lack of views from other countries but I wonder what input will we get. but if we are just talking about the basic ethic priciples then it’ll be a way broder but interesting topic. For example, in indigenous people there are 5 genders, these are male, female, a male with a female spirit, a female with a male spirit, and a body with both spirits. So this is definitely not from the western or christian pov, and worth condsidering for wthics problems.
+Another topic i like to talk about is gender inequality. For example, most cars are designed for men, and it’s not suitable for women, and if that’s the reason we have accident, the men laugh at us becuase we are “Women” so we don’t drive as good as them but they design it to fit their needs not ours.
+who am i to determine how we should behave</p>]]></content><author><name>Wan-Ting Chang</name></author></entry><entry><title type="html">Getting Started with Data Visualization: A Beginner Guide</title><link href="http://localhost:4000/2025/09/17/getting-started-data-visualization-copy/" rel="alternate" type="text/html" title="Getting Started with Data Visualization: A Beginner Guide" /><published>2025-09-17T00:00:00-04:00</published><updated>2025-09-17T00:00:00-04:00</updated><id>http://localhost:4000/2025/09/17/getting-started-data-visualization%20copy</id><content type="html" xml:base="http://localhost:4000/2025/09/17/getting-started-data-visualization-copy/"><![CDATA[<p>Starting your journey in data visualization can feel overwhelming. With so many tools, techniques, and best practices to learn, where do you even begin? In this post, I’ll share a practical roadmap for beginners who want to start creating meaningful visualizations.</p>
+
+<h2 id="why-data-visualization-matters">Why Data Visualization Matters</h2>
+
+<p>Before diving into the how-to, let’s talk about the why. Data visualization isn’t just about making pretty charts – it’s about:</p>
+
+<ul>
+  <li><strong>Making data accessible</strong> to everyone, not just analysts</li>
+  <li><strong>Revealing patterns</strong> that might be hidden in raw numbers</li>
+  <li><strong>Supporting decision-making</strong> with clear, actionable insights</li>
+  <li><strong>Telling stories</strong> that drive understanding and action</li>
+</ul>
+
+<h2 id="your-first-visualization-project">Your First Visualization Project</h2>
+
+<h3 id="step-1-choose-your-data">Step 1: Choose Your Data</h3>
+
+<p>Start with something you’re already familiar with. Some great beginner datasets include:</p>
+
+<ul>
+  <li>Your personal spending habits</li>
+  <li>Weather data for your city</li>
+  <li>Movie ratings or book reviews</li>
+  <li>Sports statistics</li>
+  <li>Social media metrics</li>
+</ul>
+
+<h3 id="step-2-ask-the-right-questions">Step 2: Ask the Right Questions</h3>
+
+<p>Before creating any chart, ask yourself:</p>
+
+<ul>
+  <li>What story do I want to tell?</li>
+  <li>Who is my audience?</li>
+  <li>What action should they take after seeing this?</li>
+  <li>What’s the most important insight to highlight?</li>
+</ul>
+
+<h3 id="step-3-pick-your-tool">Step 3: Pick Your Tool</h3>
+
+<p>For beginners, I recommend starting with:</p>
+
+<p><strong>Google Sheets</strong> – Free, easy to learn, and perfect for basic charts
+<strong>Tableau Public</strong> – More powerful, but still beginner-friendly
+<strong>Canva</strong> – Great for simple infographics and social media content</p>
+
+<h3 id="step-4-create-your-first-chart">Step 4: Create Your First Chart</h3>
+
+<p>Start simple:</p>
+
+<ol>
+  <li>Import your data</li>
+  <li>Choose a basic chart type (bar, line, or pie)</li>
+  <li>Add a clear title and labels</li>
+  <li>Remove unnecessary elements</li>
+  <li>Test with a friend – can they understand it quickly?</li>
+</ol>
+
+<h2 id="common-beginner-mistakes-to-avoid">Common Beginner Mistakes to Avoid</h2>
+
+<h3 id="1-overcomplicating-things">1. Overcomplicating Things</h3>
+
+<p>Your first visualizations don’t need to be complex. Focus on clarity over creativity.</p>
+
+<h3 id="2-using-too-many-colors">2. Using Too Many Colors</h3>
+
+<p>Stick to 2-3 colors maximum. Use color strategically to highlight important information.</p>
+
+<h3 id="3-forgetting-your-audience">3. Forgetting Your Audience</h3>
+
+<p>Always consider who will be looking at your visualization. Technical audiences can handle more complexity than general audiences.</p>
+
+<h3 id="4-ignoring-context">4. Ignoring Context</h3>
+
+<p>Numbers without context are meaningless. Always provide benchmarks, comparisons, or historical data when relevant.</p>
+
+<h2 id="practice-exercises">Practice Exercises</h2>
+
+<p>Try these exercises to build your skills:</p>
+
+<h3 id="exercise-1-personal-data-story">Exercise 1: Personal Data Story</h3>
+
+<p>Track something in your life for a week (steps, screen time, spending, etc.) and create a simple visualization showing your patterns.</p>
+
+<h3 id="exercise-2-news-data">Exercise 2: News Data</h3>
+
+<p>Find a recent news story with data and recreate the visualization using your own tool and style.</p>
+
+<h3 id="exercise-3-comparison-chart">Exercise 3: Comparison Chart</h3>
+
+<p>Take two similar datasets and create a side-by-side comparison chart.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Once you’re comfortable with the basics:</p>
+
+<ul>
+  <li>Learn about different chart types and when to use them</li>
+  <li>Explore more advanced tools like Python or R</li>
+  <li>Study examples from sites like Information is Beautiful or The Pudding</li>
+  <li>Join online communities to get feedback on your work</li>
+</ul>
+
+<h2 id="resources-for-continued-learning">Resources for Continued Learning</h2>
+
+<ul>
+  <li><strong>Books</strong>: “Storytelling with Data” by Cole Nussbaumer Knaflic</li>
+  <li><strong>Online Courses</strong>: Coursera’s “Data Visualization with Tableau”</li>
+  <li><strong>Communities</strong>: Reddit’s r/dataisbeautiful, Data Visualization Society</li>
+  <li><strong>Practice</strong>: Participate in #MakeoverMonday or #TidyTuesday challenges</li>
+</ul>
+
+<p>Remember, every expert was once a beginner. The key is to start creating, get feedback, and keep improving. Your first visualization might not be perfect, but it’s a crucial step in your learning journey.</p>
+
+<hr />
+
+<p><em>What was your first data visualization project? What challenges did you face, and how did you overcome them? I’d love to hear about your experiences in the comments below!</em></p>]]></content><author><name>Kiya Chang</name></author><category term="beginner" /><category term="data-visualization" /><category term="tutorial" /><summary type="html"><![CDATA[New to data visualization? This guide will help you take your first steps into the world of charts, graphs, and visual storytelling.]]></summary></entry><entry><title type="html">Building Your Data Storytelling Toolkit: Essential Tools and Resources</title><link href="http://localhost:4000/2024/02/05/data-storytelling-toolkit/" rel="alternate" type="text/html" title="Building Your Data Storytelling Toolkit: Essential Tools and Resources" /><published>2024-02-05T00:00:00-05:00</published><updated>2024-02-05T00:00:00-05:00</updated><id>http://localhost:4000/2024/02/05/data-storytelling-toolkit</id><content type="html" xml:base="http://localhost:4000/2024/02/05/data-storytelling-toolkit/"><![CDATA[<p>Whether you’re just starting your data storytelling journey or looking to level up your skills, having the right toolkit can make all the difference. Today, I’ll share the essential tools, resources, and skills that have helped me grow as a data storyteller.</p>
+
+<h2 id="the-foundation-core-skills">The Foundation: Core Skills</h2>
+
+<p>Before diving into tools, let’s establish the fundamental skills every data storyteller needs:</p>
+
+<h3 id="1-data-literacy">1. Data Literacy</h3>
+
+<ul>
+  <li>Understanding different data types and structures</li>
+  <li>Basic statistical concepts (mean, median, correlation, etc.)</li>
+  <li>Ability to identify data quality issues</li>
+  <li>Comfort with uncertainty and limitations</li>
+</ul>
+
+<h3 id="2-critical-thinking">2. Critical Thinking</h3>
+
+<ul>
+  <li>Questioning assumptions and methodologies</li>
+  <li>Identifying potential biases in data</li>
+  <li>Evaluating the reliability of sources</li>
+  <li>Understanding correlation vs. causation</li>
+</ul>
+
+<h3 id="3-communication-skills">3. Communication Skills</h3>
+
+<ul>
+  <li>Writing clearly and concisely</li>
+  <li>Presenting complex ideas simply</li>
+  <li>Understanding your audience</li>
+  <li>Storytelling structure and flow</li>
+</ul>
+
+<h2 id="essential-tools-by-skill-level">Essential Tools by Skill Level</h2>
+
+<h3 id="beginner-level">Beginner Level</h3>
+
+<p><strong>Data Analysis:</strong></p>
+
+<ul>
+  <li><strong>Google Sheets/Excel</strong>: Perfect for getting started with basic analysis and simple charts</li>
+  <li><strong>Google Data Studio</strong>: Free tool for creating interactive dashboards</li>
+  <li><strong>Canva</strong>: Great for creating simple infographics and social media content</li>
+</ul>
+
+<p><strong>Learning Resources:</strong></p>
+
+<ul>
+  <li><strong>Khan Academy</strong>: Free statistics and data analysis courses</li>
+  <li><strong>Coursera</strong>: “Data Visualization with Tableau” specialization</li>
+  <li><strong>YouTube</strong>: Channels like “StatQuest” for statistical concepts</li>
+</ul>
+
+<h3 id="intermediate-level">Intermediate Level</h3>
+
+<p><strong>Data Analysis:</strong></p>
+
+<ul>
+  <li><strong>Tableau Public</strong>: Professional-grade visualization tool (free version available)</li>
+  <li><strong>Power BI</strong>: Microsoft’s business intelligence platform</li>
+  <li><strong>Python/R</strong>: For more advanced analysis (start with Python)</li>
+  <li><strong>SQL</strong>: Essential for working with databases</li>
+</ul>
+
+<p><strong>Design Tools:</strong></p>
+
+<ul>
+  <li><strong>Adobe Illustrator</strong>: For custom chart design and infographics</li>
+  <li><strong>Figma</strong>: Collaborative design tool with data visualization capabilities</li>
+  <li><strong>Observable</strong>: Interactive data visualization platform</li>
+</ul>
+
+<p><strong>Learning Resources:</strong></p>
+
+<ul>
+  <li><strong>DataCamp</strong>: Interactive courses for Python, R, and SQL</li>
+  <li><strong>edX</strong>: MIT’s “Introduction to Data Science” course</li>
+  <li><strong>Books</strong>: “Storytelling with Data” by Cole Nussbaumer Knaflic</li>
+</ul>
+
+<h3 id="advanced-level">Advanced Level</h3>
+
+<p><strong>Data Analysis:</strong></p>
+
+<ul>
+  <li><strong>Tableau Desktop</strong>: Full-featured professional tool</li>
+  <li><strong>D3.js</strong>: JavaScript library for custom interactive visualizations</li>
+  <li><strong>Jupyter Notebooks</strong>: For reproducible analysis and documentation</li>
+  <li><strong>Apache Superset</strong>: Open-source business intelligence platform</li>
+</ul>
+
+<p><strong>Specialized Tools:</strong></p>
+
+<ul>
+  <li><strong>Observable Plot</strong>: Grammar of graphics for web-based visualizations</li>
+  <li><strong>RawGraphs</strong>: Open-source tool for complex data visualizations</li>
+  <li><strong>Flourish</strong>: Platform for creating animated and interactive charts</li>
+</ul>
+
+<p><strong>Learning Resources:</strong></p>
+
+<ul>
+  <li><strong>Advanced courses</strong>: Stanford’s “Statistical Learning” course</li>
+  <li><strong>Conferences</strong>: Tableau Conference, Strata Data Conference</li>
+  <li><strong>Communities</strong>: Data Visualization Society, Reddit’s r/dataisbeautiful</li>
+</ul>
+
+<h2 id="building-your-portfolio">Building Your Portfolio</h2>
+
+<h3 id="1-start-with-personal-projects">1. Start with Personal Projects</h3>
+
+<ul>
+  <li>Analyze your own data (fitness, finances, reading habits)</li>
+  <li>Recreate interesting visualizations you find online</li>
+  <li>Participate in data visualization challenges</li>
+</ul>
+
+<h3 id="2-contribute-to-open-source">2. Contribute to Open Source</h3>
+
+<ul>
+  <li>Help with documentation for visualization libraries</li>
+  <li>Contribute to data journalism projects</li>
+  <li>Share your work on GitHub</li>
+</ul>
+
+<h3 id="3-create-a-portfolio-website">3. Create a Portfolio Website</h3>
+
+<ul>
+  <li>Showcase your best work</li>
+  <li>Write about your process and methodology</li>
+  <li>Include case studies with before/after examples</li>
+</ul>
+
+<h2 id="staying-current">Staying Current</h2>
+
+<h3 id="news-and-inspiration">News and Inspiration</h3>
+
+<ul>
+  <li><strong>Information is Beautiful</strong>: Award-winning data visualizations</li>
+  <li><strong>The Pudding</strong>: Data journalism with beautiful visualizations</li>
+  <li><strong>FlowingData</strong>: Data visualization blog and tutorials</li>
+  <li><strong>FiveThirtyEight</strong>: Data-driven journalism</li>
+  <li><strong>Our World in Data</strong>: Global development data visualizations</li>
+</ul>
+
+<h3 id="communities-and-networking">Communities and Networking</h3>
+
+<ul>
+  <li><strong>Data Visualization Society</strong>: Professional community</li>
+  <li><strong>Tableau Public</strong>: Share and discover visualizations</li>
+  <li><strong>Reddit</strong>: r/dataisbeautiful, r/visualization</li>
+  <li><strong>LinkedIn</strong>: Data visualization groups and professionals</li>
+  <li><strong>Twitter</strong>: Follow data visualization experts and practitioners</li>
+</ul>
+
+<h3 id="conferences-and-events">Conferences and Events</h3>
+
+<ul>
+  <li><strong>Tableau Conference</strong>: Annual Tableau user conference</li>
+  <li><strong>Strata Data Conference</strong>: Big data and analytics conference</li>
+  <li><strong>OpenVis Conf</strong>: Open source visualization conference</li>
+  <li><strong>Local meetups</strong>: Data visualization and analytics groups</li>
+</ul>
+
+<h2 id="practical-learning-path">Practical Learning Path</h2>
+
+<h3 id="month-1-2-foundations">Month 1-2: Foundations</h3>
+
+<ul>
+  <li>Complete a basic statistics course</li>
+  <li>Learn Excel/Google Sheets advanced features</li>
+  <li>Read “Storytelling with Data”</li>
+  <li>Create your first 5 visualizations</li>
+</ul>
+
+<h3 id="month-3-4-intermediate-skills">Month 3-4: Intermediate Skills</h3>
+
+<ul>
+  <li>Learn Tableau Public or Power BI</li>
+  <li>Take a Python basics course</li>
+  <li>Start a data analysis project</li>
+  <li>Join online communities</li>
+</ul>
+
+<h3 id="month-5-6-advanced-techniques">Month 5-6: Advanced Techniques</h3>
+
+<ul>
+  <li>Learn D3.js basics</li>
+  <li>Create interactive visualizations</li>
+  <li>Start building your portfolio</li>
+  <li>Contribute to open source projects</li>
+</ul>
+
+<h3 id="ongoing-continuous-learning">Ongoing: Continuous Learning</h3>
+
+<ul>
+  <li>Follow industry leaders on social media</li>
+  <li>Attend conferences and meetups</li>
+  <li>Take advanced courses</li>
+  <li>Mentor others starting their journey</li>
+</ul>
+
+<h2 id="common-pitfalls-to-avoid">Common Pitfalls to Avoid</h2>
+
+<h3 id="1-tool-obsession">1. Tool Obsession</h3>
+
+<p>Don’t get caught up in learning every new tool. Focus on mastering a few core tools well.</p>
+
+<h3 id="2-perfectionism">2. Perfectionism</h3>
+
+<p>Your first visualizations won’t be perfect. Focus on improvement, not perfection.</p>
+
+<h3 id="3-ignoring-design-principles">3. Ignoring Design Principles</h3>
+
+<p>Technical skills are important, but design and communication skills are equally crucial.</p>
+
+<h3 id="4-working-in-isolation">4. Working in Isolation</h3>
+
+<p>Join communities, share your work, and get feedback from others.</p>
+
+<h2 id="building-your-network">Building Your Network</h2>
+
+<h3 id="online-presence">Online Presence</h3>
+
+<ul>
+  <li><strong>LinkedIn</strong>: Professional networking and content sharing</li>
+  <li><strong>Twitter</strong>: Engage with the data visualization community</li>
+  <li><strong>GitHub</strong>: Share code and contribute to projects</li>
+  <li><strong>Portfolio website</strong>: Showcase your work professionally</li>
+</ul>
+
+<h3 id="local-community">Local Community</h3>
+
+<ul>
+  <li><strong>Meetups</strong>: Attend local data and analytics meetups</li>
+  <li><strong>Conferences</strong>: Present your work at conferences</li>
+  <li><strong>Mentoring</strong>: Both mentor others and seek mentors</li>
+  <li><strong>Collaboration</strong>: Work on projects with other data professionals</li>
+</ul>
+
+<h2 id="the-long-game">The Long Game</h2>
+
+<p>Data storytelling is a journey, not a destination. The field is constantly evolving, with new tools, techniques, and best practices emerging regularly. The key is to:</p>
+
+<ol>
+  <li><strong>Start where you are</strong> with the tools you have</li>
+  <li><strong>Focus on fundamentals</strong> before advanced techniques</li>
+  <li><strong>Practice regularly</strong> with real projects</li>
+  <li><strong>Stay curious</strong> and keep learning</li>
+  <li><strong>Share your work</strong> and get feedback</li>
+  <li><strong>Help others</strong> on their journey</li>
+</ol>
+
+<p>Remember, the best tool is the one that helps you tell your story most effectively. Don’t let the perfect be the enemy of the good – start creating, keep learning, and enjoy the journey!</p>
+
+<hr />
+
+<p><em>In my next post, I’ll share some specific case studies of data storytelling projects, including the process, challenges, and lessons learned from real-world examples.</em></p>
+
+<p>What tools have been most helpful in your data storytelling journey? Are there any resources you’d recommend to others? I’d love to hear about your experiences and recommendations!</p>]]></content><author><name>Kiya Chang</name></author><category term="tools" /><category term="resources" /><category term="data-visualization" /><category term="learning" /><summary type="html"><![CDATA[A comprehensive guide to the tools, resources, and skills you need to become an effective data storyteller, from beginner to advanced levels.]]></summary></entry><entry><title type="html">The Psychology of Data: How Cognitive Biases Affect Data Interpretation</title><link href="http://localhost:4000/2024/01/29/psychology-data-cognitive-bias/" rel="alternate" type="text/html" title="The Psychology of Data: How Cognitive Biases Affect Data Interpretation" /><published>2024-01-29T00:00:00-05:00</published><updated>2024-01-29T00:00:00-05:00</updated><id>http://localhost:4000/2024/01/29/psychology-data-cognitive-bias</id><content type="html" xml:base="http://localhost:4000/2024/01/29/psychology-data-cognitive-bias/"><![CDATA[<p>As data storytellers, we often focus on the technical aspects of visualization and analysis. But there’s another crucial element that’s often overlooked: the human brain. Understanding how people perceive and interpret data can make the difference between a chart that enlightens and one that misleads.</p>
+
+<h2 id="the-brains-data-processing-system">The Brain’s Data Processing System</h2>
+
+<p>Our brains are remarkable pattern-recognition machines, but they’re not perfect. They come with built-in shortcuts, biases, and limitations that affect how we process information. When we understand these cognitive quirks, we can design better data experiences.</p>
+
+<h2 id="common-cognitive-biases-in-data-interpretation">Common Cognitive Biases in Data Interpretation</h2>
+
+<h3 id="1-confirmation-bias">1. Confirmation Bias</h3>
+
+<p><strong>What it is:</strong> The tendency to search for, interpret, and recall information that confirms our existing beliefs.</p>
+
+<p><strong>In data context:</strong> People will focus on data points that support their hypothesis while ignoring contradictory evidence.</p>
+
+<p><strong>How to address it:</strong></p>
+
+<ul>
+  <li>Present multiple perspectives</li>
+  <li>Acknowledge limitations and uncertainties</li>
+  <li>Use neutral language in your analysis</li>
+</ul>
+
+<h3 id="2-anchoring-bias">2. Anchoring Bias</h3>
+
+<p><strong>What it is:</strong> The tendency to rely heavily on the first piece of information encountered.</p>
+
+<p><strong>In data context:</strong> The first number or chart someone sees becomes their reference point for all subsequent data.</p>
+
+<p><strong>How to address it:</strong></p>
+
+<ul>
+  <li>Provide context and benchmarks</li>
+  <li>Use consistent scales across related visualizations</li>
+  <li>Start with the most important insight</li>
+</ul>
+
+<h3 id="3-availability-heuristic">3. Availability Heuristic</h3>
+
+<p><strong>What it is:</strong> Overestimating the probability of events that come easily to mind.</p>
+
+<p><strong>In data context:</strong> Recent or memorable data points seem more representative than they actually are.</p>
+
+<p><strong>How to address it:</strong></p>
+
+<ul>
+  <li>Show complete datasets, not just highlights</li>
+  <li>Provide historical context</li>
+  <li>Use statistical summaries alongside individual examples</li>
+</ul>
+
+<h3 id="4-framing-effect">4. Framing Effect</h3>
+
+<p><strong>What it is:</strong> The way information is presented (framed) affects decision-making.</p>
+
+<p><strong>In data context:</strong> The same data can lead to different conclusions depending on how it’s presented.</p>
+
+<p><strong>Example:</strong></p>
+
+<ul>
+  <li>“90% survival rate” vs. “10% mortality rate”</li>
+  <li>“Increased by 200%” vs. “tripled”</li>
+</ul>
+
+<p><strong>How to address it:</strong></p>
+
+<ul>
+  <li>Present data in multiple ways when appropriate</li>
+  <li>Be transparent about your framing choices</li>
+  <li>Consider your audience’s perspective</li>
+</ul>
+
+<h2 id="visual-perception-and-data">Visual Perception and Data</h2>
+
+<h3 id="gestalt-principles">Gestalt Principles</h3>
+
+<p>These psychological principles explain how we perceive visual elements:</p>
+
+<p><strong>Proximity:</strong> Elements close together are perceived as related</p>
+
+<ul>
+  <li>Group related data points together</li>
+  <li>Use white space to separate different concepts</li>
+</ul>
+
+<p><strong>Similarity:</strong> Similar elements are perceived as related</p>
+
+<ul>
+  <li>Use consistent colors for similar data types</li>
+  <li>Maintain consistent styling across charts</li>
+</ul>
+
+<p><strong>Closure:</strong> We tend to complete incomplete shapes</p>
+
+<ul>
+  <li>Ensure charts are complete and well-defined</li>
+  <li>Avoid broken or partial visualizations</li>
+</ul>
+
+<h3 id="color-psychology">Color Psychology</h3>
+
+<p>Colors evoke emotional responses that can influence data interpretation:</p>
+
+<p><strong>Red:</strong> Often associated with danger, loss, or urgency</p>
+
+<ul>
+  <li>Use sparingly for negative trends or warnings</li>
+  <li>Can create unnecessary alarm if overused</li>
+</ul>
+
+<p><strong>Green:</strong> Associated with growth, success, and positive outcomes</p>
+
+<ul>
+  <li>Great for positive metrics and improvements</li>
+  <li>Be careful not to oversell positive results</li>
+</ul>
+
+<p><strong>Blue:</strong> Perceived as trustworthy and professional</p>
+
+<ul>
+  <li>Excellent for corporate and business contexts</li>
+  <li>Works well as a primary color</li>
+</ul>
+
+<h2 id="designing-for-cognitive-load">Designing for Cognitive Load</h2>
+
+<h3 id="the-magic-number-72">The Magic Number: 7±2</h3>
+
+<p>Research suggests we can hold about 7 items in working memory. This has implications for:</p>
+
+<ul>
+  <li><strong>Chart categories:</strong> Limit to 5-7 categories maximum</li>
+  <li><strong>Dashboard elements:</strong> Keep key metrics to 7 or fewer</li>
+  <li><strong>Color palettes:</strong> Use 3-5 colors maximum</li>
+</ul>
+
+<h3 id="progressive-disclosure">Progressive Disclosure</h3>
+
+<p>Instead of overwhelming audiences with all data at once:</p>
+
+<ol>
+  <li><strong>Start with the big picture</strong></li>
+  <li><strong>Allow drilling down</strong> into details</li>
+  <li><strong>Provide context</strong> as needed</li>
+  <li><strong>Enable exploration</strong> for interested users</li>
+</ol>
+
+<h2 id="practical-applications">Practical Applications</h2>
+
+<h3 id="1-dashboard-design">1. Dashboard Design</h3>
+
+<ul>
+  <li>Place the most important information in the top-left (where eyes naturally start)</li>
+  <li>Use consistent visual hierarchy</li>
+  <li>Group related metrics together</li>
+  <li>Provide clear navigation between different views</li>
+</ul>
+
+<h3 id="2-presentation-strategy">2. Presentation Strategy</h3>
+
+<ul>
+  <li>Start with the conclusion, then provide supporting evidence</li>
+  <li>Use the “rule of three” – group information in threes</li>
+  <li>Build complexity gradually</li>
+  <li>End with a clear call to action</li>
+</ul>
+
+<h3 id="3-report-structure">3. Report Structure</h3>
+
+<ul>
+  <li>Use executive summaries for busy stakeholders</li>
+  <li>Provide detailed appendices for technical audiences</li>
+  <li>Include methodology and limitations</li>
+  <li>Offer multiple levels of detail</li>
+</ul>
+
+<h2 id="testing-your-data-stories">Testing Your Data Stories</h2>
+
+<h3 id="user-testing">User Testing</h3>
+
+<ul>
+  <li>Watch people interact with your visualizations</li>
+  <li>Ask them to explain what they see</li>
+  <li>Note where they get confused or make incorrect assumptions</li>
+  <li>Iterate based on their feedback</li>
+</ul>
+
+<h3 id="ab-testing">A/B Testing</h3>
+
+<ul>
+  <li>Test different chart types for the same data</li>
+  <li>Compare different color schemes</li>
+  <li>Try various narrative structures</li>
+  <li>Measure comprehension and engagement</li>
+</ul>
+
+<h2 id="the-ethical-dimension">The Ethical Dimension</h2>
+
+<p>Understanding cognitive biases also comes with responsibility:</p>
+
+<ul>
+  <li><strong>Don’t exploit biases</strong> to mislead audiences</li>
+  <li><strong>Be transparent</strong> about data limitations</li>
+  <li><strong>Provide context</strong> that helps people make informed decisions</li>
+  <li><strong>Consider the impact</strong> of your visualizations</li>
+</ul>
+
+<h2 id="moving-forward">Moving Forward</h2>
+
+<p>As data storytellers, we have the power to shape how people understand the world. By combining technical skills with psychological insights, we can create visualizations that not only inform but also empower our audiences to make better decisions.</p>
+
+<p>The goal isn’t to eliminate all bias – that’s impossible. Instead, it’s about being aware of these tendencies and designing our data stories to work with, rather than against, how people naturally process information.</p>
+
+<hr />
+
+<p><em>Next time, I’ll share some specific techniques for testing and validating your data stories, including how to conduct effective user research on your visualizations.</em></p>
+
+<p>What cognitive biases have you noticed affecting how people interpret your data? Have you ever redesigned a visualization based on psychological principles? I’d love to hear about your experiences!</p>]]></content><author><name>Kiya Chang</name></author><category term="psychology" /><category term="cognitive-bias" /><category term="data-analysis" /><summary type="html"><![CDATA[Understanding how our brains process data can help us create more effective visualizations and avoid common pitfalls in data storytelling.]]></summary></entry><entry><title type="html">Choosing the Right Chart: A Data Visualization Guide</title><link href="http://localhost:4000/2024/01/22/choosing-right-chart/" rel="alternate" type="text/html" title="Choosing the Right Chart: A Data Visualization Guide" /><published>2024-01-22T00:00:00-05:00</published><updated>2024-01-22T00:00:00-05:00</updated><id>http://localhost:4000/2024/01/22/choosing-right-chart</id><content type="html" xml:base="http://localhost:4000/2024/01/22/choosing-right-chart/"><![CDATA[<p>One of the most common mistakes in data storytelling is choosing the wrong type of chart. A poorly chosen visualization can obscure insights, confuse audiences, or even mislead. Today, let’s explore how to match your data with the perfect chart type.</p>
+
+<h2 id="understanding-your-data">Understanding Your Data</h2>
+
+<p>Before reaching for any chart, ask yourself these key questions:</p>
+
+<ul>
+  <li><strong>What type of data do I have?</strong> (categorical, numerical, time-series, etc.)</li>
+  <li><strong>What relationship am I trying to show?</strong> (comparison, distribution, correlation, etc.)</li>
+  <li><strong>What’s my main message?</strong> (trend, ranking, part-to-whole, etc.)</li>
+  <li><strong>Who is my audience?</strong> (technical, business, general public)</li>
+</ul>
+
+<h2 id="chart-types-and-when-to-use-them">Chart Types and When to Use Them</h2>
+
+<h3 id="bar-charts">Bar Charts</h3>
+
+<p><strong>Best for:</strong> Comparing categories, showing rankings
+<strong>Use when:</strong> You have categorical data and want to compare values across different groups</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sales by Region:
+North America: $2.3M
+Europe: $1.8M
+Asia: $1.2M
+</code></pre></div></div>
+
+<p><strong>Pro tip:</strong> Use horizontal bars when you have long category names or many categories.</p>
+
+<h3 id="line-charts">Line Charts</h3>
+
+<p><strong>Best for:</strong> Showing trends over time
+<strong>Use when:</strong> You want to highlight changes, patterns, or progressions</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Monthly Revenue Trend:
+Jan: $50K → Feb: $55K → Mar: $62K → Apr: $58K
+</code></pre></div></div>
+
+<p><strong>Pro tip:</strong> Limit to 3-4 lines maximum to avoid visual clutter.</p>
+
+<h3 id="pie-charts">Pie Charts</h3>
+
+<p><strong>Best for:</strong> Showing parts of a whole
+<strong>Use when:</strong> You have 2-5 categories that make up 100% of something</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Market Share:
+Company A: 45%
+Company B: 30%
+Company C: 25%
+</code></pre></div></div>
+
+<p><strong>Pro tip:</strong> Avoid pie charts with more than 5 slices – use a bar chart instead.</p>
+
+<h3 id="scatter-plots">Scatter Plots</h3>
+
+<p><strong>Best for:</strong> Showing relationships between two variables
+<strong>Use when:</strong> You want to explore correlations or identify outliers</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Customer Age vs. Purchase Amount
+</code></pre></div></div>
+
+<p><strong>Pro tip:</strong> Add trend lines to highlight relationships more clearly.</p>
+
+<h3 id="histograms">Histograms</h3>
+
+<p><strong>Best for:</strong> Showing distributions
+<strong>Use when:</strong> You want to understand how values are spread across ranges</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Employee Salary Distribution
+</code></pre></div></div>
+
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+
+<h3 id="1-the-kitchen-sink-approach">1. The “Kitchen Sink” Approach</h3>
+
+<p>Don’t try to show everything in one chart. Focus on your main message.</p>
+
+<h3 id="2-misleading-scales">2. Misleading Scales</h3>
+
+<p>Always start your y-axis at zero for bar charts, or clearly indicate when you don’t.</p>
+
+<h3 id="3-too-many-colors">3. Too Many Colors</h3>
+
+<p>Stick to 2-3 colors maximum. Use color strategically to highlight important data points.</p>
+
+<h3 id="4-3d-charts">4. 3D Charts</h3>
+
+<p>Avoid 3D effects – they often distort data and make it harder to read accurately.</p>
+
+<h3 id="5-overly-complex-charts">5. Overly Complex Charts</h3>
+
+<p>If your audience needs a manual to understand your chart, it’s too complex.</p>
+
+<h2 id="design-principles-for-better-charts">Design Principles for Better Charts</h2>
+
+<h3 id="clarity-first">Clarity First</h3>
+
+<ul>
+  <li>Use clear, descriptive titles</li>
+  <li>Label axes appropriately</li>
+  <li>Include units of measurement</li>
+  <li>Remove unnecessary gridlines and decorations</li>
+</ul>
+
+<h3 id="consistency">Consistency</h3>
+
+<ul>
+  <li>Use the same color scheme across related charts</li>
+  <li>Maintain consistent formatting</li>
+  <li>Apply the same style to similar chart types</li>
+</ul>
+
+<h3 id="accessibility">Accessibility</h3>
+
+<ul>
+  <li>Ensure sufficient color contrast</li>
+  <li>Don’t rely solely on color to convey information</li>
+  <li>Use patterns or textures for colorblind-friendly designs</li>
+</ul>
+
+<h2 id="tools-and-resources">Tools and Resources</h2>
+
+<h3 id="free-tools">Free Tools</h3>
+
+<ul>
+  <li><strong>Google Sheets/Excel</strong>: Great for basic charts</li>
+  <li><strong>Tableau Public</strong>: Professional-grade visualizations</li>
+  <li><strong>Observable</strong>: Interactive data visualization platform</li>
+  <li><strong>RawGraphs</strong>: Open-source visualization tool</li>
+</ul>
+
+<h3 id="design-inspiration">Design Inspiration</h3>
+
+<ul>
+  <li><strong>Information is Beautiful</strong>: Award-winning data visualizations</li>
+  <li><strong>FlowingData</strong>: Data visualization blog and tutorials</li>
+  <li><strong>The Pudding</strong>: Data journalism with beautiful visualizations</li>
+</ul>
+
+<h2 id="practice-exercise">Practice Exercise</h2>
+
+<p>Try this exercise to improve your chart selection skills:</p>
+
+<ol>
+  <li><strong>Take a dataset</strong> you’re familiar with</li>
+  <li><strong>Identify 3 different insights</strong> you could highlight</li>
+  <li><strong>Create 3 different charts</strong> for the same data, each optimized for a different insight</li>
+  <li><strong>Test with colleagues</strong> – which chart makes each insight clearest?</li>
+</ol>
+
+<h2 id="the-bottom-line">The Bottom Line</h2>
+
+<p>Choosing the right chart is about understanding your data, knowing your audience, and being clear about your message. It’s not about using the fanciest visualization or the most complex chart type – it’s about finding the simplest, clearest way to communicate your insights.</p>
+
+<p>Remember: the best chart is the one that helps your audience understand your data story most effectively.</p>
+
+<hr />
+
+<p><em>In my next post, I’ll share some real-world examples of chart transformations – before and after cases where changing the visualization dramatically improved the story.</em></p>
+
+<p>What’s your biggest challenge when choosing charts? Have you ever had a chart that completely missed the mark? I’d love to hear about your experiences!</p>]]></content><author><name>Kiya Chang</name></author><category term="data-visualization" /><category term="charts" /><category term="best-practices" /><summary type="html"><![CDATA[Not all charts are created equal. Learn how to choose the right visualization for your data and story to maximize impact and clarity.]]></summary></entry><entry><title type="html">What is Data Storytelling and Why Does It Matter?</title><link href="http://localhost:4000/2024/01/15/what-is-data-storytelling/" rel="alternate" type="text/html" title="What is Data Storytelling and Why Does It Matter?" /><published>2024-01-15T00:00:00-05:00</published><updated>2024-01-15T00:00:00-05:00</updated><id>http://localhost:4000/2024/01/15/what-is-data-storytelling</id><content type="html" xml:base="http://localhost:4000/2024/01/15/what-is-data-storytelling/"><![CDATA[<p>In today’s data-driven world, we’re drowning in information but starving for insight. Raw numbers and charts alone rarely inspire action or change minds. This is where data storytelling comes in – the powerful practice of weaving data into narratives that resonate with audiences and drive meaningful decisions.</p>
+
+<h2 id="the-power-of-narrative">The Power of Narrative</h2>
+
+<p>Humans are hardwired for stories. From ancient cave paintings to modern Netflix series, storytelling has been our primary method of sharing knowledge, building connections, and inspiring action. When we combine this innate human tendency with the precision and objectivity of data, we create something truly powerful.</p>
+
+<p>Data storytelling isn’t about manipulating facts or cherry-picking data to fit a predetermined narrative. Instead, it’s about:</p>
+
+<ul>
+  <li><strong>Contextualizing</strong> data within real-world scenarios</li>
+  <li><strong>Highlighting</strong> the most important insights</li>
+  <li><strong>Connecting</strong> data points to human experiences</li>
+  <li><strong>Guiding</strong> audiences toward understanding and action</li>
+</ul>
+
+<h2 id="the-three-pillars-of-data-storytelling">The Three Pillars of Data Storytelling</h2>
+
+<p>Effective data storytelling rests on three fundamental pillars:</p>
+
+<h3 id="1-data">1. Data</h3>
+
+<p>The foundation of any data story is, of course, reliable, accurate data. This includes:</p>
+
+<ul>
+  <li>Clean, well-structured datasets</li>
+  <li>Appropriate statistical analysis</li>
+  <li>Clear methodology and limitations</li>
+  <li>Ethical data collection and usage</li>
+</ul>
+
+<h3 id="2-narrative">2. Narrative</h3>
+
+<p>The story structure that guides your audience through the data:</p>
+
+<ul>
+  <li>A clear beginning, middle, and end</li>
+  <li>Logical flow and progression</li>
+  <li>Emotional connection points</li>
+  <li>Call to action or key takeaway</li>
+</ul>
+
+<h3 id="3-visualizations">3. Visualizations</h3>
+
+<p>The visual elements that make data accessible and engaging:</p>
+
+<ul>
+  <li>Charts and graphs that support the narrative</li>
+  <li>Consistent design language</li>
+  <li>Appropriate visual metaphors</li>
+  <li>Clear, readable formatting</li>
+</ul>
+
+<h2 id="why-data-storytelling-matters">Why Data Storytelling Matters</h2>
+
+<p>In business contexts, data storytelling can:</p>
+
+<ul>
+  <li><strong>Increase engagement</strong> with reports and presentations</li>
+  <li><strong>Improve decision-making</strong> by making insights more accessible</li>
+  <li><strong>Build consensus</strong> around data-driven strategies</li>
+  <li><strong>Drive action</strong> by connecting data to real-world impact</li>
+</ul>
+
+<p>For individuals and organizations, mastering data storytelling means:</p>
+
+<ul>
+  <li>Better communication of complex ideas</li>
+  <li>More persuasive presentations and proposals</li>
+  <li>Stronger relationships with stakeholders</li>
+  <li>Greater impact from analytical work</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>If you’re new to data storytelling, start small:</p>
+
+<ol>
+  <li><strong>Choose one dataset</strong> you’re familiar with</li>
+  <li><strong>Identify the key insight</strong> you want to communicate</li>
+  <li><strong>Think about your audience</strong> and what matters to them</li>
+  <li><strong>Craft a simple narrative</strong> that connects the data to real-world implications</li>
+  <li><strong>Create supporting visualizations</strong> that reinforce your story</li>
+</ol>
+
+<p>Remember, great data stories don’t happen overnight. Like any skill, data storytelling improves with practice, feedback, and iteration.</p>
+
+<h2 id="the-journey-ahead">The Journey Ahead</h2>
+
+<p>As I continue exploring the world of data storytelling, I’ll be sharing practical tips, case studies, and insights from my own experiences. Whether you’re a data analyst looking to improve your presentations, a business leader seeking to leverage data more effectively, or simply someone curious about how numbers can tell stories, I hope you’ll join me on this journey.</p>
+
+<p>What’s your experience with data storytelling? Have you seen examples that particularly resonated with you? I’d love to hear your thoughts and continue this conversation.</p>
+
+<hr />
+
+<p><em>Next up: We’ll dive into practical techniques for structuring compelling data narratives and explore some real-world examples of effective data storytelling.</em></p>]]></content><author><name>Kiya Chang</name></author><category term="data-storytelling" /><category term="analytics" /><category term="communication" /><summary type="html"><![CDATA[Data storytelling is the art of transforming raw data into compelling narratives that drive understanding and action. Let's explore what makes it so powerful.]]></summary></entry></feed>

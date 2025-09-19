@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey to a Data Storyteller</title>
+    <meta name="description" content="Personal blog and portfolio exploring the world of data storytelling">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/">
+    <link rel="alternate" type="application/rss+xml" title="My Journey to a Data Storyteller" href="/feed.xml">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="/" class="logo">My Journey to a Data Storyteller</a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <article class="post">
+    <header class="post-header">
+        <h1 class="post-title"></h1>
+        <div class="post-meta">
+            <time datetime="2025-09-19T13:43:04-04:00">September 19, 2025</time>
+            
+        </div>
+    </header>
+    
+    <div class="post-content">
+        <p>Today we discuss the 6 initiatives for 5 principles in Ethical AI.
+Our professor points out that all these initiatives are from the western countries but I wonder if it’s because ai and technology are usually coming from the western world thus, the ethic topic comes along with them.
+We do lack of views from other countries but I wonder what input will we get. but if we are just talking about the basic ethic priciples then it’ll be a way broder but interesting topic. For example, in indigenous people there are 5 genders, these are male, female, a male with a female spirit, a female with a male spirit, and a body with both spirits. So this is definitely not from the western or christian pov, and worth condsidering for wthics problems.
+Another topic i like to talk about is gender inequality. For example, most cars are designed for men, and it’s not suitable for women, and if that’s the reason we have accident, the men laugh at us becuase we are “Women” so we don’t drive as good as them but they design it to fit their needs not ours.
+who am i to determine how we should behave</p>
+
+    </div>
+    
+    <footer class="post-footer">
+        <div class="post-tags">
+            
+        </div>
+    </footer>
+</article>
+
+<div class="post-navigation">
+    
+        <a href="/2025/09/17/getting-started-data-visualization-copy/" class="prev-post">
+            ← Getting Started with Data Visualization: A Beginner Guide
+        </a>
+    
+    
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Wan-Ting Chang. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" id="email-copy" data-email="wantingchang.tw@gmail.com">Email</a>
+                <a href="https://github.com/kiya69" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/wantingchang/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle both email links (footer and homepage)
+            const emailLinks = document.querySelectorAll('#email-copy, #email-copy-home');
+            
+            emailLinks.forEach(function(emailLink) {
+                emailLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = this.getAttribute('data-email');
+                    
+                    // Try to copy to clipboard
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(email).then(function() {
+                            showCopyMessage(emailLink, 'Copied!');
+                        }).catch(function() {
+                            fallbackCopy(email, emailLink);
+                        });
+                    } else {
+                        fallbackCopy(email, emailLink);
+                    }
+                });
+            });
+        });
+        
+        function fallbackCopy(email, element) {
+            // Create a temporary textarea element
+            const textArea = document.createElement('textarea');
+            textArea.value = email;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyMessage(element, 'Copied!');
+            } catch (err) {
+                showCopyMessage(element, 'Copy failed');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyMessage(element, message) {
+            const originalText = element.textContent;
+            element.textContent = message;
+            element.style.color = '#666';
+            
+            setTimeout(function() {
+                element.textContent = originalText;
+                element.style.color = '';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
