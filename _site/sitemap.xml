@@ -1,28 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>http://localhost:4000/2024/01/15/what-is-data-storytelling/</loc>
-<lastmod>2024-01-15T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/2024/01/22/choosing-right-chart/</loc>
-<lastmod>2024-01-22T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/2024/01/29/psychology-data-cognitive-bias/</loc>
-<lastmod>2024-01-29T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/2024/02/05/data-storytelling-toolkit/</loc>
-<lastmod>2024-02-05T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/2025/09/17/getting-started-data-visualization-copy/</loc>
-<lastmod>2025-09-17T00:00:00-04:00</lastmod>
-</url>
-<url>
 <loc>http://localhost:4000/2025/09/19/2025-09-17-notes-on-todays-ethic-in-ai-class/</loc>
-<lastmod>2025-09-19T13:43:04-04:00</lastmod>
+<lastmod>2025-09-19T13:53:05-04:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/blog/</loc>
