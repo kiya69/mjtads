@@ -27,10 +27,9 @@ description: "All my thoughts, insights, and discoveries about data storytelling
                             </div>
                         {% endif %}
                     </div>
-                    <div class="post-excerpt">
-                        {{ post.excerpt | strip_html | truncatewords: 50 }}
+                    <div class="post-content">
+                        {{ post.content }}
                     </div>
-                    <a href="{{ post.url | relative_url }}" class="read-more">Read More</a>
                 </article>
             {% endfor %}
         </div>
