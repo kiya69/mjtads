@@ -456,3 +456,24 @@ body {
         text-align: center;
     }
 }
+
+.about-image {
+    width: 250px;
+    height: auto;
+    border-radius: 5px;
+}
+.about-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+.about-title {
+    text-align: center;
+}
+/* h2, h2+div {
+    display: inline-block;
+  }
+  h2+div {
+    margin-left: 39%;
+  } */
