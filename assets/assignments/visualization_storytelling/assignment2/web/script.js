@@ -335,9 +335,6 @@ class FlorenceNightingale3D {
         // Add axes labels
         this.addAxesLabels();
         
-        // Add grid
-        // this.addGrid();
-        
         // Add axis lines
         this.addAxisLines();
     }
@@ -351,13 +348,13 @@ class FlorenceNightingale3D {
         
         // Y-axis label (Death Count)
         const yAxisLabel = this.createText('DEATH COUNT', 1, 0xffffff);
-        yAxisLabel.position.set(-18, 10, 0);
+        yAxisLabel.position.set(-18, 10, 1.6);
         yAxisLabel.rotation.z = Math.PI / 2;
         this.scene.add(yAxisLabel);
         
         // Z-axis label (Disease Type)
         const zAxisLabel = this.createText('DISEASE TYPE', 1, 0xffffff);
-        zAxisLabel.position.set(-18, 0, -4);
+        zAxisLabel.position.set(-18, 0, 0);
         zAxisLabel.rotation.x = -Math.PI / 2;
         zAxisLabel.rotation.z = -Math.PI / 2;
         this.scene.add(zAxisLabel);
@@ -412,12 +409,6 @@ class FlorenceNightingale3D {
         // });
     }
     
-    addGrid() {
-        // Add a subtle grid
-        const gridHelper = new THREE.GridHelper(50, 50, 0x444444, 0x444444);
-        gridHelper.position.y = -2;
-        this.scene.add(gridHelper);
-    }
     
     addAxisLines() {
         const maxDeaths = Math.max(...this.data.flatMap(d => Object.values(d.deaths)));
@@ -426,8 +417,8 @@ class FlorenceNightingale3D {
         
         // X-axis line (Time)
         const xAxisGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(-chartWidth/2, -2, 0),
-            new THREE.Vector3(chartWidth/2, -2, 0)
+            new THREE.Vector3(-chartWidth/2-0.4, 0, 1.6),
+            new THREE.Vector3(chartWidth/2, 0, 1.6)
         ]);
         const xAxisMaterial = new THREE.LineBasicMaterial({ color: 0x666666 });
         const xAxisLine = new THREE.Line(xAxisGeometry, xAxisMaterial);
@@ -435,8 +426,8 @@ class FlorenceNightingale3D {
         
         // Y-axis line (Death Count)
         const yAxisGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(-chartWidth/2, -2, 0),
-            new THREE.Vector3(-chartWidth/2, maxDeaths/100, 0)
+            new THREE.Vector3(-chartWidth/2-0.4, 0, 1.6),
+            new THREE.Vector3(-chartWidth/2-0.4, 20, 1.6)
         ]);
         const yAxisMaterial = new THREE.LineBasicMaterial({ color: 0x666666 });
         const yAxisLine = new THREE.Line(yAxisGeometry, yAxisMaterial);
@@ -444,8 +435,8 @@ class FlorenceNightingale3D {
         
         // Z-axis line (Disease Type)
         const zAxisGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(-chartWidth/2, -2, 0),
-            new THREE.Vector3(-chartWidth/2, -2, chartDepth)
+            new THREE.Vector3(-chartWidth/2-0.4, 0, 1.6),
+            new THREE.Vector3(-chartWidth/2-0.4, 0, -10)
         ]);
         const zAxisMaterial = new THREE.LineBasicMaterial({ color: 0x666666 });
         const zAxisLine = new THREE.Line(zAxisGeometry, zAxisMaterial);
@@ -512,7 +503,6 @@ class FlorenceNightingale3D {
             const button = document.getElementById('toggleWireframe');
             button.textContent = this.wireframeMode ? 'Solid' : 'Wireframe';
         });
-        
         // Filter buttons
         document.getElementById('filterAll').addEventListener('click', () => {
             this.setFilter('all');
