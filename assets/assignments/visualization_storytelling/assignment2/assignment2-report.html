@@ -95,35 +95,6 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .comparison-charts {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            align-items: center;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .pie-chart-demo {
-            width: 200px;
-            height: 200px;
-            background: conic-gradient(
-                #ff6b6b 0% 45%,
-                #4ecdc4 45% 75%,
-                #45b7d1 75% 90%,
-                #f7b731 90% 100%
-            );
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .pie-label {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
         .cta-button {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -168,10 +139,6 @@
                 padding: 30px 20px;
             }
 
-            .comparison-charts {
-                flex-direction: column;
-            }
-
             .visualization-container {
                 height: 400px;
             }
@@ -197,21 +164,21 @@
             <h2>Problem 1: Pie Chart Confusion</h2>
             <p>"It looks a lot like a pie chart to me, which has been less favored among the data visualization community due to lack of clarity for comparison of each data in each pie."</p>
             
-            <div class="comparison-charts">
-                <div>
-                    <div class="pie-chart-demo"></div>
-                    <div class="pie-label">Traditional Pie Chart</div>
-                </div>
-                <div>
-                    <div class="pie-chart-demo"></div>
-                    <div class="pie-label">Related Visualization</div>
-                </div>
+            <div class="image-gallery">
+                <img src="images/piecharts.png" alt="Pie chart comparison">
             </div>
+            <p style="text-align: center; font-style: italic; color: #888; margin-top: -15px; margin-bottom: 25px;">
+                Screenshot from: <a href="https://en.wikipedia.org/wiki/Pie_chart" target="_blank">https://en.wikipedia.org/wiki/Pie_chart</a>
+            </p>
 
             <h2>Problem 2: Inconsistent Sizes</h2>
             <p>The two years are in different sizes, it's hard to tell which month has the highest death.</p>
             <div class="highlight-box">
                 <strong>Issue:</strong> Year 1854 and 1855 are visualized at different scales, making temporal comparisons difficult and potentially misleading.
+            </div>
+
+            <div class="image-gallery">
+                <img src="images/Nightingale-mortality.webp" alt="Nightingale's original coxcomb diagram showing inconsistent sizes">
             </div>
 
             <h2>Problem 3: Overlapping Area Confusion</h2>
