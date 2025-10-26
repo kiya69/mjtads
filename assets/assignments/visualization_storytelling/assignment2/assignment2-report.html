@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2: Redesign Florence Nightingale's Coxcomb Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        header .meta {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #667eea;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #764ba2;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #ff6b6b;
+            margin: 25px 0;
+        }
+
+        .highlight-box strong {
+            color: #c0392b;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .comparison-charts {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .pie-chart-demo {
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(
+                #ff6b6b 0% 45%,
+                #4ecdc4 45% 75%,
+                #45b7d1 75% 90%,
+                #f7b731 90% 100%
+            );
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .pie-label {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            margin: 30px 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .visualization-container {
+            width: 100%;
+            height: 600px;
+            margin: 40px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 2px solid #e0e0e0;
+        }
+
+        .visualization-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .comparison-charts {
+                flex-direction: column;
+            }
+
+            .visualization-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Assignment 2: Redesign a Notable Information Graphic</h1>
+            <div class="meta">
+                October 25, 2025<br>
+                Professor Gabby Resch<br>
+                Data Visualization and Storytelling<br>
+                <strong>Wan-Ting Chang</strong>
+            </div>
+        </header>
+
+        <div class="content">
+            <h2>Introduction</h2>
+            <p>For this assignment, we were given 3 notable information graphics and asked to redesign one of them using contemporary interactive methods. These graphics are Snow's cholera map, Minard's Russian campaign and Nightingale's coxcomb. I chose Florence Nightingale's coxcomb diagram because it's quite confusing for me, actually. As a visual person, I can see numerous opportunities for improvement. Here is my analysis of the improvements for this diagram:</p>
+
+            <h2>Problem 1: Pie Chart Confusion</h2>
+            <p>"It looks a lot like a pie chart to me, which has been less favored among the data visualization community due to lack of clarity for comparison of each data in each pie."</p>
+            
+            <div class="comparison-charts">
+                <div>
+                    <div class="pie-chart-demo"></div>
+                    <div class="pie-label">Traditional Pie Chart</div>
+                </div>
+                <div>
+                    <div class="pie-chart-demo"></div>
+                    <div class="pie-label">Related Visualization</div>
+                </div>
+            </div>
+
+            <h2>Problem 2: Inconsistent Sizes</h2>
+            <p>The two years are in different sizes, it's hard to tell which month has the highest death.</p>
+            <div class="highlight-box">
+                <strong>Issue:</strong> Year 1854 and 1855 are visualized at different scales, making temporal comparisons difficult and potentially misleading.
+            </div>
+
+            <h2>Problem 3: Overlapping Area Confusion</h2>
+            <p>I'm not sure if one color has an overlapping area with other colors, because it's been said that all of them are measured from the center, but in this case, you cannot represent the total deaths for every month, and if she could draw the color with an overlapping effect, then it'll be much clearer. If it's not overlapping, then it's good to see the total death, but it's difficult to see which cause of death has a bigger proportion in the month sometimes.</p>
+            <div class="highlight-box">
+                <strong>Clarity Issue:</strong> The radial design makes it challenging to distinguish between different causes of death and understand proportional relationships.
+            </div>
+
+            <h2>Initial Ideas: Jenga Blocks</h2>
+            <p>So I started to write down ideas in my notebook. At first, I was thinking to use Jenga blocks to recreate something similar to the coxcomb but maybe more like a sun burst chart. But then realized that Jenga blocks have their own limitations. For example, I couldn't cut it to make it proportionally correspond to the data.</p>
+            
+            <div class="image-gallery">
+                <img src="images/IMG_2115.jpeg" alt="Initial notebook ideas">
+            </div>
+
+            <h2>Enter Play-Doh</h2>
+            <p>However, I still want to explore this option. So I went to Walmart to look for Jenga blocks. I didn't see any but I saw this shelf full of Play-Doh, and that gives me a better idea. Why not use Play-Doh? It's more flexible and easier to divide into portions.</p>
+            <div class="highlight-box">
+                <strong>Innovation:</strong> Play-Doh offers the tactile, proportional visualization I was seeking while being more adaptable than solid blocks.
+            </div>
+
+            <div class="image-gallery">
+                <img src="images/IMG_2108.jpeg" alt="Play-Doh exploration 1">
+                <img src="images/IMG_2111.jpeg" alt="Play-Doh exploration 2">
+            </div>
+
+            <div class="image-gallery">
+                <img src="images/IMG_2113.jpeg" alt="Play-Doh visualization">
+            </div>
+
+            <h2>Exploring Digital Alternatives</h2>
+            <p>I jot down more ideas.</p>
+            <p><strong>Maybe a 3D bar chart</strong></p>
+            <div class="image-gallery">
+                <img src="images/IMG_2116.jpeg" alt="3D bar chart concept">
+            </div>
+
+            <h3>Or 2D Calendar Type Bar Chart</h3>
+            <p>Another approach inspired by calendar layout</p>
+            <div class="image-gallery">
+                <img src="images/IMG_2117.jpeg" alt="Calendar type bar chart concept">
+            </div>
+
+            <h2>Contemporary Tools</h2>
+            <p>I started to use contemporary tools to make the last two ideas.</p>
+            <p>I ask Cursor to generate the 3D bar chart for me</p>
+            <div class="highlight-box">
+                <strong>Technology:</strong> Using AI-powered code generation to create interactive 3D visualizations with Three.js
+            </div>
+
+            <h3>And use Figma to create the calendar type chart</h3>
+            <div class="image-gallery">
+                <img src="images/figma1.png" alt="Figma calendar chart">
+            </div>
+
+            <h3>Color Temperature Visualization</h3>
+            <p>Change the color tones based on the month's warmth or coldness</p>
+            <div class="image-gallery">
+                <img src="images/figma2.png" alt="Color temperature adjustments">
+            </div>
+
+            <h2>Final Decision</h2>
+            <p><strong>I think I like the 3D bar chart the best.</strong></p>
+            <p>Because you can interact with it, hover to see the bar indicating the number of deaths. There is even a total death bar that you can see the significance of how disease plays an important role in it.</p>
+            
+            <div class="image-gallery">
+                <img src="images/3dchart.png" alt="3D Bar Chart Visualization">
+            </div>
+            
+            <p>From the screenshot above, we can clearly see that the total death has a very high correlation with the disease death. This is a powerful insight that makes the visualization more persuasive. It tells the government that this is preventable - the soldiers are not dying because of the war, they are dying because of the diseases, so please send in senitazing team to help them.</p>
+            
+            <div class="visualization-container">
+                <iframe src="web/index.html" class="visualization-iframe" title="3D Interactive Visualization"></iframe>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="web/index.html" class="cta-button" target="_blank">View Full Screen →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -472,6 +472,20 @@ class FlorenceNightingale3D {
             }
         });
         
+        // Toggle controls panel
+        document.getElementById('toggleControls').addEventListener('click', () => {
+            const controlsPanel = document.getElementById('controls');
+            const toggleButton = document.getElementById('toggleControls');
+            
+            if (controlsPanel.classList.contains('minimized')) {
+                controlsPanel.classList.remove('minimized');
+                toggleButton.textContent = '−';
+            } else {
+                controlsPanel.classList.add('minimized');
+                toggleButton.textContent = '+';
+            }
+        });
+        
         // Control event listeners
         document.getElementById('rotationSpeed').addEventListener('input', (e) => {
             this.rotationSpeed = parseFloat(e.target.value);
@@ -479,9 +493,10 @@ class FlorenceNightingale3D {
         
         document.getElementById('zoomLevel').addEventListener('input', (e) => {
             const zoom = parseFloat(e.target.value);
-            this.camera.position.multiplyScalar(zoom / this.camera.position.length());
-            this.camera.position.normalize();
-            this.camera.position.multiplyScalar(30);
+            const currentDistance = this.camera.position.distanceTo(this.controls.target);
+            const newDistance = currentDistance / zoom;
+            const direction = this.camera.position.clone().sub(this.controls.target).normalize();
+            this.camera.position.copy(this.controls.target).add(direction.multiplyScalar(newDistance));
         });
         
         document.getElementById('toggleRotation').addEventListener('click', () => {
