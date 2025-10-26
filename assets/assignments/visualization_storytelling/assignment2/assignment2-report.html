@@ -70,16 +70,16 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #132440 0%, #16476a 100%);
+            background: linear-gradient(135deg, #e6f7f7 0%, #d0ede9 100%);
             padding: 25px;
             border-radius: 10px;
-            border-left: 5px solid #bf092f;
+            border-left: 5px solid #3b9797;
             margin: 25px 0;
-            color: white;
+            color: #132440;
         }
 
         .highlight-box strong {
-            color: #bf092f;
+            color: #16476a;
         }
 
         .image-gallery {
@@ -163,7 +163,7 @@
             <p>For this assignment, we were given 3 notable information graphics and asked to redesign one of them using contemporary interactive methods. These graphics are Snow's cholera map, Minard's Russian campaign and Nightingale's coxcomb. I chose Florence Nightingale's coxcomb diagram because it's quite confusing for me, actually. As a visual person, I can see numerous opportunities for improvement. Here is my analysis of the improvements for this diagram:</p>
 
             <h2>Problem 1: Pie Chart Confusion</h2>
-            <p>"It looks a lot like a pie chart to me, which has been less favored among the data visualization community due to lack of clarity for comparison of each data in each pie."</p>
+            <p>It looks a lot like a pie chart to me, which has been less favored among the data visualization community due to lack of clarity for comparison of each data in each pie.</p>
             
             <div class="image-gallery">
                 <img src="images/piecharts.png" alt="Pie chart comparison">
@@ -173,7 +173,8 @@
             </p>
 
             <h2>Problem 2: Inconsistent Sizes</h2>
-            <p>The two years are in different sizes, it's hard to tell which month has the highest death.</p>
+            <p>The two years are in different sizes, it's hard to tell which month has the higher death count
+                .</p>
             
             <div class="image-gallery">
                 <img src="images/Nightingale-mortality.webp" alt="Nightingale's original coxcomb diagram showing inconsistent sizes">
@@ -182,7 +183,10 @@
                 <strong>Issue:</strong> Year 1854 and 1855 are visualized at different scales, making temporal comparisons difficult and potentially misleading.
             </div>
             <h2>Problem 3: Overlapping Area Confusion</h2>
-            <p>I'm not sure if one color has an overlapping area with other colors, because it's been said that all of them are measured from the center, but in this case, you cannot represent the total deaths for every month, and if she could draw the color with an overlapping effect, then it'll be much clearer. If it's not overlapping, then it's good to see the total death, but it's difficult to see which cause of death has a bigger proportion in the month sometimes.</p>
+            <p>It is unclear whether the colored segments in Nightingale’s diagram overlap with one another. According to descriptions, all areas are measured from the center, which would make it impossible to represent the total number of deaths for each month accurately. If the colors were instead drawn with an overlapping effect, the overall mortality for each month would be more clearly visualized. On the other hand, if the segments do not overlap, the total number of deaths becomes easier to interpret, but it can be challenging to distinguish the relative proportions of each cause of death within a given month.</p>
+            <div class="image-gallery">
+                <img src="images/Nightingale-mortality1.jpg" alt="Nightingale's original coxcomb diagram showing confusing over">
+            </div>
             <div class="highlight-box">
                 <strong>Clarity Issue:</strong> The radial design makes it challenging to distinguish between different causes of death and understand proportional relationships.
             </div>
@@ -195,11 +199,7 @@
             </div>
 
             <h2>Enter Play-Doh</h2>
-            <p>However, I still want to explore this option. So I went to Walmart to look for Jenga blocks. I didn't see any but I saw this shelf full of Play-Doh, and that gives me a better idea. Why not use Play-Doh? It's more flexible and easier to divide into portions.</p>
-            <div class="highlight-box">
-                <strong>Innovation:</strong> Play-Doh offers the tactile, proportional visualization I was seeking while being more adaptable than solid blocks.
-            </div>
-
+            <p>However, I still want to explore this option. So I went to Walmart to look for Jenga blocks. I didn't see any but I saw this shelf full of Play-Doh, and that gives me a better idea. Why not use Play-Doh? It's more flexible and easier to divide into portions. I drew inspiration from <a href="https://www.amycesal.com/daydohviz" target="_blank">Amy Cesal's daily Play-Doh data visualizations</a>, which showcase creative data storytelling using tactile materials.</p>
             <div class="image-gallery">
                 <img src="images/IMG_2108.jpeg" alt="Play-Doh exploration 1">
                 <img src="images/IMG_2111.jpeg" alt="Play-Doh exploration 2">
@@ -207,6 +207,11 @@
 
             <div class="image-gallery">
                 <img src="images/IMG_2113.jpeg" alt="Play-Doh visualization">
+            </div>
+            <div class="highlight-box">
+                <strong>Innovation:</strong> Play-Doh offers the tactile, proportional visualization I was seeking while being more adaptable than solid blocks.<br><br>
+                <strong>Pros:</strong> Tagible, easy to manipulate, easy to divide into portions, easy to play with, can stack them up to see the total number of deaths, and easy to explain to others, especially children.<br><br>
+                <strong>Cons:</strong> Not sustainable, not reusable, time comsuming and labor intensive to make it, not very efficient.
             </div>
 
             <h2>Exploring Digital Alternatives</h2>
@@ -216,20 +221,17 @@
                 <img src="images/IMG_2116.jpeg" alt="3D bar chart concept">
             </div>
 
-            <h3>Or 2D Calendar Type Bar Chart</h3>
-            <p>Another approach inspired by calendar layout</p>
+            <p><strong>Or a 2D Calendar-like Bar Chart</strong></p>
+            <p>I got some inspiration from <a href="https://www.nytimes.com/interactive/2023/12/14/opinion/my-life-with-long-covid.html" target="_blank">Giorgia Lupi's long covid visualization</a>.</p>
             <div class="image-gallery">
                 <img src="images/IMG_2117.jpeg" alt="Calendar type bar chart concept">
             </div>
 
             <h2>Contemporary Tools</h2>
-            <p>I started to use contemporary tools to make the last two ideas.</p>
-            <p>I ask Cursor to generate the 3D bar chart for me</p>
-            <div class="highlight-box">
-                <strong>Technology:</strong> Using AI-powered code generation to create interactive 3D visualizations with Three.js
-            </div>
+            <p>I started to use contemporary tools to explore and develop the final two ideas.</p>
+            
 
-            <h3>And use Figma to create the calendar type chart</h3>
+            <h3>I used Figma to create the calendar type chart</h3>
             <div class="image-gallery">
                 <img src="images/figma1.png" alt="Figma calendar chart">
             </div>
@@ -239,7 +241,13 @@
             <div class="image-gallery">
                 <img src="images/figma2.png" alt="Color temperature adjustments">
             </div>
-
+            <p>Then I asked Cursor to generate the 3D bar chart for me</p>
+            <div class="image-gallery">
+                <img src="images/cursor.png" alt="Screenshot of Cursor generating the 3D bar chart">
+            </div>
+            <div class="highlight-box">
+                <strong>Technology:</strong> Using AI-powered code generation to create interactive 3D visualizations with Three.js
+            </div>
             <h2>Final Decision</h2>
             <p><strong>I think I like the 3D bar chart the best.</strong></p>
             <p>Because you can interact with it, hover to see the bar indicating the number of deaths. There is even a total death bar that you can see the significance of how disease plays an important role in it.</p>
