@@ -73,12 +73,16 @@ class FlorenceNightingale3D {
         canvas.width = 256;
         canvas.height = 64;
         
-        // Add dark background for contrast
-        context.fillStyle = '#000000';
-        context.fillRect(0, 0, 256, 64);
+        // No background - transparent
+        context.clearRect(0, 0, 256, 64);
         
-        context.fillStyle = '#ffffff';
-        context.font = '24px Arial';
+        // Convert hex color to RGB for canvas fillStyle
+        const r = (color >> 16) & 255;
+        const g = (color >> 8) & 255;
+        const b = color & 255;
+        context.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        
+        context.font = 'bold 24px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(text, 128, 32);
@@ -87,7 +91,7 @@ class FlorenceNightingale3D {
         const material = new THREE.MeshBasicMaterial({ 
             map: texture, 
             transparent: true,
-            color: color
+            opacity: 1.0
         });
         
         const geometry = new THREE.PlaneGeometry(size * 4, size);
@@ -341,28 +345,28 @@ class FlorenceNightingale3D {
     
     addAxesLabels() {
         // X-axis label (Time)
-        const xAxisLabel = this.createText('TIME', 1, 0xffffff);
+        const xAxisLabel = this.createText('TIME', 1, 0x000000);
         xAxisLabel.position.set(0, 0, 4);
         xAxisLabel.rotation.x = -Math.PI / 2;
         this.scene.add(xAxisLabel);
         
         // Y-axis label (Death Count)
-        const yAxisLabel = this.createText('DEATH COUNT', 1, 0xffffff);
+        const yAxisLabel = this.createText('DEATH COUNT', 1, 0x000000);
         yAxisLabel.position.set(-18, 10, 1.6);
         yAxisLabel.rotation.z = Math.PI / 2;
         this.scene.add(yAxisLabel);
         
         // Z-axis label (Disease Type)
-        const zAxisLabel = this.createText('DISEASE TYPE', 1, 0xffffff);
+        const zAxisLabel = this.createText('DISEASE TYPE', 1, 0x000000);
         zAxisLabel.position.set(-18, 0, 0);
         zAxisLabel.rotation.x = -Math.PI / 2;
-        zAxisLabel.rotation.z = -Math.PI / 2;
+        zAxisLabel.rotation.z = Math.PI / 2;
         this.scene.add(zAxisLabel);
         
         // Add month labels
         this.data.forEach((monthData, index) => {
             if (index % 2 === 0) { // Show every 2nd month to avoid clutter
-                const monthLabel = this.createText(monthData.month, 0.3, 0xffffff);
+                const monthLabel = this.createText(monthData.month, 0.6, 0x000000);
                 monthLabel.position.set(
                     index * 1.2 - (this.data.length * 1.2) / 2,
                     0,
@@ -376,7 +380,7 @@ class FlorenceNightingale3D {
         // Add disease type labels
         const diseaseTypes = ['Disease', 'Wounds', 'Other'];
         diseaseTypes.forEach((type, index) => {
-            const typeLabel = this.createText(type, 0.4, this.colors[type.toLowerCase()]);
+            const typeLabel = this.createText(type, 0.5, this.colors[type.toLowerCase()]);
             typeLabel.position.set(
                 -16,
                 0,
@@ -388,7 +392,7 @@ class FlorenceNightingale3D {
         });
         
         // Add total deaths label (positioned furthest back)
-        const totalLabel = this.createText('Total', 0.4, this.colors['total']);
+        const totalLabel = this.createText('Total', 0.5, this.colors['total']);
         totalLabel.position.set(
             -16,
             0,
@@ -398,15 +402,24 @@ class FlorenceNightingale3D {
         totalLabel.rotation.z = Math.PI / 2;
         this.scene.add(totalLabel);
         
-        // Add death count scale markers
-        // const maxDeaths = Math.max(...this.data.flatMap(d => Object.values(d.deaths)));
-        // const scaleSteps = [0, maxDeaths * 0.25, maxDeaths * 0.5, maxDeaths * 0.75, maxDeaths];
+        // Add death count labels for y-axis (every 500 counts)
+        const maxDeaths = Math.max(...this.data.flatMap(d => Object.values(d.deaths)));
+        const chartWidth = this.data.length * 1.2;
+        const maxLabelCount = Math.floor(maxDeaths / 500) * 500; // Round up to nearest 500
         
-        // scaleSteps.forEach((count, index) => {
-        //     const countLabel = this.createText(Math.round(count).toString(), 0.3, 0xffffff);
-        //     countLabel.position.set(-7, count / 100 - 2, 0);
-        //     this.scene.add(countLabel);
-        // });
+        for (let count = 0; count <= maxLabelCount; count += 500) {
+            // Calculate y position: (count / maxDeaths) * 20 (max bar height)
+            const yPosition = (count / maxDeaths) * 20;
+            
+            // Create label
+            const countLabel = this.createText(count.toString(), 0.4, 0x000000);
+            countLabel.position.set(
+                -chartWidth/2 - 0.6, // Slightly to the left of the y-axis line
+                yPosition,
+                1.6 // Same z as the y-axis line
+            );
+            this.scene.add(countLabel);
+        }
     }
     
     
