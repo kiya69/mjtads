@@ -2,10 +2,13 @@
 <html>
 <head>
     <title>Taiwan Voronoi Treemap</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="d3-weighted-voronoi.min.js"></script>
-    <script src="d3-voronoi-map.min.js"></script>
-    <script src="d3-voronoi-treemap.min.js"></script>
+    <!-- Google Fonts - Noto Sans TC for Traditional Chinese support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          crossorigin=""/>
     <style>
         body { margin: 0; overflow: hidden; font-family: sans-serif; }
         
@@ -17,26 +20,43 @@
             font-size: 2rem;
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
         
         #treemap-container {
             position: relative; /* Needed for tooltip positioning */
             width: 100vw;
-            height: calc(100vh - 97px);
+            height: calc(100vh - 77px);
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url(submarine_cable.png);
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: 126px center;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Ensure map is behind SVG overlay */
+            min-height: 400px; /* Ensure map has minimum height */
+            background-color: #e0e0e0; /* Temporary background to see if div exists */
+        }
+        
+        /* Leaflet map container styles */
+        .leaflet-container {
+            background: #f0f0f0;
+            height: 100% !important;
+            width: 100% !important;
         }
 
         #treemap-svg {
-            width: 90%;
-            height: 90%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow map interaction to pass through */
+            z-index: 100; /* Ensure SVG is above the map */
+            background: transparent; /* Make sure it's transparent, not blocking */
+        }
+
+        #treemap-svg .cell {
+            pointer-events: all; /* But allow interaction with cells */
         }
 
         .cell {
@@ -57,6 +77,14 @@
             pointer-events: none;
             text-anchor: middle;
             dominant-baseline: central;
+        }
+        
+        .country-label.taiwan-label {
+            font-size: 14px; /* Larger font for Taiwan */
+        }
+        
+        .country-label.taiwan-label tspan {
+            font-size: 14px !important; /* Override inline styles for Taiwan */
         }
 
         /* For the Taiwan outline itself */
@@ -109,14 +137,14 @@
         }
 
         .info-box-large {
-            width: 300px;
+            width: 360px; /* 20% wider (300 * 1.2) */
             height: 400px;
             left: 20px;
             top: calc(50% - 200px); /* Center vertically without transform */
         }
 
         .info-box-medium {
-            width: 250px;
+            width: 600px;
             height: 180px;
         }
 
@@ -160,6 +188,7 @@
 </div>
 
 <div id="treemap-container">
+    <div id="map"></div>
     <svg id="treemap-svg"></svg>
     <div id="tooltip" class="tooltip">
         <div class="tooltip-title"></div>
@@ -168,13 +197,13 @@
     
     <!-- Floating info boxes -->
     <div class="info-box info-box-large">
-        <h3>Information</h3>
-        <p>Content will be added here.</p>
+        <h3>A. Foreign governments dissemination of false information over 10 years</h3>
+        <!-- Line chart will be inserted here -->
     </div>
     
     <div id="info-box-top" class="info-box info-box-medium">
-        <h3>Details</h3>
-        <p>Content will be added here.</p>
+        <h3>Score Trends Over Time (2015-2024)</h3>
+        <!-- Line chart will be inserted here -->
     </div>
     
     <div id="info-box-bottom" class="info-box info-box-medium">
@@ -183,7 +212,17 @@
     </div>
 </div>
 
+<!-- Load JavaScript libraries before our script -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="d3-weighted-voronoi.min.js"></script>
+<script src="d3-voronoi-map.min.js"></script>
+<script src="d3-voronoi-treemap.min.js"></script>
+
 <script>
+    let map;
+    
     const data = [
         { Country: 'Taiwan', Score: -3.845, Size: 3.845, Category: 'Red', Rank: 1 },
         { Country: 'Portugal', Score: 2.859, Size: 2.859, Category: 'Green', Rank: 179 },
@@ -196,8 +235,417 @@
         { Country: 'Kosovo', Score: -2.612, Size: 2.612, Category: 'Red', Rank: 5 },
         { Country: 'Seychelles', Score: 2.402, Size: 2.402, Category: 'Green', Rank: 175 }
     ];
+    // CSV data for line chart
+    const csvData = `country_name,year,v2smfordom
+Switzerland,2015,2.434
+Switzerland,2016,2.434
+Switzerland,2017,2.434
+Switzerland,2018,2.434
+Switzerland,2019,2.434
+Switzerland,2020,2.434
+Switzerland,2021,2.434
+Switzerland,2022,2.434
+Switzerland,2023,2.434
+Switzerland,2024,2.434
+Portugal,2015,3.033
+Portugal,2016,3.033
+Portugal,2017,3.033
+Portugal,2018,3.033
+Portugal,2019,1.718
+Portugal,2020,2.859
+Portugal,2021,2.859
+Portugal,2022,2.859
+Portugal,2023,2.859
+Portugal,2024,2.859
+Kosovo,2015,-1.956
+Kosovo,2016,-1.956
+Kosovo,2017,-1.956
+Kosovo,2018,-1.956
+Kosovo,2019,-1.956
+Kosovo,2020,-1.956
+Kosovo,2021,-1.73
+Kosovo,2022,-1.73
+Kosovo,2023,-2.189
+Kosovo,2024,-2.612
+Taiwan,2015,-2.999
+Taiwan,2016,-2.999
+Taiwan,2017,-3.322
+Taiwan,2018,-3.322
+Taiwan,2019,-3.845
+Taiwan,2020,-3.845
+Taiwan,2021,-3.845
+Taiwan,2022,-3.845
+Taiwan,2023,-3.845
+Taiwan,2024,-3.845
+Latvia,2015,-2.769
+Latvia,2016,-2.769
+Latvia,2017,-2.769
+Latvia,2018,-3.186
+Latvia,2019,-3.186
+Latvia,2020,-2.819
+Latvia,2021,-2.819
+Latvia,2022,-3.276
+Latvia,2023,-3.276
+Latvia,2024,-3.276
+Malawi,2015,2.282
+Malawi,2016,2.282
+Malawi,2017,2.282
+Malawi,2018,2.282
+Malawi,2019,2.373
+Malawi,2020,2.373
+Malawi,2021,1.301
+Malawi,2022,1.924
+Malawi,2023,1.42
+Malawi,2024,2.645
+Syria,2015,-1.941
+Syria,2016,-1.941
+Syria,2017,-1.941
+Syria,2018,-1.941
+Syria,2019,-2.07
+Syria,2020,-2.07
+Syria,2021,-1.948
+Syria,2022,-1.948
+Syria,2023,-2.105
+Syria,2024,-2.63
+Belarus,2015,0.792
+Belarus,2016,0.723
+Belarus,2017,0.723
+Belarus,2018,0.524
+Belarus,2019,-0.323
+Belarus,2020,-0.544
+Belarus,2021,-2.157
+Belarus,2022,-2.157
+Belarus,2023,-2.157
+Belarus,2024,-3.326
+Trinidad and Tobago,2015,1.942
+Trinidad and Tobago,2016,1.951
+Trinidad and Tobago,2017,1.951
+Trinidad and Tobago,2018,1.951
+Trinidad and Tobago,2019,1.951
+Trinidad and Tobago,2020,2.606
+Trinidad and Tobago,2021,2.606
+Trinidad and Tobago,2022,2.606
+Trinidad and Tobago,2023,2.606
+Trinidad and Tobago,2024,2.606
+Seychelles,2015,0.723
+Seychelles,2016,0.869
+Seychelles,2017,0.869
+Seychelles,2018,0.869
+Seychelles,2019,0.869
+Seychelles,2020,0.869
+Seychelles,2021,0.869
+Seychelles,2022,0.869
+Seychelles,2023,1.475
+Seychelles,2024,2.402`;
+
+    // Parse CSV data
+    const dataByYear = d3.csvParse(csvData, d => {
+        return {
+            country: d.country_name,
+            year: +d.year,
+            score: +d.v2smfordom
+        };
+    });
+    
+    // Create line chart
+    function createLineChart() {
+        // Find min and max values
+        const minScore = d3.min(dataByYear, d => d.score);
+        const maxScore = d3.max(dataByYear, d => d.score);
+        
+        // Chart dimensions (adjusted for large info box)
+        const margin = { top: 20, right: 50, bottom: 40, left: 50 };
+        const width = (250 * 1.2) - margin.left - margin.right; // 20% wider (300 - margins)
+        const height = 300 - margin.top - margin.bottom;
+        
+        // Create SVG for line chart
+        const chartContainer = d3.select(".info-box-large");
+        chartContainer.select("svg").remove(); // Remove existing chart if any
+        
+        const svg = chartContainer.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+        
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+        
+        // X scale (years)
+        const xScale = d3.scaleLinear()
+            .domain([2015, 2024])
+            .range([0, width]);
+        
+        // Y scale (inverted: most negative at top, most positive at bottom/0)
+        const yScale = d3.scaleLinear()
+            .domain([minScore, maxScore])
+            .range([0, height]); // minScore at top (y=0), maxScore at bottom (y=height)
+        
+        // Line generator
+        const line = d3.line()
+            .x(d => xScale(d.year))
+            .y(d => yScale(d.score))
+            .curve(d3.curveMonotoneX);
+        
+        // Group data by country
+        const countries = d3.group(dataByYear, d => d.country);
+        
+        // Color scale
+        const colorScale = d3.scaleOrdinal()
+            .domain(Array.from(countries.keys()))
+            .range(d3.schemeCategory10);
+        
+        // Draw lines first
+        const labelData = [];
+        countries.forEach((values, country) => {
+            const sortedValues = values.sort((a, b) => a.year - b.year);
+            
+            // Draw the line
+            g.append("path")
+                .datum(sortedValues)
+                .attr("fill", "none")
+                .attr("stroke", colorScale(country))
+                .attr("stroke-width", country === "Taiwan" ? 3 : 1.5)
+                .attr("d", line)
+                .attr("opacity", country === "Taiwan" ? 1 : 0.7);
+            
+            // Store label data for collision detection
+            const lastPoint = sortedValues[sortedValues.length - 1];
+            labelData.push({
+                country: country,
+                x: xScale(lastPoint.year) + 5,
+                y: yScale(lastPoint.score),
+                color: colorScale(country),
+                fontSize: country === "Taiwan" ? 11 : 9,
+                fontWeight: country === "Taiwan" ? "bold" : "normal"
+            });
+        });
+        
+        // Sort labels by y-position to process from top to bottom
+        labelData.sort((a, b) => a.y - b.y);
+        
+        // Collision detection and adjustment
+        const minLabelSpacing = 12; // Minimum vertical spacing between labels
+        const adjustedLabels = [];
+        
+        labelData.forEach((label, i) => {
+            let adjustedY = label.y;
+            
+            // Check for collisions with previous labels
+            for (let j = 0; j < adjustedLabels.length; j++) {
+                const prevLabel = adjustedLabels[j];
+                const distance = Math.abs(adjustedY - prevLabel.y);
+                
+                if (distance < minLabelSpacing) {
+                    // If too close, move this label down
+                    adjustedY = prevLabel.y + minLabelSpacing;
+                }
+            }
+            
+            adjustedLabels.push({
+                ...label,
+                y: adjustedY
+            });
+        });
+        
+        // Draw labels with adjusted positions
+        adjustedLabels.forEach(label => {
+            g.append("text")
+                .attr("x", label.x)
+                .attr("y", label.y)
+                .attr("dy", "0.35em")
+                .attr("fill", label.color)
+                .style("font-size", label.fontSize + "px")
+                .style("font-weight", label.fontWeight)
+                .text(label.country);
+        });
+        
+        // Add X axis
+        const xAxis = d3.axisBottom(xScale)
+            .tickFormat(d3.format("d"))
+            .ticks(10);
+        
+        const xAxisGroup = g.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(xAxis);
+        
+        // Rotate year labels 45 degrees
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-0.5em")
+            .attr("dy", "0.5em")
+            .attr("transform", "rotate(-45)");
+        
+        // Add axis label
+        xAxisGroup.append("text")
+            .attr("x", width / 2)
+            .attr("y", 35)
+            .attr("fill", "black")
+            .style("text-anchor", "middle")
+            .style("font-size", "12px")
+            .text("Year");
+        
+        // Add Y axis (inverted)
+        const yAxis = d3.axisLeft(yScale)
+            .ticks(8);
+        
+        g.append("g")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -40)
+            .attr("x", -height / 2)
+            .attr("fill", "black")
+            .style("text-anchor", "middle")
+            .style("font-size", "12px")
+            .text("Score");
+        
+        // Add label at bottom (y=height position) showing max value - moved lower
+        g.append("text")
+            .attr("x", width + 5)
+            .attr("y", height + 15) // Moved lower to avoid covering country names
+            .attr("fill", "black")
+            .style("text-anchor", "start")
+            .style("font-size", "10px")
+            .style("font-weight", "bold")
+            .text(maxScore.toFixed(3));
+        
+        // Add label at top (y=0 position) showing min value - moved higher
+        g.append("text")
+            .attr("x", width + 5)
+            .attr("y", -5) // Moved higher to avoid covering country names
+            .attr("dy", "0.35em")
+            .attr("fill", "black")
+            .style("text-anchor", "start")
+            .style("font-size", "10px")
+            .style("font-weight", "bold")
+            .text(minScore.toFixed(3));
+    }
+    
+    // Initialize line chart when page loads
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createLineChart);
+    } else {
+        createLineChart();
+    }
     
     const svg = d3.select("#treemap-svg");
+    
+    // Initialize Leaflet map (free, no API key needed!)
+    function initMap() {
+        console.log('=== INIT MAP CALLED ===');
+        console.log('Leaflet available:', typeof L !== 'undefined');
+        console.log('Map element:', document.getElementById('map'));
+        
+        try {
+            // Check if Leaflet is loaded
+            if (typeof L === 'undefined') {
+                console.error('Leaflet library not loaded. Retrying in 200ms...');
+                setTimeout(initMap, 200);
+                return;
+            }
+            
+            const mapElement = document.getElementById('map');
+            if (!mapElement) {
+                console.error('Map element not found!');
+                return;
+            }
+            
+            // Check if map element has dimensions
+            const rect = mapElement.getBoundingClientRect();
+            console.log('Map element dimensions:', rect.width, 'x', rect.height);
+            console.log('Map element styles:', window.getComputedStyle(mapElement).height);
+            
+            // Center on Taiwan
+            const taiwanCenter = [23.5, 121.0];
+            
+            // Initialize Leaflet map with OpenStreetMap tiles (free!)
+            console.log('Creating Leaflet map...');
+            map = L.map('map', {
+                center: taiwanCenter,
+                zoom: 7,
+                zoomControl: true
+            });
+            
+            console.log('Map created, adding tile layer...');
+            
+            // Add CartoDB Positron tile layer (cleaner, no administrative boundaries)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+            
+            console.log('Tile layer added. Map should be visible now!');
+            
+            // Force map to invalidate size in case of layout issues
+            setTimeout(function() {
+                console.log('Invalidating map size...');
+                map.invalidateSize();
+            }, 200);
+            
+            // Load GeoJSON and draw treemap after map is ready
+            map.whenReady(function() {
+                console.log('Map is ready, checking for GeoJSON data...');
+                console.log('geojsonData available:', !!geojsonData);
+                
+                if (geojsonData) {
+                    console.log('Drawing treemap with existing GeoJSON data...');
+                    drawTreemap(geojsonData);
+                } else {
+                    console.log('GeoJSON not loaded yet, will draw when it loads');
+                }
+            });
+            
+            // Redraw treemap on zoom and pan
+            map.on('moveend', function() {
+                if (geojsonData) {
+                    drawTreemap(geojsonData);
+                }
+            });
+            
+            map.on('zoomend', function() {
+                if (geojsonData) {
+                    drawTreemap(geojsonData);
+                }
+            });
+        } catch (error) {
+            console.error('Error initializing map:', error);
+            console.error('Error stack:', error.stack);
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.innerHTML = '<div style="padding: 20px; text-align: center; color: red; background: white; z-index: 1000;">Error: ' + error.message + '<br>Check console for details.</div>';
+            }
+        }
+    }
+    
+    // Wait for DOM and scripts to be ready
+    function startInit() {
+        console.log('=== STARTING INITIALIZATION ===');
+        console.log('Document ready state:', document.readyState);
+        console.log('Leaflet loaded:', typeof L !== 'undefined');
+        console.log('Map div exists:', !!document.getElementById('map'));
+        
+        if (typeof L === 'undefined') {
+            console.log('Leaflet not loaded yet, waiting...');
+            setTimeout(startInit, 100);
+            return;
+        }
+        
+        if (!document.getElementById('map')) {
+            console.log('Map div not found yet, waiting...');
+            setTimeout(startInit, 100);
+            return;
+        }
+        
+        initMap();
+    }
+    
+    // Start initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startInit);
+    } else {
+        // DOM already loaded, but wait a bit for scripts
+        setTimeout(startInit, 100);
+    }
     
     // --- 1. Define Color Scales ---
     const colorRed = d3.scaleLinear()
@@ -230,63 +678,65 @@
         }
     };
     
+    // Function to project lat/lng to pixel coordinates using Leaflet projection
+    function projectLatLngToPixel(lat, lng) {
+        if (!map) return null;
+        
+        // Leaflet's latLngToContainerPoint converts lat/lng to pixel coordinates
+        const point = map.latLngToContainerPoint([lat, lng]);
+        
+        return [point.x, point.y];
+    }
+    
     // Function to draw/redraw the treemap
     function drawTreemap(geojson) {
-        // Clear existing content
-        svg.selectAll("*").remove();
+        console.log('=== DRAWING TREEMAP ===');
+        console.log('SVG element:', svg.node());
+        console.log('SVG current content children:', svg.node() ? svg.node().children.length : 'no node');
+        
+        // Clear existing content (but keep test circle for now)
+        const beforeClear = svg.node() ? svg.node().children.length : 0;
+        console.log('SVG children before clear:', beforeClear);
+        svg.selectAll("g, path, defs").remove();
+        const afterClear = svg.node() ? svg.node().children.length : 0;
+        console.log('SVG children after clear:', afterClear);
         
         // Get current dimensions
-        const width = svg.node().getBoundingClientRect().width;
-        const height = svg.node().getBoundingClientRect().height;
+        const containerRect = document.getElementById("treemap-container").getBoundingClientRect();
+        const width = containerRect.width;
+        const height = containerRect.height;
+        
+        console.log('Container dimensions:', width, 'x', height);
+        
+        // Set SVG dimensions
+        svg.attr("width", width).attr("height", height);
         
         if (!geojson || !geojson.features || geojson.features.length === 0) {
             console.error("Failed to load or parse taiwan.geojson, or it's empty.");
             return;
         }
+        
+        if (!map) {
+            console.log("Map not ready yet, will retry...");
+            return;
+        }
+        
+        console.log('GeoJSON features:', geojson.features.length);
     
         // Assuming the GeoJSON contains one main feature for Taiwan
         const taiwanFeature = geojson.features[0];
     
-        // Create a projection to scale and position the map
-        const projection = d3.geoMercator()
-            .fitSize([width, height], taiwanFeature); // Fit the feature into our SVG size
-    
-        const pathGenerator = d3.geoPath().projection(projection);
-    
-        // Get the path data for the Taiwan outline
-        const taiwanPathData = pathGenerator(taiwanFeature);
-    
-        // Error handling if path data is null (e.g., invalid GeoJSON)
-        if (!taiwanPathData) {
-            console.error("Could not generate SVG path from GeoJSON feature. Check GeoJSON validity.");
-            return;
-        }
-    
-        // Define a clip path for the Taiwan shape
-        svg.append("defs").append("clipPath")
-            .attr("id", "taiwan-clip")
-            .append("path")
-            .attr("d", taiwanPathData);
-    
-        // Draw the Taiwan outline for visual reference (optional, but good for context)
-        svg.append("path")
-            .attr("class", "taiwan-outline")
-            .attr("d", taiwanPathData);
-    
-        // --- 3. Prepare Data for Voronoi Treemap ---
-        const root = d3.hierarchy({ children: data })
-            .sum(d => d.Size)
-            .sort((a, b) => b.value - a.value);
-    
-        // --- 4. Project Taiwan coordinates to screen space for clipping ---
+        // Project coordinates using Leaflet projection
         function projectCoordinates(coords) {
             if (Array.isArray(coords[0])) {
                 return coords.map(projectCoordinates);
             }
-            const projected = projection(coords);
-            return [projected[0], projected[1]];
+            // coords is [lng, lat] in GeoJSON format
+            const pixel = projectLatLngToPixel(coords[1], coords[0]);
+            return pixel || [0, 0];
         }
-    
+        
+        // Get the geometry and project it
         const geometry = taiwanFeature.geometry;
         let outerRing;
         
@@ -298,46 +748,99 @@
             console.error('Unsupported geometry type:', geometry.type);
             return;
         }
-    
+        
         const projectedPoints = outerRing.map(coord => projectCoordinates(coord));
         
-        if (projectedPoints.length > 0 && 
-            projectedPoints[0][0] === projectedPoints[projectedPoints.length - 1][0] &&
-            projectedPoints[0][1] === projectedPoints[projectedPoints.length - 1][1]) {
-            projectedPoints.pop();
+        console.log('Projected points sample (first 3):', projectedPoints.slice(0, 3));
+        
+        // Filter out invalid points (points that are null or [0, 0])
+        const validPoints = projectedPoints.filter(p => p && (p[0] !== 0 || p[1] !== 0));
+        
+        console.log('Valid points:', validPoints.length, 'out of', projectedPoints.length);
+        
+        if (validPoints.length === 0) {
+            console.error("No valid projected points");
+            return;
         }
+        
+        // Close the path if needed
+        if (validPoints.length > 0 && 
+            (validPoints[0][0] !== validPoints[validPoints.length - 1][0] ||
+             validPoints[0][1] !== validPoints[validPoints.length - 1][1])) {
+            validPoints.push(validPoints[0]);
+        }
+        
+        // Create path data for Taiwan outline
+        const taiwanPathData = "M" + validPoints.map(p => `${p[0]},${p[1]}`).join("L") + "Z";
+        
+        console.log('Taiwan path created, length:', taiwanPathData.length);
     
-        // --- 5. Initialize the Voronoi Treemap Layout ---
+        // Define a clip path for the Taiwan shape
+        console.log('Creating clip path...');
+        const defs = svg.append("defs");
+        const clipPath = defs.append("clipPath")
+            .attr("id", "taiwan-clip");
+        clipPath.append("path")
+            .attr("d", taiwanPathData);
+        console.log('Clip path created');
+    
+        // Taiwan outline removed - the map already shows Taiwan's boundaries
+    
+        // --- 3. Prepare Data for Voronoi Treemap ---
+        const root = d3.hierarchy({ children: data })
+            .sum(d => d.Size)
+            .sort((a, b) => b.value - a.value);
+    
+        // --- 4. Initialize the Voronoi Treemap Layout ---
         if (typeof d3.voronoiTreemap === 'undefined') {
             console.error('d3-voronoi-treemap library not loaded!');
             return;
         }
     
         const voronoiTreemap = d3.voronoiTreemap()
-            .clip(projectedPoints);
+            .clip(validPoints.slice(0, -1)); // Remove the closing point for clipping
     
         try {
+            console.log('Computing voronoi treemap...');
             voronoiTreemap(root);
+            console.log('Voronoi treemap computed successfully');
         } catch (error) {
             console.error('Error computing treemap:', error);
+            console.error('Error stack:', error.stack);
             return;
         }
     
         // --- 6. Drawing the Cells (Polygons) ---
+        console.log('Creating cells group...');
         const cellsGroup = svg.append("g")
             .attr("clip-path", "url(#taiwan-clip)");
+        console.log('Cells group created:', cellsGroup.node());
     
+        const leaves = root.leaves();
+        console.log('Number of leaves (cells) to draw:', leaves.length);
+        console.log('Sample leaf data:', leaves[0] ? {
+            country: leaves[0].data.Country,
+            hasPolygon: !!leaves[0].polygon,
+            polygonLength: leaves[0].polygon ? leaves[0].polygon.length : 0
+        } : 'no leaves');
+        
         const cell = cellsGroup.selectAll(".cell")
-            .data(root.leaves())
+            .data(leaves)
             .enter().append("g")
             .attr("class", "cell");
+        
+        console.log('Cell groups created:', cell.size());
     
         // Create tooltip element
         const tooltip = d3.select("#tooltip");
         
-        cell.append("path")
+        console.log('Appending paths to cells...');
+        const paths = cell.append("path")
             .attr("d", d => {
-                if (!d.polygon || d.polygon.length === 0) return null;
+                if (!d.polygon || d.polygon.length === 0) {
+                    console.warn('Cell has no polygon:', d.data.Country);
+                    return null;
+                }
                 const pathData = "M" + d.polygon.map(p => `${p[0]},${p[1]}`).join("L") + "Z";
                 return pathData;
             })
@@ -385,10 +888,15 @@
                     .style("left", `${left}px`)
                     .style("top", `${top}px`);
             });
+        
+        console.log('Cells drawn:', cell.size());
     
         // --- 7. Add Labels (UPDATED LOGIC) ---
         cell.append("text")
-            .attr("class", "country-label")
+            .attr("class", d => {
+                // Add special class for Taiwan
+                return d.data.Country === 'Taiwan' ? "country-label taiwan-label" : "country-label";
+            })
             .attr("transform", d => `translate(${d3.polygonCentroid(d.polygon)})`) // Position at centroid
             .style("fill", d => getTextColor(d)) // Set text color based on block darkness
             .style("stroke", "none") // Explicitly remove stroke/outline
@@ -399,7 +907,8 @@
                 
                 // 1. Country Name (can be shortened for small cells)
                 const name = d.data.Country;
-                if (d.value / root.value < 0.05) { // Heuristic: If cell is very small, use abbreviation
+                const isTaiwan = name === 'Taiwan';
+                if (!isTaiwan && d.value / root.value < 0.05) { // Heuristic: If cell is very small, use abbreviation
                     labels.push(name.substring(0, 3) + '.');
                 } else {
                     labels.push(name);
@@ -418,21 +927,39 @@
                  // Second line (Score Value) is on the baseline
                  return "1.2em"; 
             })
-            .style("font-size", (d, i) => i === 1 ? "7px" : "8px") // Make score slightly smaller
+            .style("font-size", function(d, i) {
+                // Check if parent text has taiwan-label class
+                const isTaiwan = d3.select(this.parentNode).classed("taiwan-label");
+                if (isTaiwan) {
+                    return i === 1 ? "12px" : "14px"; // Larger font for Taiwan
+                }
+                return i === 1 ? "7px" : "8px"; // Normal size for others
+            })
             .style("font-weight", (d, i) => i === 1 ? "normal" : "bold") // Country name bold
             .text(d => d);
     
-        // Optional: Bring the Taiwan outline to the front if clipped by the cells group
-        svg.select(".taiwan-outline").raise();
+        // Taiwan outline removed
     }
     
     // --- 2. Load Taiwan GeoJSON and draw treemap ---
     let geojsonData = null;
     d3.json("taiwan.geojson").then(function(geojson) {
+        console.log('GeoJSON loaded successfully');
+        console.log('GeoJSON features:', geojson.features ? geojson.features.length : 'none');
         geojsonData = geojson;
-        drawTreemap(geojson);
+        // Draw treemap if map is already initialized
+        if (map) {
+            console.log('Map is ready, drawing treemap...');
+            // Small delay to ensure map is fully rendered
+            setTimeout(function() {
+                drawTreemap(geojson);
+            }, 300);
+        } else {
+            console.log('Map not ready yet, treemap will be drawn when map loads');
+        }
     }).catch(function(error) {
         console.error("Error loading GeoJSON or creating treemap:", error);
+        console.error("Error details:", error);
     });
     
     // Handle window resize with debouncing
@@ -440,7 +967,7 @@
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
-            if (geojsonData) {
+            if (geojsonData && map) {
                 drawTreemap(geojsonData);
             }
         }, 250); // Wait 250ms after resize stops
