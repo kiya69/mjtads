@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Taiwan Voronoi Treemap</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="d3-weighted-voronoi.min.js"></script>
+    <script src="d3-voronoi-map.min.js"></script>
+    <script src="d3-voronoi-treemap.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: sans-serif; }
+        
+        .headline {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #16476a 0%, #3b9797 100%);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #treemap-container {
+            position: relative; /* Needed for tooltip positioning */
+            width: 100vw;
+            height: calc(100vh - 97px);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(submarine_cable.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 126px center;
+        }
+
+        #treemap-svg {
+            width: 90%;
+            height: 90%;
+        }
+
+        .cell {
+            stroke: #fff;
+            stroke-width: 0.5px;
+            cursor: pointer;
+            transition: fill 0.2s;
+        }
+
+        .cell:hover {
+            opacity: 0.8;
+        }
+
+        .country-label {
+            font-size: 8px; /* Smaller for irregular shapes */
+            /* fill color set dynamically in JavaScript */
+            stroke: none; /* Remove any outline/border */
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        /* For the Taiwan outline itself */
+        .taiwan-outline {
+            fill: none;
+            stroke: #333;
+            stroke-width: 1.5px;
+            stroke-linejoin: round;
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .tooltip-content {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Floating info boxes */
+        .info-box {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .info-box-large {
+            width: 300px;
+            height: 400px;
+            left: 20px;
+            top: calc(50% - 200px); /* Center vertically without transform */
+        }
+
+        .info-box-medium {
+            width: 250px;
+            height: 180px;
+        }
+
+        #info-box-top {
+            right: 20px;
+            top: 20px;
+        }
+
+        #info-box-bottom {
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .info-box h3 {
+            margin: 0 0 15px 0;
+            color: #16476a;
+            font-size: 18px;
+            border-bottom: 2px solid #3b9797;
+            padding-bottom: 10px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .info-box.dragging {
+            opacity: 0.8;
+            z-index: 200;
+        }
+
+        .info-box p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="headline">
+    China's Attempts to Undermine Taiwan's Security
+</div>
+
+<div id="treemap-container">
+    <svg id="treemap-svg"></svg>
+    <div id="tooltip" class="tooltip">
+        <div class="tooltip-title"></div>
+        <div class="tooltip-content"></div>
+    </div>
+    
+    <!-- Floating info boxes -->
+    <div class="info-box info-box-large">
+        <h3>Information</h3>
+        <p>Content will be added here.</p>
+    </div>
+    
+    <div id="info-box-top" class="info-box info-box-medium">
+        <h3>Details</h3>
+        <p>Content will be added here.</p>
+    </div>
+    
+    <div id="info-box-bottom" class="info-box info-box-medium">
+        <h3>Statistics</h3>
+        <p>Content will be added here.</p>
+    </div>
+</div>
+
+<script>
+    const data = [
+        { Country: 'Taiwan', Score: -3.845, Size: 3.845, Category: 'Red', Rank: 1 },
+        { Country: 'Portugal', Score: 2.859, Size: 2.859, Category: 'Green', Rank: 179 },
+        { Country: 'Belarus', Score: -3.326, Size: 3.326, Category: 'Red', Rank: 2 },
+        { Country: 'Malawi', Score: 2.645, Size: 2.645, Category: 'Green', Rank: 178 },
+        { Country: 'Latvia', Score: -3.276, Size: 3.276, Category: 'Red', Rank: 3 },
+        { Country: 'Trinidad and Tobago', Score: 2.606, Size: 2.606, Category: 'Green', Rank: 177 },
+        { Country: 'Syria', Score: -2.630, Size: 2.630, Category: 'Red', Rank: 4},
+        { Country: 'Switzerland', Score: 2.434, Size: 2.434, Category: 'Green', Rank: 176 },
+        { Country: 'Kosovo', Score: -2.612, Size: 2.612, Category: 'Red', Rank: 5 },
+        { Country: 'Seychelles', Score: 2.402, Size: 2.402, Category: 'Green', Rank: 175 }
+    ];
+    
+    const svg = d3.select("#treemap-svg");
+    
+    // --- 1. Define Color Scales ---
+    const colorRed = d3.scaleLinear()
+        .domain([-3.845, -2.612]) // Min and Max negative scores
+        .range(["#000000", "#1d81a2"]); // Deep Red to Light Red
+    
+    const colorGreen = d3.scaleLinear()
+        .domain([2.402, 2.859]) // Min and Max positive scores
+        .range(["#398564", "#fdfff5"]); // Light Green to Bright Green
+    
+    const getColor = (d) => {
+        if (d.data.Category === 'Red') {
+            return colorRed(d.data.Score);
+        } else {
+            return colorGreen(d.data.Score);
+        }
+    };
+    
+    // Find darkest blocks for text color determination
+    const redScores = data.filter(d => d.Category === 'Red').map(d => d.Score);
+    const greenScores = data.filter(d => d.Category === 'Green').map(d => d.Score);
+    const darkestRed = Math.min(...redScores); // Most negative (darkest)
+    const darkestGreen = Math.max(...greenScores); // Most positive (darkest)
+    
+    const getTextColor = (d) => {
+        if (d.data.Category === 'Red') {
+            return 'white'; // Darkest red block
+        }  else {
+            return 'black'; // All other blocks
+        }
+    };
+    
+    // Function to draw/redraw the treemap
+    function drawTreemap(geojson) {
+        // Clear existing content
+        svg.selectAll("*").remove();
+        
+        // Get current dimensions
+        const width = svg.node().getBoundingClientRect().width;
+        const height = svg.node().getBoundingClientRect().height;
+        
+        if (!geojson || !geojson.features || geojson.features.length === 0) {
+            console.error("Failed to load or parse taiwan.geojson, or it's empty.");
+            return;
+        }
+    
+        // Assuming the GeoJSON contains one main feature for Taiwan
+        const taiwanFeature = geojson.features[0];
+    
+        // Create a projection to scale and position the map
+        const projection = d3.geoMercator()
+            .fitSize([width, height], taiwanFeature); // Fit the feature into our SVG size
+    
+        const pathGenerator = d3.geoPath().projection(projection);
+    
+        // Get the path data for the Taiwan outline
+        const taiwanPathData = pathGenerator(taiwanFeature);
+    
+        // Error handling if path data is null (e.g., invalid GeoJSON)
+        if (!taiwanPathData) {
+            console.error("Could not generate SVG path from GeoJSON feature. Check GeoJSON validity.");
+            return;
+        }
+    
+        // Define a clip path for the Taiwan shape
+        svg.append("defs").append("clipPath")
+            .attr("id", "taiwan-clip")
+            .append("path")
+            .attr("d", taiwanPathData);
+    
+        // Draw the Taiwan outline for visual reference (optional, but good for context)
+        svg.append("path")
+            .attr("class", "taiwan-outline")
+            .attr("d", taiwanPathData);
+    
+        // --- 3. Prepare Data for Voronoi Treemap ---
+        const root = d3.hierarchy({ children: data })
+            .sum(d => d.Size)
+            .sort((a, b) => b.value - a.value);
+    
+        // --- 4. Project Taiwan coordinates to screen space for clipping ---
+        function projectCoordinates(coords) {
+            if (Array.isArray(coords[0])) {
+                return coords.map(projectCoordinates);
+            }
+            const projected = projection(coords);
+            return [projected[0], projected[1]];
+        }
+    
+        const geometry = taiwanFeature.geometry;
+        let outerRing;
+        
+        if (geometry.type === 'Polygon') {
+            outerRing = geometry.coordinates[0];
+        } else if (geometry.type === 'MultiPolygon') {
+            outerRing = geometry.coordinates[0][0]; // First polygon, outer ring
+        } else {
+            console.error('Unsupported geometry type:', geometry.type);
+            return;
+        }
+    
+        const projectedPoints = outerRing.map(coord => projectCoordinates(coord));
+        
+        if (projectedPoints.length > 0 && 
+            projectedPoints[0][0] === projectedPoints[projectedPoints.length - 1][0] &&
+            projectedPoints[0][1] === projectedPoints[projectedPoints.length - 1][1]) {
+            projectedPoints.pop();
+        }
+    
+        // --- 5. Initialize the Voronoi Treemap Layout ---
+        if (typeof d3.voronoiTreemap === 'undefined') {
+            console.error('d3-voronoi-treemap library not loaded!');
+            return;
+        }
+    
+        const voronoiTreemap = d3.voronoiTreemap()
+            .clip(projectedPoints);
+    
+        try {
+            voronoiTreemap(root);
+        } catch (error) {
+            console.error('Error computing treemap:', error);
+            return;
+        }
+    
+        // --- 6. Drawing the Cells (Polygons) ---
+        const cellsGroup = svg.append("g")
+            .attr("clip-path", "url(#taiwan-clip)");
+    
+        const cell = cellsGroup.selectAll(".cell")
+            .data(root.leaves())
+            .enter().append("g")
+            .attr("class", "cell");
+    
+        // Create tooltip element
+        const tooltip = d3.select("#tooltip");
+        
+        cell.append("path")
+            .attr("d", d => {
+                if (!d.polygon || d.polygon.length === 0) return null;
+                const pathData = "M" + d.polygon.map(p => `${p[0]},${p[1]}`).join("L") + "Z";
+                return pathData;
+            })
+            .attr("fill", d => getColor(d))
+            .on("mouseover", function(event, d) {
+                // Show tooltip
+                tooltip.select(".tooltip-title")
+                    .text(d.data.Country);
+                
+                // Get rank (handle both "Rank" and "rank" cases)
+                const rank = d.data.Rank || d.data.rank;
+                
+                tooltip.select(".tooltip-content")
+                    .html(`Rank: ${rank}<br>` +
+                          `Score: ${d.data.Score.toFixed(3)}<br>` +
+                          `Category: ${d.data.Category}<br>` +
+                          `Size: ${d.data.Size.toFixed(3)}`);
+                
+                tooltip.classed("visible", true);
+            })
+            .on("mouseout", function() {
+                // Hide tooltip
+                tooltip.classed("visible", false);
+            })
+            .on("mousemove", function(event) {
+                // Follow mouse cursor
+                const containerRect = document.getElementById("treemap-container").getBoundingClientRect();
+                const tooltipNode = tooltip.node();
+                const tooltipWidth = tooltipNode.offsetWidth || 150;
+                const tooltipHeight = tooltipNode.offsetHeight || 80;
+                
+                // Position tooltip near cursor, offset to avoid covering the cursor
+                let left = event.pageX - containerRect.left + 15;
+                let top = event.pageY - containerRect.top - tooltipHeight - 10;
+                
+                // Keep tooltip within container bounds
+                if (left + tooltipWidth > containerRect.width) {
+                    left = event.pageX - containerRect.left - tooltipWidth - 15;
+                }
+                if (top < 0) {
+                    top = event.pageY - containerRect.top + 15;
+                }
+                
+                tooltip
+                    .style("left", `${left}px`)
+                    .style("top", `${top}px`);
+            });
+    
+        // --- 7. Add Labels (UPDATED LOGIC) ---
+        cell.append("text")
+            .attr("class", "country-label")
+            .attr("transform", d => `translate(${d3.polygonCentroid(d.polygon)})`) // Position at centroid
+            .style("fill", d => getTextColor(d)) // Set text color based on block darkness
+            .style("stroke", "none") // Explicitly remove stroke/outline
+            .selectAll("tspan")
+            .data(d => {
+                // Data array to hold both the Country Name and the Score
+                const labels = [];
+                
+                // 1. Country Name (can be shortened for small cells)
+                const name = d.data.Country;
+                if (d.value / root.value < 0.05) { // Heuristic: If cell is very small, use abbreviation
+                    labels.push(name.substring(0, 3) + '.');
+                } else {
+                    labels.push(name);
+                }
+                
+                // 2. Score Value
+                labels.push(d.data.Score.toFixed(3)); 
+                
+                return labels;
+            })
+            .enter().append("tspan")
+            .attr("x", 0) // Centered
+            .attr("dy", (d, i) => { 
+                 // First line (Country Name) is slightly above center
+                 if (i === 0) return "-0.5em";
+                 // Second line (Score Value) is on the baseline
+                 return "1.2em"; 
+            })
+            .style("font-size", (d, i) => i === 1 ? "7px" : "8px") // Make score slightly smaller
+            .style("font-weight", (d, i) => i === 1 ? "normal" : "bold") // Country name bold
+            .text(d => d);
+    
+        // Optional: Bring the Taiwan outline to the front if clipped by the cells group
+        svg.select(".taiwan-outline").raise();
+    }
+    
+    // --- 2. Load Taiwan GeoJSON and draw treemap ---
+    let geojsonData = null;
+    d3.json("taiwan.geojson").then(function(geojson) {
+        geojsonData = geojson;
+        drawTreemap(geojson);
+    }).catch(function(error) {
+        console.error("Error loading GeoJSON or creating treemap:", error);
+    });
+    
+    // Handle window resize with debouncing
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            if (geojsonData) {
+                drawTreemap(geojsonData);
+            }
+        }, 250); // Wait 250ms after resize stops
+    });
+    
+    // Make info boxes draggable
+    function makeDraggable(element) {
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+        
+        const container = document.getElementById("treemap-container");
+        const header = element.querySelector('h3');
+        
+        header.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+        
+        function dragStart(e) {
+            if (e.button !== 0) return; // Only left mouse button
+            
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            
+            if (e.target === header || header.contains(e.target)) {
+                isDragging = true;
+                element.classList.add('dragging');
+                
+                // Get current position
+                const rect = element.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                xOffset = rect.left - containerRect.left;
+                yOffset = rect.top - containerRect.top;
+                
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+        }
+        
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                
+                xOffset = currentX;
+                yOffset = currentY;
+                
+                // Get container bounds
+                const containerRect = container.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                
+                // Constrain to container bounds
+                const minX = 0;
+                const minY = 0;
+                const maxX = containerRect.width - elementRect.width;
+                const maxY = containerRect.height - elementRect.height;
+                
+                xOffset = Math.max(minX, Math.min(maxX, xOffset));
+                yOffset = Math.max(minY, Math.min(maxY, yOffset));
+                
+                // Remove right/bottom positioning and use left/top
+                element.style.right = 'auto';
+                element.style.bottom = 'auto';
+                element.style.left = xOffset + 'px';
+                element.style.top = yOffset + 'px';
+            }
+        }
+        
+        function dragEnd(e) {
+            if (isDragging) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                element.classList.remove('dragging');
+            }
+        }
+    }
+    
+    // Initialize dragging for all info boxes
+    function initDraggableBoxes() {
+        const infoBoxes = document.querySelectorAll('.info-box');
+        infoBoxes.forEach(box => {
+            makeDraggable(box);
+        });
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDraggableBoxes);
+    } else {
+        initDraggableBoxes();
+    }
+    
+    </script>
+</body>
+</html>
