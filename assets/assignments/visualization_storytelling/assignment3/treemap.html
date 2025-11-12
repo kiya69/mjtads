@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           crossorigin=""/>
     <style>
-        body { margin: 0; overflow: hidden; font-family: sans-serif; }
+        body { margin: 0; overflow-x: hidden; overflow-y: auto; font-family: sans-serif; }
         
         .headline {
             text-align: center;
@@ -24,8 +24,9 @@
         
         #treemap-container {
             position: relative; /* Needed for tooltip positioning */
-            width: 100vw;
-            height: calc(100vh - 77px);
+            width: 100%;
+            height: 80vh;
+            min-height: 600px;
             margin: 0;
         }
 
@@ -169,10 +170,10 @@
         }
 
         .info-box-large {
-            width: 360px; /* 20% wider (300 * 1.2) */
-            height: 400px;
-            left: 20px;
-            top: calc(50% - 200px); /* Center vertically without transform */
+            width: 690px; /* 20% wider (300 * 1.2) */
+            height: 662px;
+            left: 0;
+            top: 0; /* Center vertically without transform */
         }
 
         .info-box-medium {
@@ -180,6 +181,70 @@
             height: calc(47vh - 77px);
         }
 
+        /* Section styling for B and C info boxes */
+        .sections-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .content-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .section-info-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .section-info-box h3 {
+            margin: 0;
+            color: #16476a;
+            font-size: 18px;
+            border-bottom: 2px solid #3b9797;
+            padding: 20px 20px 10px 20px;
+            user-select: none;
+            background: rgba(255, 255, 255, 0.95);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-info-box .info-box-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-top: 0;
+        }
+        
+        .chart-image-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .chart-image-container img {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .chart-image-container .military-chart {
+            flex: 1;
+            min-width: 300px;
+        }
+        
         #info-box-top {
             right: 20px;
             top: 20px;
@@ -250,25 +315,31 @@
         <div class="resize-handle"></div>
     </div>
     
-    <div id="info-box-top" class="info-box info-box-medium">
-        <h3>B. PLA (People's Liberation Army) air activities in the vicinity of Taiwan</h3>
-        <div class="info-box-content">
-            <!-- Line chart will be inserted here -->
-            <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
-        </div>
-        <div class="resize-handle"></div>
-    </div>
-    
     <div id="info-box-bottom" class="info-box info-box-medium">
-        <h3>C. Submarine Cable cut by China's fishing boats</h3>
+        <h3>B. Submarine Cable cut by China's fishing boats</h3>
         <div class="info-box-content">
-            <p>1. On January 3, 2025,  a Tanzania-flagged vessel while registered in Cameroon, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan’s external communications.</p>
-            <p>2. On February 25, 2025,  a Tanzania-flagged vessel controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications. 
+            <p>💥1. On January 3, 2025,  a Tanzania-flagged vessel while registered in Cameroon called Shunxin-39, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications.</p>
+            <p>💥2. On February 25, 2025,  a Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu.</p> 
             <p>Between 2017 and 2023, the submarine cables between Taiwan and the Matsu Islands were cut by Chinese vessels 29 times.</p>
             <p>China has even invented a deep sea cable cutter for this purpose.</p>
         </div>
         <div class="resize-handle"></div>
     </div>
+</div>
+
+<!-- Section B -->
+<div class="sections-container">
+    <section class="content-section">
+        <div class="section-info-box">
+            <h3>C. PLA (People's Liberation Army) air activities in the vicinity of Taiwan over the past 30 days</h3>
+            <div class="info-box-content">
+                <div class="chart-image-container">
+                    <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
+                    <div class="military-chart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 <!-- Load JavaScript libraries before our script -->
@@ -412,10 +483,10 @@ Seychelles,2024,2.402`;
         const minScore = d3.min(dataByYear, d => d.score);
         const maxScore = d3.max(dataByYear, d => d.score);
         
-        // Chart dimensions (adjusted for large info box)
+        // Chart dimensions (adjusted for large info box - 690px × 662px, 85% width, 80% height)
         const margin = { top: 20, right: 50, bottom: 40, left: 50 };
-        const width = (250 * 1.2) - margin.left - margin.right; // 20% wider (300 - margins)
-        const height = 300 - margin.top - margin.bottom;
+        const width = (690 * 0.85) - margin.left - margin.right; // 85% of container width minus margins
+        const height = (662 * 0.80) - margin.top - margin.bottom; // 80% of container height minus margins (5% shorter)
         
         // Create SVG for line chart
         const chartContainer = d3.select(".info-box-large .info-box-content");
@@ -586,6 +657,207 @@ Seychelles,2024,2.402`;
         createLineChart();
     }
     
+    // Create military activities line chart
+    function createMilitaryChart() {
+        console.log("Creating military chart...");
+        d3.csv("output_filtered.csv").then(function(data) {
+            console.log("CSV data loaded:", data.length, "rows");
+            console.log("First few rows:", data.slice(0, 3));
+            
+            // Parse and filter data
+            const parsedData = data
+                .filter(d => {
+                    // Filter out rows with N/A or zero total sorties
+                    const hasNA = d["Aircraft Sorties"] && d["Aircraft Sorties"].includes("N/A");
+                    const totalIsZero = d["Total Sorties"] === "0" || d["Total Sorties"] === "";
+                    return !hasNA && !totalIsZero;
+                })
+                .map(d => {
+                    const dateStr = d["Date (AD)"];
+                    const date = new Date(dateStr);
+                    const aircraft = d["Aircraft Sorties"] && !d["Aircraft Sorties"].includes("N/A") ? +d["Aircraft Sorties"] : 0;
+                    const vessel = d["Vessel Sorties"] && !d["Vessel Sorties"].includes("N/A") ? +d["Vessel Sorties"] : 0;
+                    const total = +d["Total Sorties"] || 0;
+                    
+                    return {
+                        date: date,
+                        aircraft: aircraft,
+                        vessel: vessel,
+                        total: total
+                    };
+                })
+                .filter(d => !isNaN(d.date.getTime())) // Filter out invalid dates
+                .sort((a, b) => a.date - b.date); // Sort by date, oldest first
+            
+            console.log("Parsed data:", parsedData.length, "rows");
+            console.log("Sample parsed data:", parsedData.slice(0, 3));
+            
+            if (parsedData.length === 0) {
+                console.error("No valid data found after parsing");
+                const chartContainer = d3.select(".military-chart");
+                chartContainer.append("p")
+                    .style("color", "red")
+                    .text("No valid data found");
+                return;
+            }
+            
+            // Chart dimensions
+            const margin = { top: 20, right: 50, bottom: 60, left: 50 };
+            const containerWidth = 400; // Approximate width for the chart container
+            const containerHeight = 300;
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+            
+            // Clear existing chart
+            const chartContainer = d3.select(".military-chart");
+            chartContainer.selectAll("*").remove();
+            
+            // Create SVG
+            const svg = chartContainer.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+            
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            // X scale (dates) - oldest to newest
+            const dateExtent = d3.extent(parsedData, d => d.date);
+            const xScale = d3.scaleTime()
+                .domain([dateExtent[0], dateExtent[1]]) // Explicitly set oldest to newest
+                .range([0, width]);
+            
+            // Y scale (sorties count) - shared scale for all three metrics
+            const maxSorties = d3.max(parsedData, d => Math.max(d.aircraft, d.vessel, d.total));
+            const yScale = d3.scaleLinear()
+                .domain([0, maxSorties * 1.1]) // Add 10% padding at top
+                .range([height, 0]);
+            
+            // Line generators
+            const line = d3.line()
+                .x(d => xScale(d.date))
+                .y(d => yScale(d.value))
+                .curve(d3.curveMonotoneX);
+            
+            // Prepare data for each line
+            const aircraftData = parsedData.map(d => ({ date: d.date, value: d.aircraft }));
+            const vesselData = parsedData.map(d => ({ date: d.date, value: d.vessel }));
+            const totalData = parsedData.map(d => ({ date: d.date, value: d.total }));
+            
+            // Color scale
+            const colors = {
+                aircraft: "#3b9797",
+                vessel: "#16476a",
+                total: "#bf092f"
+            };
+            
+            // Draw lines
+            g.append("path")
+                .datum(aircraftData)
+                .attr("fill", "none")
+                .attr("stroke", colors.aircraft)
+                .attr("stroke-width", 2)
+                .attr("d", line);
+            
+            g.append("path")
+                .datum(vesselData)
+                .attr("fill", "none")
+                .attr("stroke", colors.vessel)
+                .attr("stroke-width", 2)
+                .attr("d", line);
+            
+            g.append("path")
+                .datum(totalData)
+                .attr("fill", "none")
+                .attr("stroke", colors.total)
+                .attr("stroke-width", 2.5)
+                .attr("d", line);
+            
+            // Add X axis (dates, oldest to newest)
+            const xAxis = d3.axisBottom(xScale)
+                .ticks(8)
+                .tickFormat(d3.timeFormat("%m/%d"));
+            
+            const xAxisGroup = g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(xAxis);
+            
+            xAxisGroup.selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-0.5em")
+                .attr("dy", "0.5em")
+                .attr("transform", "rotate(-45)");
+            
+            // Add X axis label
+            xAxisGroup.append("text")
+                .attr("x", width / 2)
+                .attr("y", 50)
+                .attr("fill", "black")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Date");
+            
+            // Add Y axis (shared scale for Aircraft, Vessel, and Total Sorties)
+            const yAxis = d3.axisLeft(yScale)
+                .ticks(6);
+            
+            const yAxisGroup = g.append("g")
+                .call(yAxis);
+            
+            // Add Y axis label
+            yAxisGroup.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -40)
+                .attr("x", -height / 2)
+                .attr("fill", "black")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Number of Sorties");
+            
+            // Add legend
+            const legend = g.append("g")
+                .attr("transform", `translate(${width - 120}, 10)`);
+            
+            const legendData = [
+                { label: "Aircraft", color: colors.aircraft },
+                { label: "Vessel", color: colors.vessel },
+                { label: "Total", color: colors.total }
+            ];
+            
+            legendData.forEach((item, i) => {
+                const legendRow = legend.append("g")
+                    .attr("transform", `translate(0, ${i * 20})`);
+                
+                legendRow.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", 20)
+                    .attr("y1", 0)
+                    .attr("y2", 0)
+                    .attr("stroke", item.color)
+                    .attr("stroke-width", item.label === "Total" ? 2.5 : 2);
+                
+                legendRow.append("text")
+                    .attr("x", 25)
+                    .attr("y", 0)
+                    .attr("dy", "0.35em")
+                    .style("font-size", "11px")
+                    .text(item.label);
+            });
+        }).catch(function(error) {
+            console.error("Error loading military data:", error);
+            const chartContainer = d3.select(".military-chart");
+            chartContainer.append("p")
+                .style("color", "red")
+                .text("Error loading data: " + error.message);
+        });
+    }
+    
+    // Initialize military chart when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createMilitaryChart);
+    } else {
+        createMilitaryChart();
+    }
+    
     const svg = d3.select("#treemap-svg");
     
     // Initialize Leaflet map (free, no API key needed!)
@@ -669,22 +941,23 @@ Seychelles,2024,2.402`;
                                 
                                 // Define specific coordinates for each LineString
                                 const markerCoords = [
-                                    [23.352662957372274, 119.86820017108545], // First LineString
-                                    [25.49412292011354, 121.54271753122117]  // Second LineString
+                                    [23.252662957372274, 119.86820017108545], // First LineString
+                                    [25.49412292011354, 121.54273753122117]  // Second LineString
                                 ];
                                 
                                 // Add explosion emoji at the specified location
                                 if (markerCoords[featureIndex]) {
+                                    const markerNumber = 2 - featureIndex; // 2 for first, 1 for second
                                     const marker = L.marker(markerCoords[featureIndex], {
                                         icon: L.divIcon({
                                             className: 'explosion-marker',
-                                            html: '💥',
-                                            iconSize: [30, 30],
-                                            iconAnchor: [15, 15]
+                                            html: `<div style="text-align: center; line-height: 1;"><span style="font-size: 24px;">💥</span><br><span style="font-size: 14px; font-weight: bold; color: #000; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 3px;">${markerNumber}</span></div>`,
+                                            iconSize: [40, 50],
+                                            iconAnchor: [20, 25]
                                         })
                                     }).addTo(map);
                                     
-                                    console.log('Added explosion marker at:', markerCoords[featureIndex]);
+                                    console.log('Added explosion marker', markerNumber, 'at:', markerCoords[featureIndex]);
                                 }
                             }
                         }
@@ -1238,9 +1511,9 @@ Seychelles,2024,2.402`;
         }
     }
     
-    // Initialize dragging and resizing for all info boxes
+    // Initialize dragging and resizing for floating info boxes only (not section boxes)
     function initDraggableBoxes() {
-        const infoBoxes = document.querySelectorAll('.info-box');
+        const infoBoxes = document.querySelectorAll('#treemap-container .info-box');
         infoBoxes.forEach(box => {
             makeDraggable(box);
             makeResizable(box);
