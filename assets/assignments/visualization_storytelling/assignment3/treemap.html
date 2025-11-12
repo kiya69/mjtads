@@ -801,7 +801,7 @@ Seychelles,2024,2.402`;
                     return !hasNA && !totalIsZero;
                 })
                 .map(d => {
-                    const dateStr = d["Date (AD)"];
+                    const dateStr = d["Date"];
                     const date = new Date(dateStr);
                     const aircraft = d["Aircraft Sorties"] && !d["Aircraft Sorties"].includes("N/A") ? +d["Aircraft Sorties"] : 0;
                     const vessel = d["Vessel Sorties"] && !d["Vessel Sorties"].includes("N/A") ? +d["Vessel Sorties"] : 0;
