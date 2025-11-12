@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Taiwan Voronoi Treemap</title>
@@ -204,7 +204,7 @@
             width: 100%;
             max-width: 1400px;
             margin: 50px auto;
-            padding: 0 40px;
+            padding: 0 16px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 40px;
@@ -417,9 +417,9 @@
             padding: 15px 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             z-index: 200;
-            min-width: 280px;
-            max-width: 350px;
+            min-width: 200px;
             border: 2px solid #e8e8e8;
+            overflow: hidden; /* Ensure resize handle stays within bounds */
         }
         
         .explosion-info-box p {
@@ -448,9 +448,9 @@
     </div>
     
     <div id="info-box-bottom" class="info-box info-box-medium">
-        <h3>Did you know Chinese ships have cut Taiwan's global cables 30+ times since 2017.</h3>
+        
         <div class="info-box-content">
-            <p>• China has even invented a deep sea cable cutter for this purpose.</p>
+            <p>China has even invented a deep sea cable cutter for this purpose.</p>
             <img src="cable_cutter.jpeg" alt="Deep sea cable cutter" class="enlargeable-image" style="width: 100%; height: auto; margin-top: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="openImageModal(this.src)">
         </div>
         <div class="resize-handle"></div>
@@ -467,6 +467,9 @@
         <p><strong>💥2. Taiwan-Penghu Cable Cut</strong></p>
         <p><strong>Date:</strong> February 25, 2025</p>
         <p>A Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu.</p>
+    </div>
+    <div id="explosion-box-4" class="explosion-info-box" style="left: 20px; top: 280px;">
+        <p style="font-size: 18px; line-height: 1.6;"><strong style="font-size: 20px;">Did you know Chinese ships have cut Taiwan's global cables 30+ times since 2017?</strong></p>
     </div>
 </div>
 
@@ -885,8 +888,8 @@ Seychelles,2024,2.402`;
             
             // Chart dimensions - make it larger and more balanced
             const margin = { top: 30, right: 60, bottom: 70, left: 60 };
-            const containerWidth = 500; // Larger width for better balance
-            const containerHeight = 400; // Larger height
+            const containerWidth = 600; // 20% bigger overall (500 * 1.2)
+            const containerHeight = 576; // 20% bigger overall, then 20% longer (400 * 1.2 * 1.2)
             const width = containerWidth - margin.left - margin.right;
             const height = containerHeight - margin.top - margin.bottom;
             
@@ -2295,7 +2298,12 @@ Seychelles,2024,2.402`;
         function handleResize(e) {
             if (!isResizing) return;
             
-            const container = document.getElementById("treemap-container");
+            // Try to find the container (could be treemap-container or cable-container)
+            let container = document.getElementById("treemap-container") || document.getElementById("cable-container");
+            if (!container) {
+                // Fallback to parent container
+                container = element.parentElement;
+            }
             const containerRect = container.getBoundingClientRect();
             
             // Calculate new dimensions
@@ -2305,14 +2313,23 @@ Seychelles,2024,2.402`;
             let newWidth = startWidth + deltaX;
             let newHeight = startHeight + deltaY;
             
-            // Get current position
-            const currentLeft = parseInt(window.getComputedStyle(element).left) || 0;
-            const currentTop = parseInt(window.getComputedStyle(element).top) || 0;
+            // Get current position (handle both left and right positioning)
+            const computedStyle = window.getComputedStyle(element);
+            const currentLeft = parseInt(computedStyle.left) || 0;
+            const currentRight = parseInt(computedStyle.right) || 0;
+            const currentTop = parseInt(computedStyle.top) || 0;
+            
+            // Determine actual left position
+            let actualLeft = currentLeft;
+            if (currentLeft === 0 && currentRight > 0) {
+                // Element is positioned with 'right', calculate left position
+                actualLeft = containerRect.width - currentRight - startWidth;
+            }
             
             // Constrain to container bounds and minimum size
             const minWidth = 200;
-            const minHeight = 150;
-            const maxWidth = containerRect.width - currentLeft;
+            const minHeight = 40; // Reduced from 40 to allow smaller heights
+            const maxWidth = containerRect.width - actualLeft;
             const maxHeight = containerRect.height - currentTop;
             
             newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
@@ -2347,10 +2364,17 @@ Seychelles,2024,2.402`;
                 makeResizable(box);
             });
             
-            // Also make explosion-info-box elements draggable
+            // Also make explosion-info-box elements draggable and resizable
             const explosionBoxes = container.querySelectorAll('.explosion-info-box');
             explosionBoxes.forEach(box => {
                 makeDraggable(box);
+                // Add resize handle if it doesn't exist
+                if (!box.querySelector('.resize-handle')) {
+                    const resizeHandle = document.createElement('div');
+                    resizeHandle.className = 'resize-handle';
+                    box.appendChild(resizeHandle);
+                }
+                makeResizable(box);
             });
         });
         
@@ -2400,4 +2424,4 @@ Seychelles,2024,2.402`;
         <img id="modalImage" class="image-modal-content" src="" alt="Enlarged image" onclick="event.stopPropagation();">
     </div>
 </body>
-</html>
+</html> -->
