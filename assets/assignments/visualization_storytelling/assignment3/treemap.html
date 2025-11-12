@@ -61,7 +61,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none; /* Allow map interaction to pass through */
-            z-index: 100; /* Ensure SVG is above the map */
+            z-index: 50; /* Lower z-index so markers appear on top */
             background: transparent; /* Make sure it's transparent, not blocking */
         }
 
@@ -368,8 +368,8 @@
         }
 
         #info-box-bottom {
-            right: 20px;
-            bottom: 20px;
+            left: 20px;
+            top: 20px;
         }
 
         .info-box h3 {
@@ -406,6 +406,31 @@
             font-size: 24px;
             text-align: center;
             line-height: 30px;
+            cursor: pointer;
+        }
+        
+        /* Explosion info floating boxes */
+        .explosion-info-box {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 200;
+            min-width: 280px;
+            max-width: 350px;
+            border: 2px solid #e8e8e8;
+        }
+        
+        .explosion-info-box p {
+            margin: 5px 0;
+            color: #333;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+        
+        .explosion-info-box strong {
+            color: #16476a;
         }
     </style>
 </head>
@@ -417,40 +442,39 @@
 
 <div id="treemap-container">
     <div id="map"></div>
-    <svg id="treemap-svg"></svg>
     <div id="tooltip" class="tooltip">
         <div class="tooltip-title"></div>
         <div class="tooltip-content"></div>
     </div>
     
-    <!-- Floating info boxes -->
-    <div class="info-box info-box-large">
-        <h3>A. Foreign governments dissemination of false information over 10 years</h3>
-        <div class="info-box-content">
-            <p>Taiwan has ranked #1 in the world for the continuous 10 years in the foreign governments dissemination of false information.</p>
-            <!-- Line chart will be inserted here -->
-        </div>
-        <div class="resize-handle"></div>
-    </div>
-    
     <div id="info-box-bottom" class="info-box info-box-medium">
-        <h3>B. Submarine Cables cut by China's fishing boats</h3>
+        <h3>Did you know Chinese ships have cut Taiwan's global cables 30+ times since 2017.</h3>
         <div class="info-box-content">
-            <p>💥<span style="font-size: 14px; font-weight: bold; color: #000; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 3px;">1</span> On January 3, 2025,  a Tanzania-flagged vessel while registered in Cameroon called Shunxin-39, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications.</p>
-            <p>💥<span style="font-size: 14px; font-weight: bold; color: #000; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 3px;">2</span> On February 25, 2025,  a Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu.</p> 
-            <p>• Between 2017 and 2023, the submarine cables between Taiwan and the Matsu Islands were cut by Chinese vessels 29 times.</p>
             <p>• China has even invented a deep sea cable cutter for this purpose.</p>
             <img src="cable_cutter.jpeg" alt="Deep sea cable cutter" class="enlargeable-image" style="width: 100%; height: auto; margin-top: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="openImageModal(this.src)">
         </div>
         <div class="resize-handle"></div>
     </div>
+    
+    <!-- Explosion info floating boxes -->
+    <div id="explosion-box-1" class="explosion-info-box" style="right: 20px; top: 100px;">
+        <p><strong>💥1. Keelung Cable Cut</strong></p>
+        <p><strong>Date:</strong> January 3, 2025</p>
+        <p>A Tanzania-flagged vessel while registered in Cameroon called Shunxin-39, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications.</p>
+    </div>
+    
+    <div id="explosion-box-2" class="explosion-info-box" style="right: 20px; top: 280px;">
+        <p><strong>💥2. Taiwan-Penghu Cable Cut</strong></p>
+        <p><strong>Date:</strong> February 25, 2025</p>
+        <p>A Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu.</p>
+    </div>
 </div>
 
-<!-- Section B -->
+<!-- Section 1: Military Activities -->
 <div class="sections-container">
     <section class="content-section">
         <div class="section-info-box">
-            <h3>C. PLA (People's Liberation Army) air activities in the vicinity of Taiwan over the past 30 days</h3>
+            <h3>Did you know China's military has operated near Taiwan almost daily for the past five years?</h3>
             <div class="info-box-content">
                 <p style="margin-bottom: 20px; color: #555; font-size: 13px; line-height: 1.6;">30 days activities gathered from Ministry of National Defense of Taiwan. Mapping all the aircrafts, drones, helicopters, naval ships.</p>
                 <p style="margin-bottom: 20px; color: #8080c0; font-size: 13px; line-height: 1.6; font-weight: 600; padding: 12px; background: #f0f0f8; border-left: 4px solid #8080c0; border-radius: 4px;"><strong>Fun fact:</strong> The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
@@ -470,6 +494,35 @@
     </section>
 </div>
 
+<!-- Section 2: Foreign Information Dissemination with Treemap -->
+<div class="sections-container">
+    <section class="content-section">
+        <div class="section-info-box" style="min-height: 800px;">
+            <h3>Do you know that Taiwan has been most influnce by China's dissemination of false information over 10 years</h3>
+            <div class="info-box-content">
+                <p style="margin-bottom: 20px;">According <a href="https://digitalsocietyproject.org/data/" target="_blank">digital society project</a> Taiwan has been influnced for at least 11 years and ranked #1 in the world in the foreign governments dissemination of false information.</p>
+                <div style="display: flex; gap: 20px; align-items: flex-start; margin: 20px 0;">
+                    <div id="treemap-container-section2" style="position: relative; flex: 1; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div id="map-section2" style="width: 100%; height: 100%; z-index: 0; position: absolute; top: 0; left: 0; border-radius: 8px; margin: 0; padding: 0;"></div>
+                        <svg id="treemap-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; background: transparent;"></svg>
+                        <div id="tooltip" class="tooltip">
+                            <div class="tooltip-title"></div>
+                            <div class="tooltip-content"></div>
+                        </div>
+                    </div>
+                    <div class="info-box-large" style="position: relative; flex: 1; height: 600px;">
+                        <!-- Line chart will be inserted here -->
+                    </div>
+                </div>
+                <div style="margin-top: 30px;">
+                    <iframe title="Foreign governments dissemination of false information in 2024" aria-label="Choropleth map" id="datawrapper-chart-4zey2" src="https://datawrapper.dwcdn.net/4zey2/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="578" data-external="1"></iframe>
+                    <script type="text/javascript">window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}});</script>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 <!-- Load JavaScript libraries before our script -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         crossorigin=""></script>
@@ -480,6 +533,7 @@
 
 <script>
     let map;
+    let drawExplosionBoxLinesGlobal = null; // Global reference to the function
     
     const data = [
         { Country: 'Taiwan', Score: -3.845, Size: 3.845, Category: 'Red', Rank: 1 },
@@ -617,7 +671,7 @@ Seychelles,2024,2.402`;
         const height = (662 * 0.80) - margin.top - margin.bottom; // 80% of container height minus margins (5% shorter)
         
         // Create SVG for line chart
-        const chartContainer = d3.select(".info-box-large .info-box-content");
+        const chartContainer = d3.select(".info-box-large");
         chartContainer.select("svg").remove(); // Remove existing chart if any
         
         const svg = chartContainer.append("svg")
@@ -1076,6 +1130,21 @@ Seychelles,2024,2.402`;
                                 // Add explosion emoji at the specified location
                                 if (markerCoords[featureIndex]) {
                                     const markerNumber = 2 - featureIndex; // 2 for first, 1 for second
+                                    
+                                    // Define incident information
+                                    const incidents = {
+                                        1: {
+                                            title: "Incident 1: Keelung Cable Cut",
+                                            date: "January 3, 2025",
+                                            description: "A Tanzania-flagged vessel while registered in Cameroon called Shunxin-39, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications."
+                                        },
+                                        2: {
+                                            title: "Incident 2: Taiwan-Penghu Cable Cut",
+                                            date: "February 25, 2025",
+                                            description: "A Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu."
+                                        }
+                                    };
+                                    
                                     const marker = L.marker(markerCoords[featureIndex], {
                                         icon: L.divIcon({
                                             className: 'explosion-marker',
@@ -1086,6 +1155,19 @@ Seychelles,2024,2.402`;
                                     }).addTo(map);
                                     
                                     console.log('Added explosion marker', markerNumber, 'at:', markerCoords[featureIndex]);
+                                    
+                                    // Draw line pointing to this coordinate (from map center) - do this after marker is added
+                                    // Use setTimeout to ensure marker is rendered first, then draw line behind it
+                                    setTimeout(() => {
+                                        drawPointerLine(markerCoords[featureIndex]);
+                                    }, 10);
+                                    
+                                    // Draw lines from explosion boxes to their markers
+                                    if (markerNumber === 1 || markerNumber === 2) {
+                                        if (drawExplosionBoxLinesGlobal) {
+                                            drawExplosionBoxLinesGlobal();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1096,6 +1178,209 @@ Seychelles,2024,2.402`;
                 .catch(error => {
                     console.error('Error loading cables.geojson:', error);
                 });
+            
+            // Function to draw solid lines from explosion boxes to their markers
+            drawExplosionBoxLinesGlobal = function drawExplosionBoxLines() {
+                if (!map) return;
+                
+                // Wait for map to be ready
+                map.whenReady(function() {
+                    // Use the first map's SVG overlay - create it if it doesn't exist
+                    let svg = d3.select("#treemap-container svg.map-overlay-svg");
+                    
+                    if (svg.empty()) {
+                        // Create SVG overlay for the first map if it doesn't exist
+                        const container = d3.select("#treemap-container");
+                        svg = container.append("svg")
+                            .attr("class", "map-overlay-svg")
+                            .style("position", "absolute")
+                            .style("top", 0)
+                            .style("left", 0)
+                            .style("width", "100%")
+                            .style("height", "100%")
+                            .style("pointer-events", "none")
+                            .style("z-index", 150);
+                    }
+                    
+                    // Update SVG dimensions to match container
+                    const containerRect = document.getElementById('treemap-container').getBoundingClientRect();
+                    svg.attr("width", containerRect.width)
+                       .attr("height", containerRect.height);
+                    
+                    // Clear existing explosion box lines
+                    svg.selectAll(".explosion-box-line").remove();
+                    
+                    // Get container position relative to map
+                    const mapContainer = document.getElementById('map');
+                    const mapRect = mapContainer.getBoundingClientRect();
+                    const mapContainerRect = document.getElementById('treemap-container').getBoundingClientRect();
+                    
+                    // Draw line for explosion-box-1 to 💥1
+                    const explosionBox1 = document.getElementById('explosion-box-1');
+                    if (explosionBox1) {
+                        const boxRect1 = explosionBox1.getBoundingClientRect();
+                        
+                        // Calculate box center position relative to container
+                        const boxCenterX1 = boxRect1.left - mapContainerRect.left + boxRect1.width / 2;
+                        const boxCenterY1 = boxRect1.top - mapContainerRect.top + boxRect1.height / 2;
+                        
+                        // 💥1 marker coordinates: [25.49412292011354, 121.54273753122117]
+                        const markerCoords1 = [25.49412292011354, 121.54273753122117];
+                        
+                        // Project marker coordinates to pixel space
+                        const markerPoint1 = map.latLngToContainerPoint(markerCoords1);
+                        
+                        // Calculate marker position relative to container
+                        // Adjust Y position upward by 1/4 of the emoji height (iconSize is [40, 50], so height is 50, 1/4 is 12.5)
+                        const markerX1 = markerPoint1.x + (mapRect.left - mapContainerRect.left);
+                        const markerY1 = markerPoint1.y + (mapRect.top - mapContainerRect.top) - 12.5;
+                        
+                        // Draw solid line from box to marker
+                        svg.append("line")
+                            .attr("class", "explosion-box-line")
+                            .attr("data-box", "1")
+                            .attr("x1", boxCenterX1)
+                            .attr("y1", boxCenterY1)
+                            .attr("x2", markerX1)
+                            .attr("y2", markerY1)
+                            .attr("stroke", "#bf092f")
+                            .attr("stroke-width", 2)
+                            .attr("stroke-dasharray", "none")
+                            .style("pointer-events", "none");
+                    }
+                    
+                    // Draw line for explosion-box-2 to 💥2
+                    const explosionBox2 = document.getElementById('explosion-box-2');
+                    if (explosionBox2) {
+                        const boxRect2 = explosionBox2.getBoundingClientRect();
+                        
+                        // Calculate box center position relative to container
+                        const boxCenterX2 = boxRect2.left - mapContainerRect.left + boxRect2.width / 2;
+                        const boxCenterY2 = boxRect2.top - mapContainerRect.top + boxRect2.height / 2;
+                        
+                        // 💥2 marker coordinates: [23.252662957372274, 119.86820017108545]
+                        const markerCoords2 = [23.252662957372274, 119.86820017108545];
+                        
+                        // Project marker coordinates to pixel space
+                        const markerPoint2 = map.latLngToContainerPoint(markerCoords2);
+                        
+                        // Calculate marker position relative to container
+                        // Adjust Y position upward by 1/4 of the emoji height (iconSize is [40, 50], so height is 50, 1/4 is 12.5)
+                        const markerX2 = markerPoint2.x + (mapRect.left - mapContainerRect.left);
+                        const markerY2 = markerPoint2.y + (mapRect.top - mapContainerRect.top) - 12.5;
+                        
+                        // Draw solid line from box to marker
+                        svg.append("line")
+                            .attr("class", "explosion-box-line")
+                            .attr("data-box", "2")
+                            .attr("x1", boxCenterX2)
+                            .attr("y1", boxCenterY2)
+                            .attr("x2", markerX2)
+                            .attr("y2", markerY2)
+                            .attr("stroke", "#bf092f")
+                            .attr("stroke-width", 2)
+                            .attr("stroke-dasharray", "none")
+                            .style("pointer-events", "none");
+                    }
+                });
+            }
+            
+            // Function to draw pointer lines to explosion coordinates (from map center)
+            function drawPointerLine(coords) {
+                if (!map) return;
+                
+                // Wait for map to be ready
+                map.whenReady(function() {
+                    const svg = d3.select("#treemap-svg");
+                    if (svg.empty()) return;
+                    
+                    // Get map bounds to calculate a reference point (center of map view)
+                    const bounds = map.getBounds();
+                    const center = bounds.getCenter();
+                    
+                    // Project coordinates to pixel space
+                    const targetPoint = map.latLngToContainerPoint(coords);
+                    const centerPoint = map.latLngToContainerPoint(center);
+                    
+                    // Get SVG dimensions
+                    const svgRect = document.getElementById('treemap-svg').getBoundingClientRect();
+                    const mapRect = document.getElementById('map').getBoundingClientRect();
+                    
+                    // Calculate offset between map and SVG
+                    const offsetX = svgRect.left - mapRect.left;
+                    const offsetY = svgRect.top - mapRect.top;
+                    
+                    // Adjust coordinates for SVG position
+                    const startX = centerPoint.x + offsetX;
+                    const startY = centerPoint.y + offsetY;
+                    const endX = targetPoint.x + offsetX;
+                    const endY = targetPoint.y + offsetY-2;
+                    
+                    // Draw line - insert at the beginning so it appears behind other elements
+                    svg.insert("line", ":first-child")
+                        .attr("x1", startX)
+                        .attr("y1", startY)
+                        .attr("x2", endX)
+                        .attr("y2", endY)
+                        .attr("stroke", "#bf092f")
+                        .attr("stroke-width", 2)
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("opacity", 0.7)
+                        .attr("class", "pointer-line")
+                        .lower(); // Move to bottom of z-order
+                });
+            }
+            
+            // Function to update pointer lines on map move/zoom
+            function updatePointerLines() {
+                if (!map) return;
+                
+                const svg = d3.select("#treemap-svg");
+                svg.selectAll(".pointer-line").remove();
+                
+                // Redraw lines to both coordinates
+                const coords = [
+                    [25.49412292011354, 121.54273753122117],
+                    [23.252662957372274, 119.86820017108545]
+                ];
+                
+                coords.forEach(coord => {
+                    const bounds = map.getBounds();
+                    const center = bounds.getCenter();
+                    
+                    const targetPoint = map.latLngToContainerPoint(coord);
+                    const centerPoint = map.latLngToContainerPoint(center);
+                    
+                    const svgRect = document.getElementById('treemap-svg').getBoundingClientRect();
+                    const mapRect = document.getElementById('map').getBoundingClientRect();
+                    
+                    const offsetX = svgRect.left - mapRect.left;
+                    const offsetY = svgRect.top - mapRect.top;
+                    
+                    const startX = centerPoint.x + offsetX;
+                    const startY = centerPoint.y + offsetY;
+                    const endX = targetPoint.x + offsetX;
+                    const endY = targetPoint.y + offsetY;
+                    
+                    // Draw line - insert at the beginning so it appears behind other elements
+                    svg.insert("line", ":first-child")
+                        .attr("x1", startX)
+                        .attr("y1", startY)
+                        .attr("x2", endX)
+                        .attr("y2", endY)
+                        .attr("stroke", "#bf092f")
+                        .attr("stroke-width", 2)
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("opacity", 0.7)
+                        .attr("class", "pointer-line")
+                        .lower(); // Move to bottom of z-order
+                });
+                
+                // Redraw explosion box lines
+                if (drawExplosionBoxLinesGlobal) {
+                    drawExplosionBoxLinesGlobal();
+                }
+            }
             
             // Force map to invalidate size in case of layout issues
             setTimeout(function() {
@@ -1121,11 +1406,17 @@ Seychelles,2024,2.402`;
                 if (geojsonData) {
                     drawTreemap(geojsonData);
                 }
+                if (typeof updatePointerLines === 'function') {
+                    updatePointerLines();
+                }
             });
             
             map.on('zoomend', function() {
                 if (geojsonData) {
                     drawTreemap(geojsonData);
+                }
+                if (typeof updatePointerLines === 'function') {
+                    updatePointerLines();
                 }
             });
         } catch (error) {
@@ -1222,8 +1513,10 @@ Seychelles,2024,2.402`;
         const afterClear = svg.node() ? svg.node().children.length : 0;
         console.log('SVG children after clear:', afterClear);
         
-        // Get current dimensions
-        const containerRect = document.getElementById("treemap-container").getBoundingClientRect();
+        // Get current dimensions - check if we're in section 2 or original container
+        const section2Container = document.getElementById("treemap-container-section2");
+        const originalContainer = document.getElementById("treemap-container");
+        const containerRect = section2Container ? section2Container.getBoundingClientRect() : originalContainer.getBoundingClientRect();
         const width = containerRect.width;
         const height = containerRect.height;
         
@@ -1388,7 +1681,9 @@ Seychelles,2024,2.402`;
             })
             .on("mousemove", function(event) {
                 // Follow mouse cursor
-                const containerRect = document.getElementById("treemap-container").getBoundingClientRect();
+                const section2Container = document.getElementById("treemap-container-section2");
+                const originalContainer = document.getElementById("treemap-container");
+                const containerRect = section2Container ? section2Container.getBoundingClientRect() : originalContainer.getBoundingClientRect();
                 const tooltipNode = tooltip.node();
                 const tooltipWidth = tooltipNode.offsetWidth || 150;
                 const tooltipHeight = tooltipNode.offsetHeight || 80;
@@ -1464,20 +1759,378 @@ Seychelles,2024,2.402`;
     
     // --- 2. Load Taiwan GeoJSON and draw treemap ---
     let geojsonData = null;
+    
+    // Initialize treemap for section 2 (with map background)
+    let mapSection2 = null;
+    function initTreemapSection2() {
+        // Initialize Leaflet map for section 2
+        const mapElement2 = document.getElementById('map-section2');
+        if (!mapElement2) {
+            console.error('Map section 2 element not found!');
+            return;
+        }
+        
+        mapSection2 = L.map('map-section2').setView([23.5, 121.0], 8);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(mapSection2);
+        
+        // Load GeoJSON and draw treemap for section 2 after map is ready
+        mapSection2.whenReady(function() {
+            d3.json("taiwan.geojson").then(function(geojson) {
+                console.log('GeoJSON loaded for section 2:', geojson);
+                if (!geojson || !geojson.features || geojson.features.length === 0) {
+                    console.error('Invalid GeoJSON loaded for section 2');
+                    return;
+                }
+                
+                // Store geojson for later use
+                window.geojsonSection2 = geojson;
+                
+                // Invalidate map size to ensure it's properly rendered
+                mapSection2.invalidateSize();
+                
+                // Initial draw with a small delay to ensure map is fully rendered
+                setTimeout(function() {
+                    drawTreemapSection2(geojson);
+                }, 300);
+                
+                // Update treemap on map move/zoom for section 2
+                mapSection2.on('moveend', function() {
+                    console.log('Map section 2 moveend event fired');
+                    if (window.geojsonSection2) {
+                        // Small delay to ensure map has finished moving
+                        setTimeout(function() {
+                            drawTreemapSection2(window.geojsonSection2);
+                        }, 50);
+                    } else {
+                        console.log('geojsonSection2 not available');
+                    }
+                });
+                
+                mapSection2.on('zoomend', function() {
+                    console.log('Map section 2 zoomend event fired');
+                    if (window.geojsonSection2) {
+                        // Small delay to ensure map has finished zooming
+                        setTimeout(function() {
+                            drawTreemapSection2(window.geojsonSection2);
+                        }, 50);
+                    } else {
+                        console.log('geojsonSection2 not available');
+                    }
+                });
+            }).catch(function(error) {
+                console.error('Error loading GeoJSON for section 2:', error);
+            });
+        });
+    }
+    
+    // Draw treemap for section 2 with map background
+    function drawTreemapSection2(geojson) {
+        if (!mapSection2) {
+            console.log('mapSection2 not available');
+            return;
+        }
+        
+        // Select SVG within section 2 container
+        const section2Container = document.getElementById("treemap-container-section2");
+        if (!section2Container) {
+            console.log('Section 2 container not found');
+            return;
+        }
+        
+        const svg = d3.select(section2Container).select("svg#treemap-svg");
+        if (svg.empty()) {
+            console.log('SVG #treemap-svg not found in section 2');
+            return;
+        }
+        
+        console.log('Drawing treemap for section 2');
+        
+        // Clear existing content (but keep defs if they exist)
+        svg.selectAll("g, path").remove();
+        // Only remove defs if we're going to recreate them
+        const existingDefs = svg.select("defs");
+        if (!existingDefs.empty()) {
+            existingDefs.remove();
+        }
+        
+        // Get container dimensions (section2Container already defined above)
+        const containerRect = section2Container.getBoundingClientRect();
+        const width = containerRect.width;
+        const height = containerRect.height;
+        
+        // Set SVG dimensions
+        svg.attr("width", width).attr("height", height);
+        
+        if (!geojson || !geojson.features || geojson.features.length === 0) {
+            console.error("Failed to load or parse taiwan.geojson for section 2");
+            return;
+        }
+        
+        // Project coordinates using Leaflet map projection
+        // latLngToContainerPoint returns coordinates relative to the map's container
+        // Since both map and SVG are absolutely positioned at (0,0) in the same parent,
+        // the coordinates should align directly
+        function projectLatLngToPixel(lat, lng) {
+            const point = mapSection2.latLngToContainerPoint([lat, lng]);
+            // Use coordinates directly - both containers are at the same position
+            return [point.x, point.y];
+        }
+        
+        function projectCoordinates(coords) {
+            if (!coords || !Array.isArray(coords) || coords.length < 2) {
+                console.warn('Invalid coordinates in projectCoordinates:', coords);
+                return [0, 0];
+            }
+            if (Array.isArray(coords[0])) {
+                return coords.map(projectCoordinates);
+            }
+            // coords is [lng, lat] in GeoJSON format
+            const pixel = projectLatLngToPixel(coords[1], coords[0]);
+            return pixel || [0, 0];
+        }
+        
+        // Extract outer ring coordinates
+        if (!geojson.features || geojson.features.length === 0) {
+            console.error('GeoJSON has no features');
+            return;
+        }
+        
+        const geometry = geojson.features[0].geometry;
+        if (!geometry || !geometry.coordinates) {
+            console.error('Geometry or coordinates missing');
+            return;
+        }
+        
+        let outerRing;
+        
+        if (geometry.type === 'Polygon') {
+            if (!geometry.coordinates[0]) {
+                console.error('Polygon has no coordinates');
+                return;
+            }
+            outerRing = geometry.coordinates[0];
+        } else if (geometry.type === 'MultiPolygon') {
+            if (!geometry.coordinates[0] || !geometry.coordinates[0][0]) {
+                console.error('MultiPolygon has no coordinates');
+                return;
+            }
+            outerRing = geometry.coordinates[0][0];
+        } else {
+            console.error('Unsupported geometry type:', geometry.type);
+            return;
+        }
+        
+        if (!outerRing || outerRing.length === 0) {
+            console.error('Outer ring is empty');
+            return;
+        }
+        
+        const projectedPoints = outerRing.map(coord => projectCoordinates(coord));
+        const validPoints = projectedPoints.filter(p => p && (p[0] !== 0 || p[1] !== 0));
+        
+        console.log('Section 2 - Valid points:', validPoints.length, 'out of', projectedPoints.length);
+        
+        // Check if data is available
+        if (typeof data === 'undefined' || !data || data.length === 0) {
+            console.error('Data is not available for treemap in section 2');
+            return;
+        }
+        
+        if (validPoints.length < 3) {
+            console.error('Not enough valid points for clipping:', validPoints.length);
+            return;
+        }
+        
+        // Close the path if needed
+        if (validPoints.length > 0 && 
+            (validPoints[0][0] !== validPoints[validPoints.length - 1][0] ||
+             validPoints[0][1] !== validPoints[validPoints.length - 1][1])) {
+            validPoints.push(validPoints[0]);
+        }
+        
+        // Create path data for Taiwan outline
+        const taiwanPathData = "M" + validPoints.map(p => `${p[0]},${p[1]}`).join("L") + "Z";
+        
+        // Define a clip path for the Taiwan shape
+        // Remove existing defs first to avoid duplicates
+        svg.select("defs#taiwan-defs-section2").remove();
+        const defs = svg.append("defs")
+            .attr("id", "taiwan-defs-section2");
+        const clipPath = defs.append("clipPath")
+            .attr("id", "taiwan-clip-section2");
+        clipPath.append("path")
+            .attr("d", taiwanPathData);
+        
+        // Create Voronoi treemap
+        const voronoiTreemap = d3.voronoiTreemap()
+            .clip(validPoints.slice(0, -1)); // Remove closing point for clipping
+        
+        const root = d3.hierarchy({ children: data })
+            .sum(d => d.Size)
+            .sort((a, b) => b.value - a.value);
+        
+        try {
+            voronoiTreemap(root);
+            console.log('Section 2 - Voronoi treemap computed successfully');
+        } catch (error) {
+            console.error('Error computing voronoi treemap:', error);
+            return;
+        }
+        
+        // Create cells group with clip path
+        const cellsGroup = svg.append("g")
+            .attr("clip-path", "url(#taiwan-clip-section2)");
+        
+        // Draw cells using leaves (like the working version)
+        const leaves = root.leaves();
+        console.log('Section 2 - Number of leaves (cells):', leaves.length);
+        
+        const cells = cellsGroup.selectAll(".cell")
+            .data(leaves)
+            .enter().append("g")
+            .attr("class", "cell");
+        
+        cells.append("path")
+            .attr("d", d => {
+                if (!d.polygon || !Array.isArray(d.polygon) || d.polygon.length === 0) {
+                    return '';
+                }
+                return `M${d.polygon.map(p => Array.isArray(p) && p.length >= 2 ? p.join(',') : '0,0').join('L')}Z`;
+            })
+            .attr("fill", getColor)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1)
+            .on("mouseover", function(event, d) {
+                const tooltip = d3.select("#tooltip");
+                tooltip.style("opacity", 1);
+                tooltip.select(".tooltip-title").text(d.data.Country);
+                tooltip.select(".tooltip-content").html(
+                    `Score: ${d.data.Score.toFixed(3)}<br>` +
+                    `Rank: ${d.data.Rank}`
+                );
+            })
+            .on("mousemove", function(event) {
+                const tooltip = d3.select("#tooltip");
+                const containerRect = section2Container.getBoundingClientRect();
+                tooltip.style("left", (event.pageX - containerRect.left + 15) + "px")
+                    .style("top", (event.pageY - containerRect.top - 10) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select("#tooltip").style("opacity", 0);
+            });
+        
+        // Add labels using leaves (same as working version)
+        const labelsGroup = svg.append("g")
+            .attr("clip-path", "url(#taiwan-clip-section2)")
+            .attr("class", "labels-group-section2");
+        
+        // Helper function to get text color based on block darkness
+        function getTextColor(d) {
+            const color = getColor(d);
+            const rgb = d3.rgb(color);
+            const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+            return brightness < 128 ? "white" : "black";
+        }
+        
+        // Filter leaves that have valid data and centroids
+        const validLeaves = leaves.filter(d => {
+            const hasData = d.data && d.data.Country;
+            const hasCentroid = d.polygonCentroid && Array.isArray(d.polygonCentroid) && d.polygonCentroid.length >= 2;
+            return hasData && hasCentroid;
+        });
+        
+        console.log('Section 2 - Valid leaves for labels:', validLeaves.length, 'out of', leaves.length);
+        
+        const labelSelection = labelsGroup.selectAll(".country-label")
+            .data(validLeaves, d => d.data.Country); // Use key function to track by country name
+        
+        // Remove old labels
+        labelSelection.exit().remove();
+        
+        // Add new labels
+        const newLabels = labelSelection.enter()
+            .append("text");
+        
+        // Update existing labels and add new ones
+        const allLabels = labelSelection.merge(newLabels);
+        
+        allLabels
+            .attr("class", d => d.data.Country === 'Taiwan' ? "country-label taiwan-label" : "country-label")
+            .attr("transform", d => {
+                if (!d.polygonCentroid || !Array.isArray(d.polygonCentroid) || d.polygonCentroid.length < 2) {
+                    console.warn('Invalid centroid for', d.data.Country, d.polygonCentroid);
+                    return 'translate(0,0)';
+                }
+                return `translate(${d.polygonCentroid[0]},${d.polygonCentroid[1]})`;
+            })
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .style("fill", d => getTextColor(d))
+            .style("stroke", "none");
+        
+        // Handle tspan elements for multi-line labels
+        allLabels.each(function(d) {
+            const textElement = d3.select(this);
+            // Remove existing tspans
+            textElement.selectAll("tspan").remove();
+            
+            // Data array to hold both the Country Name and the Score
+            const labels = [];
+            
+            // 1. Country Name (can be shortened for small cells)
+            const name = d.data.Country;
+            const isTaiwan = name === 'Taiwan';
+            if (!isTaiwan && d.value / root.value < 0.05) { // Heuristic: If cell is very small, use abbreviation
+                labels.push(name.substring(0, 3) + '.');
+            } else {
+                labels.push(name);
+            }
+            
+            // 2. Score Value
+            labels.push(d.data.Score.toFixed(3)); 
+            
+            // Add tspans
+            labels.forEach((labelText, i) => {
+                textElement.append("tspan")
+                    .attr("x", 0) // Centered
+                    .attr("dy", i === 0 ? "-0.5em" : "1.2em")
+                    .style("font-size", function() {
+                        const isTaiwan = d3.select(this.parentNode).classed("taiwan-label");
+                        if (isTaiwan) {
+                            return i === 1 ? "12px" : "14px"; // Larger font for Taiwan
+                        }
+                        return i === 1 ? "7px" : "8px"; // Normal size for others
+                    })
+                    .style("font-weight", i === 1 ? "normal" : "bold") // Country name bold
+                    .text(labelText);
+            });
+        });
+        
+        console.log('Section 2 - Labels added/updated:', allLabels.size());
+            
+    }
+    
     d3.json("taiwan.geojson").then(function(geojson) {
         console.log('GeoJSON loaded successfully');
         console.log('GeoJSON features:', geojson.features ? geojson.features.length : 'none');
         geojsonData = geojson;
-        // Draw treemap if map is already initialized
-        if (map) {
-            console.log('Map is ready, drawing treemap...');
-            // Small delay to ensure map is fully rendered
-            setTimeout(function() {
-                drawTreemap(geojson);
-            }, 300);
-        } else {
-            console.log('Map not ready yet, treemap will be drawn when map loads');
-        }
+        // Don't draw treemap on the original map anymore - only draw it in section 2
+        
+        // Initialize section 2 treemap after a delay to ensure DOM is ready
+        setTimeout(() => {
+            if (document.getElementById('treemap-container-section2')) {
+                initTreemapSection2();
+                // Draw treemap in section 2 after map is initialized
+                setTimeout(() => {
+                    drawTreemap(geojson);
+                }, 500);
+            }
+        }, 1000);
     }).catch(function(error) {
         console.error("Error loading GeoJSON or creating treemap:", error);
         console.error("Error details:", error);
@@ -1507,29 +2160,36 @@ Seychelles,2024,2.402`;
         const container = document.getElementById("treemap-container");
         const header = element.querySelector('h3');
         
-        header.addEventListener('mousedown', dragStart);
+        // For explosion-info-box (no header), make the whole element draggable
+        // For info-box (with header), only drag by header
+        if (header) {
+            header.addEventListener('mousedown', dragStart);
+        } else {
+            // No header, make entire element draggable
+            element.addEventListener('mousedown', dragStart);
+        }
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', dragEnd);
         
         function dragStart(e) {
             if (e.button !== 0) return; // Only left mouse button
             
+            // If there's a header, only start dragging if clicking on header
+            if (header && e.target !== header && !header.contains(e.target)) {
+                return;
+            }
+            
+            isDragging = true;
+            element.classList.add('dragging');
+            
+            // Get current position
+            const rect = element.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            xOffset = rect.left - containerRect.left;
+            yOffset = rect.top - containerRect.top;
+            
             initialX = e.clientX - xOffset;
             initialY = e.clientY - yOffset;
-            
-            if (e.target === header || header.contains(e.target)) {
-                isDragging = true;
-                element.classList.add('dragging');
-                
-                // Get current position
-                const rect = element.getBoundingClientRect();
-                const containerRect = container.getBoundingClientRect();
-                xOffset = rect.left - containerRect.left;
-                yOffset = rect.top - containerRect.top;
-                
-                initialX = e.clientX - xOffset;
-                initialY = e.clientY - yOffset;
-            }
         }
         
         function drag(e) {
@@ -1560,6 +2220,11 @@ Seychelles,2024,2.402`;
                 element.style.bottom = 'auto';
                 element.style.left = xOffset + 'px';
                 element.style.top = yOffset + 'px';
+                
+                // Update explosion box lines in real-time while dragging
+                if ((element.id === 'explosion-box-1' || element.id === 'explosion-box-2') && drawExplosionBoxLinesGlobal) {
+                    drawExplosionBoxLinesGlobal();
+                }
             }
         }
         
@@ -1569,6 +2234,11 @@ Seychelles,2024,2.402`;
                 initialY = currentY;
                 isDragging = false;
                 element.classList.remove('dragging');
+                
+                // Redraw explosion box lines if this is an explosion box
+                if ((element.id === 'explosion-box-1' || element.id === 'explosion-box-2') && drawExplosionBoxLinesGlobal) {
+                    drawExplosionBoxLinesGlobal();
+                }
             }
         }
     }
@@ -1645,6 +2315,12 @@ Seychelles,2024,2.402`;
         infoBoxes.forEach(box => {
             makeDraggable(box);
             makeResizable(box);
+        });
+        
+        // Also make explosion-info-box elements draggable
+        const explosionBoxes = document.querySelectorAll('#treemap-container .explosion-info-box');
+        explosionBoxes.forEach(box => {
+            makeDraggable(box);
         });
     }
     
