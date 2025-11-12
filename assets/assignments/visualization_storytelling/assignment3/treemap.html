@@ -498,7 +498,7 @@
 <div class="sections-container">
     <section class="content-section">
         <div class="section-info-box" style="min-height: 800px;">
-            <h3>Do you know that Taiwan has been most influnce by China's dissemination of false information over 10 years</h3>
+            <h3>Did you know that Taiwan has been most influnce by China's dissemination of false information over 10 years?</h3>
             <div class="info-box-content">
                 <p style="margin-bottom: 20px;">According <a href="https://digitalsocietyproject.org/data/" target="_blank">digital society project</a> Taiwan has been influnced for at least 11 years and ranked #1 in the world in the foreign governments dissemination of false information.</p>
                 <div style="display: flex; gap: 20px; align-items: flex-start; margin: 20px 0;">
@@ -1800,7 +1800,7 @@ Seychelles,2024,2.402`;
                 
                 // Update treemap on map move/zoom for section 2
                 mapSection2.on('moveend', function() {
-                    console.log('Map section 2 moveend event fired');
+                    console.log('Map section 2 moveend event fired - redrawing treemap and labels');
                     if (window.geojsonSection2) {
                         // Small delay to ensure map has finished moving
                         setTimeout(function() {
@@ -1812,7 +1812,7 @@ Seychelles,2024,2.402`;
                 });
                 
                 mapSection2.on('zoomend', function() {
-                    console.log('Map section 2 zoomend event fired');
+                    console.log('Map section 2 zoomend event fired - redrawing treemap and labels');
                     if (window.geojsonSection2) {
                         // Small delay to ensure map has finished zooming
                         setTimeout(function() {
@@ -1850,13 +1850,15 @@ Seychelles,2024,2.402`;
         
         console.log('Drawing treemap for section 2');
         
-        // Clear existing content (but keep defs if they exist)
+        // Clear existing content (including all groups and paths, which includes labels)
         svg.selectAll("g, path").remove();
         // Only remove defs if we're going to recreate them
         const existingDefs = svg.select("defs");
         if (!existingDefs.empty()) {
             existingDefs.remove();
         }
+        
+        console.log('Section 2 - Cleared all content (cells and labels), about to redraw');
         
         // Get container dimensions (section2Container already defined above)
         const containerRect = section2Container.getBoundingClientRect();
@@ -2037,30 +2039,52 @@ Seychelles,2024,2.402`;
             return brightness < 128 ? "white" : "black";
         }
         
-        // Filter leaves that have valid data and centroids
+        // Filter leaves that have valid data and polygons
         const validLeaves = leaves.filter(d => {
             const hasData = d.data && d.data.Country;
-            const hasCentroid = d.polygonCentroid && Array.isArray(d.polygonCentroid) && d.polygonCentroid.length >= 2;
-            return hasData && hasCentroid;
+            const hasPolygon = d.polygon && Array.isArray(d.polygon) && d.polygon.length > 0;
+            return hasData && hasPolygon;
         });
         
-        console.log('Section 2 - Valid leaves for labels:', validLeaves.length, 'out of', leaves.length);
+        // Calculate centroids for all valid leaves
+        validLeaves.forEach(d => {
+            if (d.polygon && Array.isArray(d.polygon) && d.polygon.length > 0) {
+                try {
+                    d.polygonCentroid = d3.polygonCentroid(d.polygon);
+                } catch (e) {
+                    console.warn('Error calculating centroid for', d.data.Country, e);
+                    d.polygonCentroid = null;
+                }
+            }
+        });
         
+        // Filter again to only include leaves with valid centroids
+        const leavesWithCentroids = validLeaves.filter(d => 
+            d.polygonCentroid && Array.isArray(d.polygonCentroid) && d.polygonCentroid.length >= 2
+        );
+        
+        console.log('Section 2 - Valid leaves for labels:', leavesWithCentroids.length, 'out of', leaves.length);
+        
+        // Explicitly clear any existing labels to ensure clean state when map moves/zooms
+        labelsGroup.selectAll(".country-label").remove();
+        
+        // Create labels for all valid leaves
         const labelSelection = labelsGroup.selectAll(".country-label")
-            .data(validLeaves, d => d.data.Country); // Use key function to track by country name
+            .data(leavesWithCentroids, d => d.data.Country); // Use key function to track by country name
         
-        // Remove old labels
+        // Remove old labels (shouldn't be any after clear, but keep for safety)
         labelSelection.exit().remove();
         
         // Add new labels
         const newLabels = labelSelection.enter()
-            .append("text");
+            .append("text")
+            .attr("class", d => d.data.Country === 'Taiwan' ? "country-label taiwan-label" : "country-label");
         
         // Update existing labels and add new ones
         const allLabels = labelSelection.merge(newLabels);
         
+        // Update all labels (both new and existing) with transform and styles
         allLabels
-            .attr("class", d => d.data.Country === 'Taiwan' ? "country-label taiwan-label" : "country-label")
             .attr("transform", d => {
                 if (!d.polygonCentroid || !Array.isArray(d.polygonCentroid) || d.polygonCentroid.length < 2) {
                     console.warn('Invalid centroid for', d.data.Country, d.polygonCentroid);
@@ -2311,17 +2335,32 @@ Seychelles,2024,2.402`;
     
     // Initialize dragging and resizing for floating info boxes only (not section boxes)
     function initDraggableBoxes() {
-        const infoBoxes = document.querySelectorAll('#treemap-container .info-box');
-        infoBoxes.forEach(box => {
-            makeDraggable(box);
-            makeResizable(box);
+        // Handle both treemap-container and cable-container (in case ID was changed)
+        const containers = ['#treemap-container', '#cable-container'];
+        containers.forEach(containerSelector => {
+            const container = document.querySelector(containerSelector);
+            if (!container) return;
+            
+            const infoBoxes = container.querySelectorAll('.info-box');
+            infoBoxes.forEach(box => {
+                makeDraggable(box);
+                makeResizable(box);
+            });
+            
+            // Also make explosion-info-box elements draggable
+            const explosionBoxes = container.querySelectorAll('.explosion-info-box');
+            explosionBoxes.forEach(box => {
+                makeDraggable(box);
+            });
         });
         
-        // Also make explosion-info-box elements draggable
-        const explosionBoxes = document.querySelectorAll('#treemap-container .explosion-info-box');
-        explosionBoxes.forEach(box => {
-            makeDraggable(box);
-        });
+        // Explicitly ensure info-box-bottom is draggable and resizable
+        const infoBoxBottom = document.getElementById('info-box-bottom');
+        if (infoBoxBottom) {
+            makeDraggable(infoBoxBottom);
+            makeResizable(infoBoxBottom);
+            console.log('info-box-bottom initialized as draggable and resizable');
+        }
     }
     
     // Initialize when DOM is ready
