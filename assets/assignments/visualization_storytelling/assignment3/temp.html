@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Taiwan Voronoi Treemap</title>
+    <style>
+        body { margin: 0; font-family: sans-serif; }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .voronoi-treemap-cell {
+            fill: #f0f0f0;
+            stroke: #fff;
+            stroke-width: 1px;
+            cursor: pointer;
+            transition: fill 0.2s; /* 添加過渡效果 */
+        }
+        .voronoi-treemap-cell:hover {
+            fill-opacity: 0.8;
+        }
+        .voronoi-treemap-label {
+            pointer-events: none; /* 讓滑鼠事件穿透文字 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg id="voronoi-map"></svg>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <script src="https://unpkg.com/d3-voronoi-treemap@1.0.1/dist/d3-voronoi-treemap.js"></script>
+
+    <script>
+        
+        // ----------------------------------------------------------------
+        // **步驟 1: 準備數據**
+        // ----------------------------------------------------------------
+
+        // 示例分層數據（您可以替換為您的軍事動態數據）
+        const data = {
+            name: "Taiwan Dynamic",
+            children: [
+                { name: "Aircraft (Total 80)", value: 80, details: "J-10, J-16, SU-30..." },
+                { name: "Vessels (Total 10)", value: 10, details: "Destroyers, Frigates" },
+                { name: "Intelligence Ops", value: 30, details: "UAVs, Reconnaissance" },
+                { name: "Cyber Attacks", value: 15, details: "Attacks on MND systems" }
+            ]
+        };
+
+        // ----------------------------------------------------------------
+        // **步驟 2: 定義台灣輪廓 (GeoJSON)**
+        // ----------------------------------------------------------------
+        
+        // ⚠️ 警告：您必須用台灣的 GeoJSON 數據替換這裡的佔位符！
+        // 這裡的 GeoJSON 是一個非常簡單的矩形，用於驗證程式碼邏輯。
+        const taiwanGeoJSON = {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    // 為了範例能跑，我們使用一個矩形輪廓 (經緯度)
+                    [ [ [118, 20], [122, 20], [122, 26], [118, 26], [118, 20] ] ] 
+                ]
+            }
+        };
+
+        // ----------------------------------------------------------------
+        // **步驟 3: 初始化 D3 和 Treemap 佈局**
+        // ----------------------------------------------------------------
+
+        const width = 800;
+        const height = 800;
+        
+        const svg = d3.select("#voronoi-map")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", width)
+            .attr("height", height);
+
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        // 1. 創建層次結構
+        const root = d3.hierarchy(data)
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value);
+
+        // 2. 設置 Geo 投影：將經緯度轉換為螢幕像素
+        const projection = d3.geoMercator()
+            .fitSize([width, height], taiwanGeoJSON); 
+
+        const pathGenerator = d3.geoPath().projection(projection);
+
+        // 3. 獲取投影後的 GeoJSON 數據，作為裁剪的容器
+        // d3-voronoi-treemap 期望一個 MultiPolygon 格式的 JavaScript 物件，
+        // 這裡我們直接將 GeoJSON 投影成新的 MultiPolygon 座標。
+        // 由於 D3 沒有內建的 .project() 方法可以將整個 GeoJSON 轉換為新的 GeoJSON，
+        // 我們將使用投影路徑的邊界來計算。
+
+        // **最簡單且穩定的方法：直接使用投影函數**
+        const projectedContainer = pathGenerator.projection().clipExtent ? 
+            pathGenerator.projection().clipExtent() : [[0, 0], [width, height]];
+            
+        // ⚠️ 這是 d3-voronoi-treemap 庫需要的投影後容器對象 (使用 GeoJSON 的 MultiPolygon)
+        // 由於直接從 D3 投影生成 GeoJSON 座標很複雜，我們使用 d3.geoPath 創建一個路徑，
+        // 並將該路徑用作 SVG 裁剪路徑，同時將 treemap 容器設定為 SVG 的範圍。
+
+        // 簡化容器設置為 SVG 邊界，並依賴 SVG 裁剪路徑實現台灣形狀
+        const containerShape = {
+            type: "MultiPolygon",
+            coordinates: [[[ [0, 0], [width, 0], [width, height], [0, height], [0, 0] ]]]
+        };
+
+
+        // 4. 創建 Treemap 佈局並設置裁剪
+        const treemap = d3.voronoiTreemap();
+        treemap.clip(containerShape); // 將 treemap 限制在矩形範圍內
+
+        // 5. 執行 Voronoi Treemap 佈局計算 (原先發生錯誤的行)
+        treemap(root);
+        
+        // ----------------------------------------------------------------
+        // **步驟 4: 繪製和裁剪**
+        // ----------------------------------------------------------------
+
+        // 1. 繪製 Treemap 邊界 (台灣輪廓) - 用作裁剪路徑
+        svg.append("path")
+            .attr("d", pathGenerator(taiwanGeoJSON)) // 使用 GeoJSON 創建外部輪廓
+            .attr("fill", "none")
+            .attr("stroke", "#333")
+            .attr("stroke-width", 3)
+            .attr("stroke-linejoin", "round")
+            .attr("id", "clip-path-shape");
+            
+        // 2. 創建 SVG 裁剪路徑 (<clipPath>)
+        svg.append("defs")
+            .append("clipPath")
+            .attr("id", "clip-path-id")
+            .append("use")
+            .attr("xlink:href", "#clip-path-shape");
+
+
+        // 3. 繪製 Voronoi Cell
+        svg.selectAll(".voronoi-treemap-cell")
+            .data(root.leaves())
+            .enter().append("path")
+            .attr("class", "voronoi-treemap-cell")
+            .attr("d", d => d.polygon ? d3.line()([ ...d.polygon, d.polygon[0] ]) : null) // 繪製 Voronoi 多邊形
+            .attr("fill", d => color(d.data.name)) 
+            .attr("clip-path", "url(#clip-path-id)") // **應用台灣輪廓裁剪**
+            .append("title")
+            .text(d => `${d.data.name}: ${d.value} | ${d.data.details}`);
+
+        // 4. 繪製標籤 (可選)
+        svg.selectAll(".voronoi-treemap-label")
+            .data(root.leaves())
+            .enter().append("text")
+            .attr("class", "voronoi-treemap-label")
+            .attr("x", d => d.polygon ? d3.polygonCentroid(d.polygon)[0] : 0)
+            .attr("y", d => d.polygon ? d3.polygonCentroid(d.polygon)[1] : 0)
+            .attr("dy", "0.35em") // 垂直居中
+            .attr("text-anchor", "middle")
+            .attr("font-size", "14px")
+            .attr("fill", "#000")
+            .text(d => d.data.name.split(' ')[0])
+            .attr("clip-path", "url(#clip-path-id)"); // 確保標籤也在輪廓內
+            
+    </script>
+</body>
+</html>
