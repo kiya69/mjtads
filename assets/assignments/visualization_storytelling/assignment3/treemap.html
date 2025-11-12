@@ -130,10 +130,42 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 10px;
-            padding: 20px;
+            padding: 0;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 100;
+            overflow: hidden;
+            min-width: 200px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-box-content {
+            flex: 1;
             overflow-y: auto;
+            padding: 20px;
+            padding-top: 0;
+        }
+        
+        /* Resize handle */
+        .resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            cursor: nwse-resize;
+            background: linear-gradient(-45deg, transparent 30%, #ccc 30%, #ccc 35%, transparent 35%, transparent 65%, #ccc 65%, #ccc 70%, transparent 70%);
+            border-bottom-right-radius: 10px;
+            z-index: 101;
+        }
+        
+        .resize-handle:hover {
+            background: linear-gradient(-45deg, transparent 30%, #999 30%, #999 35%, transparent 35%, transparent 65%, #999 65%, #999 70%, transparent 70%);
+        }
+        
+        .info-box.resizing {
+            user-select: none;
         }
 
         .info-box-large {
@@ -159,13 +191,17 @@
         }
 
         .info-box h3 {
-            margin: 0 0 15px 0;
+            margin: 0;
             color: #16476a;
             font-size: 18px;
             border-bottom: 2px solid #3b9797;
-            padding-bottom: 10px;
+            padding: 20px 20px 10px 20px;
             cursor: move;
             user-select: none;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.95);
+            position: relative;
+            z-index: 1;
         }
 
         .info-box.dragging {
@@ -207,22 +243,31 @@
     <!-- Floating info boxes -->
     <div class="info-box info-box-large">
         <h3>A. Foreign governments dissemination of false information over 10 years</h3>
-        <p>Taiwan has ranked #1 in the world for the continuous 10 years in the foreign governments dissemination of false information.</p>
-        <!-- Line chart will be inserted here -->
+        <div class="info-box-content">
+            <p>Taiwan has ranked #1 in the world for the continuous 10 years in the foreign governments dissemination of false information.</p>
+            <!-- Line chart will be inserted here -->
+        </div>
+        <div class="resize-handle"></div>
     </div>
     
     <div id="info-box-top" class="info-box info-box-medium">
-        <h3>B. Daily harassment by china's military aircraft and ship</h3>
-        <!-- Line chart will be inserted here -->
-        <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
+        <h3>B. PLA (People's Liberation Army) air activities in the vicinity of Taiwan</h3>
+        <div class="info-box-content">
+            <!-- Line chart will be inserted here -->
+            <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
+        </div>
+        <div class="resize-handle"></div>
     </div>
     
     <div id="info-box-bottom" class="info-box info-box-medium">
         <h3>C. Submarine Cable cut by China's fishing boats</h3>
-        <p>1. On January 3, 2025, a Cameroon-flagged cargo vessel “Shunxin-39” was believed to have caused damage to an undersea cable of Taiwan</p>
-        <p>2. On February 25, 2025,  a Tanzania-flagged vessel controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan’s external communications. 
-        <p>Between 2017 and 2023, the submarine cables between Taiwan and the Matsu Islands were cut by Chinese vessels 29 times.</p>
-        <p>China has even invented a deep sea cable cutter for this purpose.</p>
+        <div class="info-box-content">
+            <p>1. On January 3, 2025,  a Tanzania-flagged vessel while registered in Cameroon, controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan’s external communications.</p>
+            <p>2. On February 25, 2025,  a Tanzania-flagged vessel controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan's external communications. 
+            <p>Between 2017 and 2023, the submarine cables between Taiwan and the Matsu Islands were cut by Chinese vessels 29 times.</p>
+            <p>China has even invented a deep sea cable cutter for this purpose.</p>
+        </div>
+        <div class="resize-handle"></div>
     </div>
 </div>
 
@@ -373,7 +418,7 @@ Seychelles,2024,2.402`;
         const height = 300 - margin.top - margin.bottom;
         
         // Create SVG for line chart
-        const chartContainer = d3.select(".info-box-large");
+        const chartContainer = d3.select(".info-box-large .info-box-content");
         chartContainer.select("svg").remove(); // Remove existing chart if any
         
         const svg = chartContainer.append("svg")
@@ -624,8 +669,8 @@ Seychelles,2024,2.402`;
                                 
                                 // Define specific coordinates for each LineString
                                 const markerCoords = [
-                                    [25.336203855785385, 121.4801793349356], // First LineString
-                                    [23.265354792178385, 120.0130222302808]  // Second LineString
+                                    [23.352662957372274, 119.86820017108545], // First LineString
+                                    [25.49412292011354, 121.54271753122117]  // Second LineString
                                 ];
                                 
                                 // Add explosion emoji at the specified location
@@ -1127,11 +1172,78 @@ Seychelles,2024,2.402`;
         }
     }
     
-    // Initialize dragging for all info boxes
+    // Make info boxes resizable
+    function makeResizable(element) {
+        const resizeHandle = element.querySelector('.resize-handle');
+        if (!resizeHandle) return;
+        
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight;
+        
+        resizeHandle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isResizing = true;
+            element.classList.add('resizing');
+            
+            const rect = element.getBoundingClientRect();
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = rect.width;
+            startHeight = rect.height;
+            
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        });
+        
+        function handleResize(e) {
+            if (!isResizing) return;
+            
+            const container = document.getElementById("treemap-container");
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calculate new dimensions
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            
+            let newWidth = startWidth + deltaX;
+            let newHeight = startHeight + deltaY;
+            
+            // Get current position
+            const currentLeft = parseInt(window.getComputedStyle(element).left) || 0;
+            const currentTop = parseInt(window.getComputedStyle(element).top) || 0;
+            
+            // Constrain to container bounds and minimum size
+            const minWidth = 200;
+            const minHeight = 150;
+            const maxWidth = containerRect.width - currentLeft;
+            const maxHeight = containerRect.height - currentTop;
+            
+            newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+            newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+            
+            // Apply new dimensions
+            element.style.width = newWidth + 'px';
+            element.style.height = newHeight + 'px';
+        }
+        
+        function stopResize() {
+            if (isResizing) {
+                isResizing = false;
+                element.classList.remove('resizing');
+                document.removeEventListener('mousemove', handleResize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+        }
+    }
+    
+    // Initialize dragging and resizing for all info boxes
     function initDraggableBoxes() {
         const infoBoxes = document.querySelectorAll('.info-box');
         infoBoxes.forEach(box => {
             makeDraggable(box);
+            makeResizable(box);
         });
     }
     
