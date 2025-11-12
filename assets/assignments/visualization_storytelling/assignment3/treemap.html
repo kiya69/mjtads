@@ -145,7 +145,7 @@
 
         .info-box-medium {
             width: 600px;
-            height: 180px;
+            height: calc(47vh - 77px);
         }
 
         #info-box-top {
@@ -179,6 +179,15 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        
+        /* Explosion marker styling */
+        .explosion-marker {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            text-align: center;
+            line-height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -198,17 +207,22 @@
     <!-- Floating info boxes -->
     <div class="info-box info-box-large">
         <h3>A. Foreign governments dissemination of false information over 10 years</h3>
+        <p>Taiwan has ranked #1 in the world for the continuous 10 years in the foreign governments dissemination of false information.</p>
         <!-- Line chart will be inserted here -->
     </div>
     
     <div id="info-box-top" class="info-box info-box-medium">
         <h3>B. Daily harassment by china's military aircraft and ship</h3>
         <!-- Line chart will be inserted here -->
+        <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
     </div>
     
     <div id="info-box-bottom" class="info-box info-box-medium">
         <h3>C. Submarine Cable cut by China's fishing boats</h3>
-        <p>Content will be added here.</p>
+        <p>1. On January 3, 2025, a Cameroon-flagged cargo vessel “Shunxin-39” was believed to have caused damage to an undersea cable of Taiwan</p>
+        <p>2. On February 25, 2025,  a Tanzania-flagged vessel controlled by a Chinese entity, deliberately severed subsea cables near Keelung, disrupting Taiwan’s external communications. 
+        <p>Between 2017 and 2023, the submarine cables between Taiwan and the Matsu Islands were cut by Chinese vessels 29 times.</p>
+        <p>China has even invented a deep sea cable cutter for this purpose.</p>
     </div>
 </div>
 
@@ -575,6 +589,67 @@ Seychelles,2024,2.402`;
             }).addTo(map);
             
             console.log('Tile layer added. Map should be visible now!');
+            
+            // Load and add cables GeoJSON layer
+            fetch('cables.geojson')
+                .then(response => response.json())
+                .then(cablesData => {
+                    console.log('Cables GeoJSON loaded:', cablesData);
+                    
+                    // Add cables as a GeoJSON layer
+                    const cablesLayer = L.geoJSON(cablesData, {
+                        style: function(feature) {
+                            return {
+                                color: '#ff6b6b', // Red color for cables
+                                weight: 2,
+                                opacity: 0.8
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            // Add popup with cable information if available
+                            if (feature.properties) {
+                                const props = feature.properties;
+                                let popupContent = '<div style="font-size: 12px;">';
+                                if (props.name) popupContent += `<strong>${props.name}</strong><br>`;
+                                if (props.owner) popupContent += `Owner: ${props.owner}<br>`;
+                                if (props.length) popupContent += `Length: ${props.length}<br>`;
+                                popupContent += '</div>';
+                                layer.bindPopup(popupContent);
+                            }
+                            
+                            // Add explosion emoji markers at specific locations for each LineString
+                            if (feature.geometry && feature.geometry.type === 'LineString') {
+                                // Get the index of this feature to determine which marker to use
+                                const featureIndex = cablesData.features.indexOf(feature);
+                                
+                                // Define specific coordinates for each LineString
+                                const markerCoords = [
+                                    [25.336203855785385, 121.4801793349356], // First LineString
+                                    [23.265354792178385, 120.0130222302808]  // Second LineString
+                                ];
+                                
+                                // Add explosion emoji at the specified location
+                                if (markerCoords[featureIndex]) {
+                                    const marker = L.marker(markerCoords[featureIndex], {
+                                        icon: L.divIcon({
+                                            className: 'explosion-marker',
+                                            html: '💥',
+                                            iconSize: [30, 30],
+                                            iconAnchor: [15, 15]
+                                        })
+                                    }).addTo(map);
+                                    
+                                    console.log('Added explosion marker at:', markerCoords[featureIndex]);
+                                }
+                            }
+                        }
+                    }).addTo(map);
+                    
+                    console.log('Cables layer added to map');
+                })
+                .catch(error => {
+                    console.error('Error loading cables.geojson:', error);
+                });
             
             // Force map to invalidate size in case of layout issues
             setTimeout(function() {
