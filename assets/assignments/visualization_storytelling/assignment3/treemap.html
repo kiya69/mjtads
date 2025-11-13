@@ -479,8 +479,7 @@
         <div class="section-info-box">
             <h3>Did you know China's military has operated near Taiwan almost daily for the past five years?</h3>
             <div class="info-box-content">
-                <p style="margin-bottom: 20px; color: #555; font-size: 13px; line-height: 1.6;">30 days activities gathered from Ministry of National Defense of Taiwan. Mapping all the aircrafts, drones, helicopters, naval ships.</p>
-                <p style="margin-bottom: 20px; color: #8080c0; font-size: 13px; line-height: 1.6; font-weight: 600; padding: 12px; background: #f0f0f8; border-left: 4px solid #8080c0; border-radius: 4px;"><strong>Fun fact:</strong> The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
+                <p style="margin-bottom: 20px; color: #555; font-size: 13px; line-height: 1.6;"> The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
                 <div class="chart-image-container">
                     <div>
                         <p class="image-caption-top">Images gathered and mapped to see all the trajectories by PLA using Maximum Difference Projection</p>
@@ -521,6 +520,18 @@
                     <iframe title="Foreign governments dissemination of false information in 2024" aria-label="Choropleth map" id="datawrapper-chart-4zey2" src="https://datawrapper.dwcdn.net/4zey2/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="578" data-external="1"></iframe>
                     <script type="text/javascript">window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}});</script>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Conclusion -->
+    <section class="content-section">
+        <div class="section-info-box">
+            <h3>Conclusion</h3>
+            <div class="info-box-content">
+                <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; padding: 20px 0;">
+                    In conclusion, these visualizations illustrate the daily challenges Taiwan faces amid persistent military and information threats. We invite the world to stay informed and support efforts for peace, stability, and mutual respect across the Taiwan Strait.
+                </p>
             </div>
         </div>
     </section>
@@ -1071,7 +1082,8 @@ Seychelles,2024,2.402`;
             console.log('Map element styles:', window.getComputedStyle(mapElement).height);
             
             // Center on Taiwan
-            const taiwanCenter = [23.5, 121.0];
+            // Move map center 10% to the right (increase longitude)
+            const taiwanCenter = [23.5, 118]; // Increased longitude from 121.0 to 121.15 to shift view right
             
             // Initialize Leaflet map with OpenStreetMap tiles (free!)
             console.log('Creating Leaflet map...');
@@ -1238,8 +1250,8 @@ Seychelles,2024,2.402`;
                         const markerX1 = markerPoint1.x + (mapRect.left - mapContainerRect.left);
                         const markerY1 = markerPoint1.y + (mapRect.top - mapContainerRect.top) - 12.5;
                         
-                        // Draw solid line from box to marker
-                        svg.append("line")
+                        // Draw solid line from box to marker (insert at beginning to be behind markers)
+                        svg.insert("line", ":first-child")
                             .attr("class", "explosion-box-line")
                             .attr("data-box", "1")
                             .attr("x1", boxCenterX1)
@@ -1249,7 +1261,8 @@ Seychelles,2024,2.402`;
                             .attr("stroke", "#bf092f")
                             .attr("stroke-width", 2)
                             .attr("stroke-dasharray", "none")
-                            .style("pointer-events", "none");
+                            .style("pointer-events", "none")
+                            .lower(); // Move to bottom of z-order
                     }
                     
                     // Draw line for explosion-box-2 to 💥2
@@ -1272,8 +1285,8 @@ Seychelles,2024,2.402`;
                         const markerX2 = markerPoint2.x + (mapRect.left - mapContainerRect.left);
                         const markerY2 = markerPoint2.y + (mapRect.top - mapContainerRect.top) - 12.5;
                         
-                        // Draw solid line from box to marker
-                        svg.append("line")
+                        // Draw solid line from box to marker (insert at beginning to be behind markers)
+                        svg.insert("line", ":first-child")
                             .attr("class", "explosion-box-line")
                             .attr("data-box", "2")
                             .attr("x1", boxCenterX2)
@@ -1283,7 +1296,8 @@ Seychelles,2024,2.402`;
                             .attr("stroke", "#bf092f")
                             .attr("stroke-width", 2)
                             .attr("stroke-dasharray", "none")
-                            .style("pointer-events", "none");
+                            .style("pointer-events", "none")
+                            .lower(); // Move to bottom of z-order
                     }
                 });
             }
