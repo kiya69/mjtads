@@ -277,7 +277,7 @@
             font-size: 12px;
             color: #555;
             font-weight: 500;
-            text-align: center;
+            text-align: left;
         }
         
         .chart-caption {
@@ -285,7 +285,15 @@
             font-size: 13px;
             color: #555;
             font-weight: 500;
-            text-align: center;
+            /* text-align: left; */
+        }
+        
+        .highlight-text {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: bold;
         }
         
         .image-caption a {
@@ -479,10 +487,11 @@
         <div class="section-info-box">
             <h3>Did you know China's military has operated near Taiwan almost daily for the past five years?</h3>
             <div class="info-box-content">
-                <p style="margin-bottom: 20px; color: #555; font-size: 13px; line-height: 1.6;"> The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
+                <p class="highlight-text">The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
                 <div class="chart-image-container">
                     <div>
                         <p class="image-caption-top">Images gathered and mapped to see all the trajectories by PLA using Maximum Difference Projection</p>
+                        <p class="image-caption-top">As you can see, it's as if they are pervoking and waiting for us to shoot the first bullet.Their movements seem intended to provoke — as if waiting for Taiwan to make the first move.</p>
                         <img src="military_map.png" alt="Military Map" style="width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
                         <p class="image-caption">Source: <a href="https://www.mnd.gov.tw/PublishTable.aspx?Types=%E5%8D%B3%E6%99%82%E8%BB%8D%E4%BA%8B%E5%8B%95%E6%85%8B&title=%E5%9C%8B%E9%98%B2%E6%B6%88%E6%81%AF" target="_blank">Ministry of National Defense, R.O.C.</a></p>
                     </div>
@@ -504,7 +513,9 @@
             <div class="info-box-content">
                 <p style="margin-bottom: 20px;">According <a href="https://digitalsocietyproject.org/data/" target="_blank">digital society project</a> Taiwan has been influnced for at least 11 years and ranked #1 in the world in the foreign governments dissemination of false information.</p>
                 <div style="display: flex; gap: 20px; align-items: flex-start; margin: 20px 0;">
-                    <div id="treemap-container-section2" style="position: relative; flex: 1; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="flex: 1;">
+                        <p class="chart-caption" style="margin-bottom: 10px;">A treemap illustrating the 5 most and 5 least disinformation-influenced countries worldwide.</p>
+                        <div id="treemap-container-section2" style="position: relative; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         <div id="map-section2" style="width: 100%; height: 100%; z-index: 0; position: absolute; top: 0; left: 0; border-radius: 8px; margin: 0; padding: 0;"></div>
                         <svg id="treemap-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; background: transparent;"></svg>
                         <div id="tooltip" class="tooltip">
@@ -512,8 +523,12 @@
                             <div class="tooltip-content"></div>
                         </div>
                     </div>
-                    <div class="info-box-large" style="position: relative; flex: 1; height: 600px;">
-                        <!-- Line chart will be inserted here -->
+                    </div>
+                    <div style="flex: 1;">
+                        <p class="chart-caption" style="margin-bottom: 10px;">As shown in the chart, Taiwan has received most false information for 10 years</p>
+                        <div class="info-box-large" style="position: relative; height: 600px;">
+                            <!-- Line chart will be inserted here -->
+                        </div>
                     </div>
                 </div>
                 <div style="margin-top: 30px;">
@@ -529,8 +544,9 @@
         <div class="section-info-box">
             <h3>Conclusion</h3>
             <div class="info-box-content">
-                <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; padding: 20px 0;">
-                    In conclusion, these visualizations illustrate the daily challenges Taiwan faces amid persistent military and information threats. We invite the world to stay informed and support efforts for peace, stability, and mutual respect across the Taiwan Strait.
+                <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; padding: 10px 0;">
+                    In conclusion, these visualizations illustrate the daily challenges Taiwan faces amid persistent military and information threats.</p>
+                    <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; ">We invite the world to stay informed and support efforts for peace, stability, and mutual respect across the Taiwan Strait.
                 </p>
             </div>
         </div>
@@ -714,10 +730,31 @@ Seychelles,2024,2.402`;
         // Group data by country
         const countries = d3.group(dataByYear, d => d.country);
         
-        // Color scale
-        const colorScale = d3.scaleOrdinal()
-            .domain(Array.from(countries.keys()))
-            .range(d3.schemeCategory10);
+        // Color scale - use same color ranges as treemap
+        // Create color scales matching treemap
+        const lineColorRed = d3.scaleLinear()
+            .domain([-3.845, -2.612]) // Min and Max negative scores
+            .range(["#000000", "#1d81a2"]); // Black to Light Blue
+        
+        const lineColorGreen = d3.scaleLinear()
+            .domain([2.402, 2.859]) // Min and Max positive scores
+            .range(["#398564", "#fdfff5"]); // Light Green to Bright Green
+        
+        // Get country data to determine category and score
+        const getLineColor = (country) => {
+            // Find country in data array
+            const countryData = data.find(d => d.Country === country);
+            if (!countryData) {
+                return "#666666"; // Gray if country not found
+            }
+            
+            // Use same logic as treemap getColor function
+            if (countryData.Category === 'Red') {
+                return lineColorRed(countryData.Score);
+            } else {
+                return lineColorGreen(countryData.Score);
+            }
+        };
         
         // Draw lines first
         const labelData = [];
@@ -725,10 +762,11 @@ Seychelles,2024,2.402`;
             const sortedValues = values.sort((a, b) => a.year - b.year);
             
             // Draw the line
+            const lineColor = getLineColor(country);
             g.append("path")
                 .datum(sortedValues)
                 .attr("fill", "none")
-                .attr("stroke", colorScale(country))
+                .attr("stroke", lineColor)
                 .attr("stroke-width", country === "Taiwan" ? 3 : 1.5)
                 .attr("d", line)
                 .attr("opacity", country === "Taiwan" ? 1 : 0.7);
@@ -739,7 +777,7 @@ Seychelles,2024,2.402`;
                 country: country,
                 x: xScale(lastPoint.year) + 5,
                 y: yScale(lastPoint.score),
-                color: colorScale(country),
+                color: lineColor,
                 fontSize: country === "Taiwan" ? 11 : 9,
                 fontWeight: country === "Taiwan" ? "bold" : "normal"
             });
@@ -824,26 +862,25 @@ Seychelles,2024,2.402`;
             .style("font-size", "12px")
             .text("Score");
         
-        // Add label at bottom (y=height position) showing max value - moved lower
-        g.append("text")
-            .attr("x", width + 5)
-            .attr("y", height + 15) // Moved lower to avoid covering country names
-            .attr("fill", "black")
-            .style("text-anchor", "start")
-            .style("font-size", "10px")
-            .style("font-weight", "bold")
-            .text(maxScore.toFixed(3));
+        // Min/max value labels removed - no longer showing numbers at the end of lines
+        // g.append("text")
+        //     .attr("x", width + 5)
+        //     .attr("y", height + 15)
+        //     .attr("fill", "black")
+        //     .style("text-anchor", "start")
+        //     .style("font-size", "10px")
+        //     .style("font-weight", "bold")
+        //     .text(maxScore.toFixed(3));
         
-        // Add label at top (y=0 position) showing min value - moved higher
-        g.append("text")
-            .attr("x", width + 5)
-            .attr("y", -5) // Moved higher to avoid covering country names
-            .attr("dy", "0.35em")
-            .attr("fill", "black")
-            .style("text-anchor", "start")
-            .style("font-size", "10px")
-            .style("font-weight", "bold")
-            .text(minScore.toFixed(3));
+        // g.append("text")
+        //     .attr("x", width + 5)
+        //     .attr("y", -5)
+        //     .attr("dy", "0.35em")
+        //     .attr("fill", "black")
+        //     .style("text-anchor", "start")
+        //     .style("font-size", "10px")
+        //     .style("font-weight", "bold")
+        //     .text(minScore.toFixed(3));
     }
     
     // Initialize line chart when page loads
