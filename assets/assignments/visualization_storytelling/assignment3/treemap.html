@@ -477,7 +477,7 @@
         <p>A Togolese-registered cargo vessel that severed a submarine communication cable between Taiwan and Penghu.</p>
     </div>
     <div id="explosion-box-4" class="explosion-info-box" style="left: 5px; top: 10px;">
-        <p style="font-size: 18px; line-height: 1.6;"><strong style="font-size: 20px;">Did you know Chinese ships have cut Taiwan's global cables 30+ times since 2017?</strong></p>
+        <p style="font-size: 18px; line-height: 1.6;"><strong style="font-size: 20px;">Did you know Chinese ships have cut Taiwan's global cables <span style="font-size: 36px; font-weight: bold;">30</span>+ times since 2017?</strong></p>
     </div>
 </div>
 
@@ -487,7 +487,7 @@
         <div class="section-info-box">
             <h3>Did you know China's military has operated near Taiwan almost daily for the past five years?</h3>
             <div class="info-box-content">
-                <p class="highlight-text">The only day that they didn't send any aircrafts or ships to Taiwan strait is the day when there was a typhoon on 11/11/2025.</p>
+                <p class="highlight-text">The only day they didn't have any operations is when there was a typhoon on 11/11/2025.</p>
                 <div class="chart-image-container">
                     <div>
                         <p class="image-caption-top">Images gathered and mapped to see all the trajectories by PLA using Maximum Difference Projection</p>
@@ -496,7 +496,7 @@
                         <p class="image-caption">Source: <a href="https://www.mnd.gov.tw/PublishTable.aspx?Types=%E5%8D%B3%E6%99%82%E8%BB%8D%E4%BA%8B%E5%8B%95%E6%85%8B&title=%E5%9C%8B%E9%98%B2%E6%B6%88%E6%81%AF" target="_blank">Ministry of National Defense, R.O.C.</a></p>
                     </div>
                     <div>
-                        <p class="chart-caption">Trends of military activities categorized by aircrafts and vessals over the past 30 days</p>
+                        <p class="chart-caption">Trends of military activities categorized by aircrafts and vessals over the past 100 days</p>
                         <div class="military-chart"></div>
                     </div>
                 </div>
@@ -511,10 +511,12 @@
         <div class="section-info-box" style="min-height: 800px;">
             <h3>Did you know that Taiwan has been most influnce by China's dissemination of false information over 10 years?</h3>
             <div class="info-box-content">
-                <p style="margin-bottom: 20px;">According <a href="https://digitalsocietyproject.org/data/" target="_blank">digital society project</a> Taiwan has been influnced for at least 11 years and ranked #1 in the world in the foreign governments dissemination of false information.</p>
+                <p class="highlight-text">According <a href="https://digitalsocietyproject.org/data/" target="_blank">digital society project</a> Taiwan has been influnced for at least 11 years and ranked #1 in the world in the foreign governments dissemination of false information.</p>
                 <div style="display: flex; gap: 20px; align-items: flex-start; margin: 20px 0;">
                     <div style="flex: 1;">
                         <p class="chart-caption" style="margin-bottom: 10px;">A treemap illustrating the 5 most and 5 least disinformation-influenced countries worldwide.</p>
+                        <p class="chart-caption" style="margin-bottom: 10px;">The least numbers indicate the most influence by, the higher numbers indicate the least influence by.</p>
+                        <p class="chart-caption" style="margin-bottom: 10px;">e.g. -3.85 = most influenced, 2.86 = least influenced</p>
                         <div id="treemap-container-section2" style="position: relative; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         <div id="map-section2" style="width: 100%; height: 100%; z-index: 0; position: absolute; top: 0; left: 0; border-radius: 8px; margin: 0; padding: 0;"></div>
                         <svg id="treemap-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; background: transparent;"></svg>
@@ -546,7 +548,9 @@
             <div class="info-box-content">
                 <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; padding: 10px 0;">
                     In conclusion, these visualizations illustrate the daily challenges Taiwan faces amid persistent military and information threats.</p>
-                    <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; ">We invite the world to stay informed and support efforts for peace, stability, and mutual respect across the Taiwan Strait.
+                    <p style="font-size: 16px; line-height: 1.8; color: #333; text-align: center; ">We invite the world to stay informed and support efforts for peace, stability, and mutual respect across the Taiwan Strait.</p>
+                <p style="font-size: 14px; line-height: 1.8; color: #333; text-align: center; margin-top: 20px;">
+                    For the interactive version of this infographic, please visit <a href="https://kiya69.github.io/mjtads/assets/assignments/visualization_storytelling/assignment3/treemap.html" target="_blank" style="color: #3b9797; text-decoration: none;">https://kiya69.github.io/mjtads/assets/assignments/visualization_storytelling/assignment3/treemap.html</a>
                 </p>
             </div>
         </div>
@@ -738,7 +742,7 @@ Seychelles,2024,2.402`;
         
         const lineColorGreen = d3.scaleLinear()
             .domain([2.402, 2.859]) // Min and Max positive scores
-            .range(["#398564", "#fdfff5"]); // Light Green to Bright Green
+            .range(["#398564", "#c8e6c9"]); // Light Green to Super Light Green (not white)
         
         // Get country data to determine category and score
         const getLineColor = (country) => {
