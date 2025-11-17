@@ -1836,53 +1836,59 @@ Seychelles,2024,2.402`;
             maxZoom: 19
         }).addTo(mapSection2);
         
-        // Load GeoJSON and draw treemap for section 2 after map is ready
+        // Draw treemap for section 2 after map is ready
         mapSection2.whenReady(function() {
-            d3.json("taiwan.geojson").then(function(geojson) {
-                console.log('GeoJSON loaded for section 2:', geojson);
-                if (!geojson || !geojson.features || geojson.features.length === 0) {
-                    console.error('Invalid GeoJSON loaded for section 2');
-                    return;
-                }
-                
-                // Store geojson for later use
-                window.geojsonSection2 = geojson;
-                
-                // Invalidate map size to ensure it's properly rendered
-                mapSection2.invalidateSize();
-                
-                // Initial draw with a small delay to ensure map is fully rendered
+            // Use the already-loaded GeoJSON from window.geojsonSection2
+            const geojson = window.geojsonSection2;
+            if (!geojson || !geojson.features || geojson.features.length === 0) {
+                console.error('Invalid GeoJSON for section 2');
+                // If not loaded yet, wait a bit and try again
                 setTimeout(function() {
-                    drawTreemapSection2(geojson);
-                }, 300);
-                
-                // Update treemap on map move/zoom for section 2
-                mapSection2.on('moveend', function() {
-                    console.log('Map section 2 moveend event fired - redrawing treemap and labels');
-                    if (window.geojsonSection2) {
-                        // Small delay to ensure map has finished moving
+                    const retryGeojson = window.geojsonSection2;
+                    if (retryGeojson && retryGeojson.features && retryGeojson.features.length > 0) {
+                        mapSection2.invalidateSize();
                         setTimeout(function() {
-                            drawTreemapSection2(window.geojsonSection2);
-                        }, 50);
-                    } else {
-                        console.log('geojsonSection2 not available');
+                            drawTreemapSection2(retryGeojson);
+                        }, 300);
                     }
-                });
-                
-                mapSection2.on('zoomend', function() {
-                    console.log('Map section 2 zoomend event fired - redrawing treemap and labels');
-                    if (window.geojsonSection2) {
-                        // Small delay to ensure map has finished zooming
-                        setTimeout(function() {
-                            drawTreemapSection2(window.geojsonSection2);
-                        }, 50);
-                    } else {
-                        console.log('geojsonSection2 not available');
-                    }
-                });
-            }).catch(function(error) {
-                console.error('Error loading GeoJSON for section 2:', error);
-            });
+                }, 500);
+                return;
+            }
+            
+            console.log('GeoJSON ready for section 2:', geojson);
+            
+            // Invalidate map size to ensure it's properly rendered
+            mapSection2.invalidateSize();
+            
+            // Initial draw with a small delay to ensure map is fully rendered
+            setTimeout(function() {
+                drawTreemapSection2(geojson);
+            }, 300);
+        });
+        
+        // Update treemap on map move/zoom for section 2
+        mapSection2.on('moveend', function() {
+            console.log('Map section 2 moveend event fired - redrawing treemap and labels');
+            if (window.geojsonSection2) {
+                // Small delay to ensure map has finished moving
+                setTimeout(function() {
+                    drawTreemapSection2(window.geojsonSection2);
+                }, 50);
+            } else {
+                console.log('geojsonSection2 not available');
+            }
+        });
+        
+        mapSection2.on('zoomend', function() {
+            console.log('Map section 2 zoomend event fired - redrawing treemap and labels');
+            if (window.geojsonSection2) {
+                // Small delay to ensure map has finished zooming
+                setTimeout(function() {
+                    drawTreemapSection2(window.geojsonSection2);
+                }, 50);
+            } else {
+                console.log('geojsonSection2 not available');
+            }
         });
     }
     
@@ -2201,18 +2207,17 @@ Seychelles,2024,2.402`;
         console.log('GeoJSON loaded successfully');
         console.log('GeoJSON features:', geojson.features ? geojson.features.length : 'none');
         geojsonData = geojson;
+        // Store geojson globally for section 2
+        window.geojsonSection2 = geojson;
+        
         // Don't draw treemap on the original map anymore - only draw it in section 2
         
         // Initialize section 2 treemap after a delay to ensure DOM is ready
         setTimeout(() => {
             if (document.getElementById('treemap-container-section2')) {
                 initTreemapSection2();
-                // Draw treemap in section 2 after map is initialized
-                setTimeout(() => {
-                    drawTreemap(geojson);
-                }, 500);
             }
-        }, 1000);
+        }, 100);
     }).catch(function(error) {
         console.error("Error loading GeoJSON or creating treemap:", error);
         console.error("Error details:", error);
