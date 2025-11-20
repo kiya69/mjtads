@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My 3rd assignmnet has correspond to 2025 Annual Report to Congress - My Journey to a Data Storyteller</title>
+    <meta name="description" content="Personal blog and portfolio exploring the world of data storytelling">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="/2025/11/19/new-post/">
+    <link rel="alternate" type="application/rss+xml" title="My Journey to a Data Storyteller" href="/feed.xml">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="/" class="logo">My Journey to a Data Storyteller</a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <article class="post">
+    <header class="post-header">
+        <h1 class="post-title">My 3rd assignmnet has correspond to 2025 Annual Report to Congress</h1>
+        <div class="post-meta">
+            <time datetime="2025-11-19T00:00:00-05:00">November 19, 2025</time>
+            
+                <span class="post-author">by Wan-Ting Chang</span>
+            
+        </div>
+    </header>
+    
+    <div class="post-content">
+        <p>Recently I made an assignment about <a href="https://kiya69.github.io/mjtads/assets/assignments/visualization_storytelling/assignment3/treemap.html">China’s attempt to undermine Taiwan’s security</a> Interestingly, it corrrespnds to the 2025 Annual Report to Congress by U.S.-China Economic AND Security Review Commission.</p>
+
+<p><img src="/assets/images/screenshot-taiwan-security-2025-11-19.png" alt="Screenshot of Taiwan Security Visualization" style="width: 100%; max-width: 100%; height: auto;" /></p>
+
+<p><img src="/assets/images/screenshot-taiwan-security-2025-11-19-2.png" alt="Screenshot of Taiwan Security Visualization 2" style="width: 100%; max-width: 100%; height: auto;" /></p>
+
+    </div>
+    
+    <footer class="post-footer">
+        <div class="post-tags">
+            
+                
+            
+        </div>
+    </footer>
+</article>
+
+<div class="post-navigation">
+    
+        <a href="/2025/09/17/data-viz-note/" class="prev-post">
+            ← Notes on today's Ethic in AI class
+        </a>
+    
+    
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Wan-Ting Chang. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" id="email-copy" data-email="wantingchang.tw@gmail.com">Email</a>
+                <a href="https://github.com/kiya69" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/wantingchang/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle both email links (footer and homepage)
+            const emailLinks = document.querySelectorAll('#email-copy, #email-copy-home');
+            
+            emailLinks.forEach(function(emailLink) {
+                emailLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = this.getAttribute('data-email');
+                    
+                    // Try to copy to clipboard
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(email).then(function() {
+                            showCopyMessage(emailLink, 'Copied!');
+                        }).catch(function() {
+                            fallbackCopy(email, emailLink);
+                        });
+                    } else {
+                        fallbackCopy(email, emailLink);
+                    }
+                });
+            });
+        });
+        
+        function fallbackCopy(email, element) {
+            // Create a temporary textarea element
+            const textArea = document.createElement('textarea');
+            textArea.value = email;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyMessage(element, 'Copied!');
+            } catch (err) {
+                showCopyMessage(element, 'Copy failed');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyMessage(element, message) {
+            const originalText = element.textContent;
+            element.textContent = message;
+            element.style.color = '#666';
+            
+            setTimeout(function() {
+                element.textContent = originalText;
+                element.style.color = '';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
