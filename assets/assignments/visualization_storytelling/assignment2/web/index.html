@@ -38,6 +38,20 @@
             border-radius: 10px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #controls.minimized {
+            padding: 10px;
+        }
+
+        #controls.minimized .control-group {
+            display: none;
+        }
+
+        #controls.minimized #toggleControls {
+            position: static;
+            margin: 0;
         }
 
         #title {
@@ -159,6 +173,7 @@
         </div>
 
         <div id="controls">
+            <button id="toggleControls" style="position: absolute; top: 5px; right: 5px; padding: 5px 10px; font-size: 1.2em; line-height: 1;">−</button>
             <div class="control-group">
                 <label>Rotation Speed</label>
                 <input type="range" id="rotationSpeed" min="0" max="0.02" step="0.001" value="0.005">

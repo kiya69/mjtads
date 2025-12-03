@@ -486,71 +486,111 @@ class FlorenceNightingale3D {
         });
         
         // Toggle controls panel
-        document.getElementById('toggleControls').addEventListener('click', () => {
-            const controlsPanel = document.getElementById('controls');
-            const toggleButton = document.getElementById('toggleControls');
-            
-            if (controlsPanel.classList.contains('minimized')) {
-                controlsPanel.classList.remove('minimized');
-                toggleButton.textContent = '−';
-            } else {
-                controlsPanel.classList.add('minimized');
-                toggleButton.textContent = '+';
-            }
-        });
+        const toggleControlsBtn = document.getElementById('toggleControls');
+        if (toggleControlsBtn) {
+            toggleControlsBtn.addEventListener('click', () => {
+                const controlsPanel = document.getElementById('controls');
+                const toggleButton = document.getElementById('toggleControls');
+                
+                if (controlsPanel && toggleButton) {
+                    if (controlsPanel.classList.contains('minimized')) {
+                        controlsPanel.classList.remove('minimized');
+                        toggleButton.textContent = '−';
+                    } else {
+                        controlsPanel.classList.add('minimized');
+                        toggleButton.textContent = '+';
+                    }
+                }
+            });
+        }
         
         // Control event listeners
-        document.getElementById('rotationSpeed').addEventListener('input', (e) => {
-            this.rotationSpeed = parseFloat(e.target.value);
-        });
-        
-        document.getElementById('zoomLevel').addEventListener('input', (e) => {
-            const zoom = parseFloat(e.target.value);
-            const currentDistance = this.camera.position.distanceTo(this.controls.target);
-            const newDistance = currentDistance / zoom;
-            const direction = this.camera.position.clone().sub(this.controls.target).normalize();
-            this.camera.position.copy(this.controls.target).add(direction.multiplyScalar(newDistance));
-        });
-        
-        document.getElementById('toggleRotation').addEventListener('click', () => {
-            this.isRotating = !this.isRotating;
-            const button = document.getElementById('toggleRotation');
-            button.textContent = this.isRotating ? 'Pause Rotation' : 'Start Rotation';
-        });
-        
-        document.getElementById('resetView').addEventListener('click', () => {
-            this.camera.position.set(30, 20, 30);
-            this.controls.reset();
-        });
-        
-        document.getElementById('toggleWireframe').addEventListener('click', () => {
-            this.wireframeMode = !this.wireframeMode;
-            this.bars.forEach(bar => {
-                bar.material.wireframe = this.wireframeMode;
+        const rotationSpeedEl = document.getElementById('rotationSpeed');
+        if (rotationSpeedEl) {
+            rotationSpeedEl.addEventListener('input', (e) => {
+                this.rotationSpeed = parseFloat(e.target.value);
             });
-            const button = document.getElementById('toggleWireframe');
-            button.textContent = this.wireframeMode ? 'Solid' : 'Wireframe';
-        });
+        }
+        
+        const zoomLevelEl = document.getElementById('zoomLevel');
+        if (zoomLevelEl) {
+            zoomLevelEl.addEventListener('input', (e) => {
+                const zoom = parseFloat(e.target.value);
+                const currentDistance = this.camera.position.distanceTo(this.controls.target);
+                const newDistance = currentDistance / zoom;
+                const direction = this.camera.position.clone().sub(this.controls.target).normalize();
+                this.camera.position.copy(this.controls.target).add(direction.multiplyScalar(newDistance));
+            });
+        }
+        
+        const toggleRotationEl = document.getElementById('toggleRotation');
+        if (toggleRotationEl) {
+            toggleRotationEl.addEventListener('click', () => {
+                this.isRotating = !this.isRotating;
+                const button = document.getElementById('toggleRotation');
+                if (button) {
+                    button.textContent = this.isRotating ? 'Pause Rotation' : 'Start Rotation';
+                }
+            });
+        }
+        
+        const resetViewEl = document.getElementById('resetView');
+        if (resetViewEl) {
+            resetViewEl.addEventListener('click', () => {
+                this.camera.position.set(30, 20, 30);
+                this.controls.reset();
+            });
+        }
+        
+        const toggleWireframeEl = document.getElementById('toggleWireframe');
+        if (toggleWireframeEl) {
+            toggleWireframeEl.addEventListener('click', () => {
+                this.wireframeMode = !this.wireframeMode;
+                this.bars.forEach(bar => {
+                    bar.material.wireframe = this.wireframeMode;
+                });
+                const button = document.getElementById('toggleWireframe');
+                if (button) {
+                    button.textContent = this.wireframeMode ? 'Solid' : 'Wireframe';
+                }
+            });
+        }
+        
         // Filter buttons
-        document.getElementById('filterAll').addEventListener('click', () => {
-            this.setFilter('all');
-        });
+        const filterAllEl = document.getElementById('filterAll');
+        if (filterAllEl) {
+            filterAllEl.addEventListener('click', () => {
+                this.setFilter('all');
+            });
+        }
         
-        document.getElementById('filterDisease').addEventListener('click', () => {
-            this.setFilter('disease');
-        });
+        const filterDiseaseEl = document.getElementById('filterDisease');
+        if (filterDiseaseEl) {
+            filterDiseaseEl.addEventListener('click', () => {
+                this.setFilter('disease');
+            });
+        }
         
-        document.getElementById('filterWounds').addEventListener('click', () => {
-            this.setFilter('wounds');
-        });
+        const filterWoundsEl = document.getElementById('filterWounds');
+        if (filterWoundsEl) {
+            filterWoundsEl.addEventListener('click', () => {
+                this.setFilter('wounds');
+            });
+        }
         
-        document.getElementById('filterOther').addEventListener('click', () => {
-            this.setFilter('other');
-        });
+        const filterOtherEl = document.getElementById('filterOther');
+        if (filterOtherEl) {
+            filterOtherEl.addEventListener('click', () => {
+                this.setFilter('other');
+            });
+        }
         
-        document.getElementById('filterTotal').addEventListener('click', () => {
-            this.setFilter('total');
-        });
+        const filterTotalEl = document.getElementById('filterTotal');
+        if (filterTotalEl) {
+            filterTotalEl.addEventListener('click', () => {
+                this.setFilter('total');
+            });
+        }
         
         // Window resize
         window.addEventListener('resize', () => {
